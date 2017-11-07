@@ -1,0 +1,18 @@
+<h1>Datasets</h1>
+
+<hr/>
+
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <th>Provider</th><th>Endpoint</th>
+  </tr>
+  
+  <% for dataset in datasets %>
+    <tr class="">
+      <td><a href="https://<%= dataset[:id] %>" target="_blank"><%= dataset[:title] %></a></td>
+      <td><a href="<%= dataset[:data_url] %>" target="_blank"><%= dataset[:data_url] %></a></td>
+    </tr>
+  <% end %>
+</table>
+
+<small><a href="#wrapper">[top]</a></small>
