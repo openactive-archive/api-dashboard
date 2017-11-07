@@ -17,4 +17,4 @@ COPY . $APP_HOME
 # Start server
 ENV PORT 3000
 EXPOSE 3000
-CMD ["ruby", "app.rb"]
+CMD ["bundle", "exec", "ruby", "app.rb"]

@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'openactive'
 
 set :bind, '0.0.0.0'
 
