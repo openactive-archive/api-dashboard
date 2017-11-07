@@ -11,3 +11,7 @@ end
 get '/agent' do
   "you're using #{request.user_agent}"
 end
+
+get '/test' do
+  erb :test
+end
