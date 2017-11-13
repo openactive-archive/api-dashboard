@@ -2,7 +2,9 @@
 echo "Removing existing container"
 
 docker stop openactive-dashboard
+docker stop openactive-redis
 docker rm openactive-dashboard
+docker rm openactive-redis
 
 echo "Remember to prune unused volumes with: docker volume prune -f"
 
