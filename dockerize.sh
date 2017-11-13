@@ -19,7 +19,7 @@ docker run --name openactive-redis -d redis
 docker run -d --name openactive-dashboard -p 3000:3000 \
   --link openactive-redis:redis \
   --mount type=bind,source="$(pwd)",target=/app \
-  -e ENV_VAR_1="hello" openactive/dashboard
+  -e REDIS_HOST="openactive-redis" openactive/dashboard
 
 docker ps
 
