@@ -11,7 +11,12 @@ class DatasetsCache
   end
 
   def self.all
-    JSON.parse(Redis.current.get("datasets"))
+    datasets = Redis.current.get("datasets")
+    if datasets.nil?
+      []
+    else
+      JSON.parse(datasets)
+    end
   end
 
 end
