@@ -4,13 +4,14 @@
 
 <table cellspacing="0" cellpadding="0">
   <tr>
-    <th>Provider</th><th>Endpoint</th>
+    <th>Provider</th><th>Endpoint</th><th>Status</th>
   </tr>
   
   <% for dataset in datasets %>
     <tr class="">
       <td><a href="https://<%= dataset["id"] %>" target="_blank"><%= dataset["title"] %></a></td>
       <td><a href="<%= dataset["data_url"] %>" target="_blank"><%= dataset["data_url"] %></a></td>
+      <td><span class="green-light"></span>Available</td>
     </tr>
   <% end %>
 </table>

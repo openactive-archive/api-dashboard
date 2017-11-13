@@ -1,0 +1,39 @@
+html, body, p { 
+  font-family: Roboto,sans-serif; 
+  color: #333;
+  font-size: 16px;
+}
+
+a { color: #0082f3; }
+
+body { margin: 0px; }
+
+#wrapper { padding:1%; }
+
+footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  width:100vw;
+  border-top: 1px solid #dbdbdb;
+  background-color: #333;
+  color: #9e9e9e;
+  text-align: center;
+}
+
+footer p, footer a { color: #9e9e9e; }
+
+td, th { padding-bottom: 0.5em; padding-right:1em; }
+
+span.green-light {     
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+  background-color: #149d32;
+  display: inline-block;
+  margin-right: 0.5em;
+  top: 0.1em;
+  position: relative;
+  
+}
