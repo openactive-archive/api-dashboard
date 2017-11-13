@@ -5,12 +5,15 @@ require_relative 'lib/datasets_cache'
 
 class DashboardApp < Sinatra::Base
   
-  REDIS_HOST = ENV['REDIS_HOST'] || '127.0.0.1'
-  REDIS_PORT = ENV['REDIS_PORT'] || '6379'
+  OA_REDIS_HOST = ENV['OA_REDIS_HOST'] || '127.0.0.1'
+  OA_REDIS_PORT = ENV['OA_REDIS_PORT'] || '6379'
 
   configure do
-    set :bind, '0.0.0.0' 
-    set :redis, Redis.new(host: REDIS_HOST, port: REDIS_PORT)
+    set :bind, '0.0.0.0'
+    enable :logging
+    set :logging, Logger::INFO
+    set :redis, Redis.new(host: OA_REDIS_HOST, port: OA_REDIS_PORT)
+    Redis.current = settings.redis
   end
 
   get '/' do
@@ -18,8 +21,9 @@ class DashboardApp < Sinatra::Base
     erb :index, locals: { datasets: datasets }
   end
 
-  get '/agent' do
-    "you're using #{request.user_agent}"
+  get '/inspect' do
+    datasets = DatasetsCache.all
+    "Inspect: #{datasets.inspect}"
   end
 
   get '/test' do
