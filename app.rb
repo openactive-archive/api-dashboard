@@ -12,19 +12,18 @@ class DashboardApp < Sinatra::Base
 
     if ENV["REDISTOGO_URL"]
       uri = URI.parse(ENV["REDISTOGO_URL"])
-      oa_redis_host = uri.host
-      oa_redis_port = uri.port
+      redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
     else
       oa_redis_host = ENV['OA_REDIS_HOST'] || '127.0.0.1'
       oa_redis_port = ENV['OA_REDIS_PORT'] || '6379'
+      redis = Redis.new(host: oa_redis_host, port: oa_redis_port)
     end
 
-    set :redis, Redis.new(host: oa_redis_host, port: oa_redis_port)
-    Redis.current = settings.redis
+    Redis.current = redis
   end
 
   get '/' do
-    datasets = DatasetsCache.all
+    datasets = DatasetsCache.all    
     erb :index, locals: { datasets: datasets }
   end
 
