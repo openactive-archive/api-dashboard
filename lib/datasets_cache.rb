@@ -6,8 +6,13 @@ class DatasetsCache
 
   def self.update
     # TODO: Error check & validation
-    datasets = OpenActive::Datasets.list
-    Redis.current.set("datasets", datasets.to_json)
+    begin 
+      datasets = OpenActive::Datasets.list
+      Redis.current.set("datasets", datasets.to_json)
+      return true
+    rescue
+      return false
+    end
   end
 
   def self.all

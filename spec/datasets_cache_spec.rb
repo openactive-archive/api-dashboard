@@ -4,8 +4,19 @@ require 'datasets_cache'
 describe DatasetsCache do
 
   describe ".update" do
-    it "it stores result of request" do
-      expect(DatasetsCache.update).to eql("OK")
+    it "it stores result of the request if there were no issues" do
+      Redis.current.del('datasets')
+      
+      result = DatasetsCache.update
+      not_updated = Redis.current.get('datasets').nil?
+
+      expect(result).to be(true).or be(false)
+
+      if result
+        expect(not_updated).to be(false)
+      else
+        expect(not_updated).to be(true)
+      end
     end
   end
 
