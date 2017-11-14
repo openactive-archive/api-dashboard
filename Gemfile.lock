@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/theodi/openactive.rb.git
-  revision: 8dc0398c2db747dfcf143fa72becb85191cc8dbb
+  remote: https://github.com/openactive/openactive.rb.git
+  revision: c4c62c25880a6cdcd477af4a703e70f3fd91c7c0
   branch: twofourtwo
   specs:
     openactive (0.0.1)
