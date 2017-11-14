@@ -2,6 +2,11 @@ language: ruby
 services:
 - redis
 rvm:
- - 2.4.2
+- 2.4.2
 script:
 - bundle exec rspec
+deploy:
+  provider: heroku
+  api_key:
+    secure: t47yB0gaUWtNh5ZxELtrZ+HXhnaWOMKknOchmboaEWk8wZMca6jDwfpp2IabNFV4Nev/rphkK+Zbz/b9VE6OTzJe6iq52bAmenhJk8t1JU3ppmFUt0f0KcGHYvNX2JbnH3fJgbSYL2mIA8y1k5YPzSJ4qNrF7u8th7d+8qxnv3vyY8qtxqhsCob8HVehG0N86vnSVupJ2yBJudD6YsXggPfuuRXzOB0Jlo31X10Vyp27KaQSfwNhWBg5Uus1/NFza54HJp62svowCTqkFOTA5++FE9VtYfcEyseIYSrKFPD6dG+ewRINNJt0shI4q9QxvMdUfshhU/FmfttoS5UgFAuq/6976CET4jYPgY7AcquQ4g6AuiD11sHX/2eRNoPY2OmzCZUJUeVzWFWdIj+bHfnjLwFib0aRpP8H9i9UMy8hEpLWgkTrvim2xW5yIElUbb8kbYKuNG/dv8Efiasx6crZ4F6pvHok3L/mgM6lKoOGF4M4tnuvGOG5Nwymj1R3j0GpzI5ogoF+dOUoEpt6qfzwtz/KyQ0gyuIaZCXc4S21jUKHagdRFW4yZc6Vx+Mxm77Kki7h82on01rserBm1m8eNIy/rrzaBUpg+tX4lwuDDXtJzoVpi3coCQTf4pXbld3UPQF5CyaLRRDtvaxeC6JBSX6hjuqQ4sv1IbwEH8o=
+  app: api-dashboard-staging
