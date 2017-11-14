@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/openactive/api-dashboard.svg?branch=master)](https://travis-ci.org/openactive/api-dashboard)
+
 ![OpenActive Logo](https://avatars1.githubusercontent.com/u/13738713?s=200)
 
 # OpenActive Dashboard
