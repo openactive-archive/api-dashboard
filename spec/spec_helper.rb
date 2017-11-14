@@ -1,4 +1,6 @@
 require 'redis'
+require 'coveralls'
+Coveralls.wear!
 
 RSpec.configure do |config|
 
