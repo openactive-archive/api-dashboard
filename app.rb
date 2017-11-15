@@ -10,6 +10,8 @@ class DashboardApp < Sinatra::Base
     enable :logging
     set :logging, Logger::INFO
 
+    ENV["GOOGLE_ANALYTICS_CODE"] ||= "UA-XXXXX-Y"
+
     if ENV["REDISTOGO_URL"]
       uri = URI.parse(ENV["REDISTOGO_URL"])
       redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)

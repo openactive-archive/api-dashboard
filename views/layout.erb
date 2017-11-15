@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>OpenActive - Dashboard</title>
+  <title>OpenActive API Dashboard</title>
   <meta charset="utf-8">
   <link href="images/openactive-badge-large-2_1.png" rel="shortcut icon" type="image/x-icon">
   <link href="images/openactive-badge-large-2.png" rel="apple-touch-icon">
   <link href="css/oa-dashboard.css" rel="stylesheet" type="text/css">
+
+  <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', '<%= ENV["GOOGLE_ANALYTICS_CODE"] %>', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
 </head>
 <body>
+
 <div id="wrapper">
   <%= yield %>
 </div>
