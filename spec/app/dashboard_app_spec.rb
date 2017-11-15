@@ -15,4 +15,9 @@ describe DashboardApp do
     expect(last_response.body).to include(ga_code_setup)
   end
 
+  it "returns a static style test page" do
+    get "/test"
+    expect(last_response.status).to eq 200
+  end
+
 end
