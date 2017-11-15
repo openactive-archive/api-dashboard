@@ -13,11 +13,6 @@ class DashboardApp < Sinatra::Base
     erb :index, locals: { datasets: datasets }
   end
 
-  get '/inspect' do
-    datasets = DatasetsCache.all
-    "Inspect: #{datasets.inspect}"
-  end
-
   get '/test' do
     erb :test
   end
