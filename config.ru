@@ -1,1 +1,2 @@
-require './app'
+require './dashboard_app'
+run DashboardApp

@@ -1,11 +1,13 @@
-require_relative "../config/environment"
-require 'coveralls'
+ENV['RACK_ENV'] = 'test'
+
+require "./config/environment"
+
 Coveralls.wear!
 
 RSpec.configure do |config|
+  config.include Rack::Test::Methods
 
   config.before(:suite) do
-    puts "before suite"
     Redis.current = Redis.new(host: (ENV['OA_REDIS_HOST'] || '127.0.0.1'), port: (ENV['OA_REDIS_PORT'] || '6379'))
   end
 

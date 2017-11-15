@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'datasets_cache'
 
 describe DatasetsCache do
 

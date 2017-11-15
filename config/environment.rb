@@ -15,3 +15,8 @@ else
 end
 
 Redis.current = redis
+
+if ENV['RACK_ENV'] == 'test'
+  require 'rack/test'
+  require 'coveralls'
+end

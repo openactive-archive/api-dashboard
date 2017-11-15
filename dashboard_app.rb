@@ -23,5 +23,3 @@ class DashboardApp < Sinatra::Base
   end
 
 end
-
-DashboardApp.run!
