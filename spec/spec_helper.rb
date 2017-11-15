@@ -1,4 +1,4 @@
-require 'redis'
+require_relative "../config/environment"
 require 'coveralls'
 Coveralls.wear!
 

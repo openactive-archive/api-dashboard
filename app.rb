@@ -1,7 +1,4 @@
-require 'sinatra/base'
-require 'openactive'
-require 'redis'
-require_relative 'lib/datasets_cache'
+require_relative 'config/environment'
 
 class DashboardApp < Sinatra::Base
 
@@ -9,19 +6,6 @@ class DashboardApp < Sinatra::Base
     set :bind, '0.0.0.0'
     enable :logging
     set :logging, Logger::INFO
-
-    ENV["GOOGLE_ANALYTICS_CODE"] ||= "UA-XXXXX-Y"
-
-    if ENV["REDISTOGO_URL"]
-      uri = URI.parse(ENV["REDISTOGO_URL"])
-      redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-    else
-      oa_redis_host = ENV['OA_REDIS_HOST'] || '127.0.0.1'
-      oa_redis_port = ENV['OA_REDIS_PORT'] || '6379'
-      redis = Redis.new(host: oa_redis_host, port: oa_redis_port)
-    end
-
-    Redis.current = redis
   end
 
   get '/' do
