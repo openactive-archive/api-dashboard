@@ -1,0 +1,190 @@
+[
+  {
+    "name": "a:duplicate",
+    "color": "cccccc"
+  },
+  {
+    "name": "a:refactor",
+    "color": "cccccc"
+  },
+  {
+    "name": "a:relocate",
+    "color": "cccccc"
+  },
+  {
+    "name": "a:specification",
+    "color": "cccccc"
+  },
+  {
+    "name": "a:up-for-grabs",
+    "color": "cccccc"
+  },
+  {
+    "name": "env:IE",
+    "color": "2f529f"
+  },
+  {
+    "name": "env:linux",
+    "color": "2f529f"
+  },
+  {
+    "name": "env:OSX",
+    "color": "2f529f"
+  },
+  {
+    "name": "env:windows",
+    "color": "2f529f"
+  },
+  {
+    "name": "est:major",
+    "color": "FF6700"
+  },
+  {
+    "name": "est:minor",
+    "color": "FF6700"
+  },
+  {
+    "name": "est:moderate",
+    "color": "FF6700"
+  },
+  {
+    "name": "f:enhancement-suggestion",
+    "color": "e6007c"
+  },
+  {
+    "name": "f:help-wanted",
+    "color": "e6007c"
+  },
+  {
+    "name": "f:question",
+    "color": "e6007c"
+  },
+  {
+    "name": "fn:airbrake",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:assessment",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:data-publishing",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:Development",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:distribution",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:Documentation",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:Interface",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:Localisation",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:Notification",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:Operations",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:Performance",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:questionnaire",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:reporting",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:schema",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:Security",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:sharing",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "fn:Styling",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:Usability",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:UserManagement",
+    "color": "0dbc37"
+  },
+  {
+    "name": "fn:validation",
+    "color": "1dd3a7"
+  },
+  {
+    "name": "i:enhancement",
+    "color": "2254F4"
+  },
+  {
+    "name": "i:optimisation",
+    "color": "2254F4"
+  },
+  {
+    "name": "i:tests",
+    "color": "2254F4"
+  },
+  {
+    "name": "p:high",
+    "color": "f9b626"
+  },
+  {
+    "name": "p:low",
+    "color": "f9b626"
+  },
+  {
+    "name": "p:medium",
+    "color": "f9b626"
+  },
+  {
+    "name": "problem:bug",
+    "color": "D60303"
+  },
+  {
+    "name": "s:critical",
+    "color": "d73058"
+  },
+  {
+    "name": "s:moderate",
+    "color": "d73058"
+  },
+  {
+    "name": "s:serious",
+    "color": "d73058"
+  },
+  {
+    "name": "st:ready",
+    "color": "ededed"
+  },
+  {
+    "name": "st:requires-replication",
+    "color": "ededed"
+  }
+]
