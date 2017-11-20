@@ -1,19 +1,27 @@
-<h1>Datasets</h1>
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="">OpenActive API Dashboard</h1>
+    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+  </div>
+</div>
 
-<hr/>
-
-<table cellspacing="0" cellpadding="0">
+<div class="container">
+<table class="table table-hover">
+  <thead>
   <tr>
-    <th>Provider</th><th>Endpoint</th><th>Status</th>
+    <th scope="col">Provider</th><th scope="col">Endpoint</th><th scope="col">Status</th>
   </tr>
-  
+  </thead>
+  <tbody>
   <% for dataset in datasets %>
-    <tr class="">
+    <tr>
       <td><a href="https://<%= dataset["id"] %>" target="_blank"><%= dataset["title"] %></a></td>
       <td><a href="<%= dataset["data_url"] %>" target="_blank"><%= dataset["data_url"] %></a></td>
       <td><span class="green-light"></span>Available</td>
     </tr>
   <% end %>
+</tbody>
 </table>
 
 <small><a href="#wrapper">[top]</a></small>
+</div>
