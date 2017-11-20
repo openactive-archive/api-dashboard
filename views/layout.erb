@@ -24,7 +24,7 @@
 
 <nav class="navbar navbar-expand-md fixed-top">
 <div class="container">
-  <a class="navbar-brand brand-text" href="#">OpenActive</a>
+  <a class="navbar-brand brand-text" href="/">OpenActive</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -56,15 +56,20 @@
 </div>
 </nav>
 
+<div id="page-wrapper">
 <main>
   <%= yield %>
 </main>
 
 <footer>
-
   <p>Supported by the <a href="http://theodi.org/" class="footer-link-2">Open Data Institute</a> and <a href="https://www.sportengland.org/" class="footer-link-2">Sport England</a></p>
-
+  <p>
+  <img src="images/odi-logo-white.png" class="odi-logo">
+  <img src="images/sport-england-logo-white.png" class="odi-logo">
+  </p>
+  <p><a href="privacy-policy.html" class="">Privacy and Cookie Policy</a></p>
 </footer>
+</div>
 
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
