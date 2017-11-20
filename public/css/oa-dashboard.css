@@ -24,6 +24,7 @@ body {
 
 a { color: #69b9ff; }
 
+nav.navbar { background-color: white; border-bottom: 1px solid #EEE; }
 .navbar-collapse { justify-content: flex-end; }
 .navbar-brand { font-size: 1.6em; }
 .brand-text {
@@ -61,13 +62,16 @@ td, th { padding-bottom: 0.5em; padding-right:1em; }
 div.jumbotron { padding: 3rem 2rem; }
 div.jumbotron h1 { font-family: Montserrat,sans-serif; }
 
-span.green-light {     
+span.green-light, span.yellow-light, span.red-light {
   width: 1em;
   height: 1em;
   border-radius: 1em;
-  background-color: #149d32;
   display: inline-block;
   margin-right: 0.5em;
   top: 0.1em;
   position: relative; 
 }
+
+span.green-light { background-color: #149d32; }
+span.yellow-light { background-color: #fff7b9; }
+span.red-light { background-color: #ff2b2b; }
