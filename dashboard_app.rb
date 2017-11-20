@@ -6,6 +6,7 @@ class DashboardApp < Sinatra::Base
     set :bind, '0.0.0.0'
     enable :logging
     set :logging, Logger::INFO
+    set :public_folder, './public/'
   end
 
   get '/' do
