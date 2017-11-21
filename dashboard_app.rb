@@ -10,7 +10,7 @@ class DashboardApp < Sinatra::Base
   end
 
   get '/' do
-    datasets = DatasetsCache.all    
+    datasets = DatasetsCache.all
     erb :index, locals: { datasets: datasets }
   end
 

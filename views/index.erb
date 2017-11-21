@@ -9,15 +9,27 @@
 <table class="table table-hover">
   <thead>
   <tr>
-    <th scope="col">Provider</th><th scope="col">Endpoint</th><th scope="col">Status</th>
+    <th scope="col">Provider</th>
+    <th scope="col">Dataset page</th>
+    <th scope="col">Endpoint</th>
+    <th scope="col">Licence</th>
+    <th scope="col">Uses paging spec?</th>
+    <th scope="col">Uses opportunity model?</th>
+    <th scope="col">Github issues</th>
   </tr>
   </thead>
   <tbody>
-  <% for dataset in datasets %>
-    <tr>
-      <td><a href="https://<%= dataset["id"] %>" target="_blank"><%= dataset["title"] %></a></td>
-      <td><a href="<%= dataset["data_url"] %>" target="_blank"><%= dataset["data_url"] %></a></td>
-      <td><span class="green-light"></span>Available</td>
+  <% for key in datasets.keys; dataset = datasets[key] %>
+    <tr class="dataset-meta">
+      <td>
+        <a href="<%= dataset["publisher-url"] %>" target="_blank"><%= dataset["publisher-name"] %></a>
+      </td>
+      <td><a href="<%= dataset["dataset-site-url"] %>" target="_blank">Dataset page</a></td>
+      <td><a href="<%= dataset["data-url"] %>" target="_blank"><span class="yellow-light"></span>Up/Down</a></td>
+      <td><a href="<%= dataset["license-url"] %>" target="_blank"><%= dataset["license-name"] %></a></td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
     </tr>
   <% end %>
 </tbody>

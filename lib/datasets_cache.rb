@@ -5,8 +5,7 @@ require 'redis'
 class DatasetsCache
 
   def self.update
-    # TODO: Error check & validation
-    begin 
+    begin
       datasets = OpenActive::Datasets.list
       Redis.current.set("datasets", datasets.to_json)
       return true
