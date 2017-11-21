@@ -9,6 +9,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Redis.current = Redis.new(host: (ENV['OA_REDIS_HOST'] || '127.0.0.1'), port: (ENV['OA_REDIS_PORT'] || '6379'))
+    Redis.current.del('datasets')
   end
 
   # Run specs in random order to surface order dependencies. If you find an
