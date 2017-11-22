@@ -65,14 +65,20 @@ div.jumbotron { padding: 3rem 2rem; }
 div.jumbotron h1 { font-family: Montserrat,sans-serif; }
 
 span.green-light, span.yellow-light, span.red-light {
-  width: 1em;
-  height: 1em;
   border-radius: 1em;
   display: inline-block;
   margin-right: 0.5em;
   top: 0.1em;
-  position: relative; 
-}
+  position: relative;
+  color: white;
+  padding: 3px 4px;
+  font-size: 1.3em;
+  line-height: 1em;
+} 
+
+span.green-light:before { content: "\2713"; }
+span.yellow-light:before { content: "\2713"; color: #fff7b9; }
+span.red-light:before { content: "\00d7"; }
 
 span.green-light { background-color: #149d32; }
 span.yellow-light { background-color: #fff7b9; }
