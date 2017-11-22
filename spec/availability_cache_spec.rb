@@ -40,4 +40,16 @@ describe AvailabilityCache do
     end
   end
 
+  describe ".fetch" do
+    it "raises an error if there were too many redirects" do
+      expect { AvailabilityCache.fetch("https://ourparks.org.uk/getSessions", 0) }.to raise_error(StandardError)
+    end
+
+    it "returns an HTTP response code" do
+      response_code = AvailabilityCache.fetch("https://ourparks.org.uk/getSessions")
+      is_http_code = (100..527).include?(response_code.to_i)
+      expect(is_http_code).to be true
+    end
+  end
+
 end

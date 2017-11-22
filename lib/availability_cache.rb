@@ -32,7 +32,7 @@ class AvailabilityCache
   end
 
   def self.fetch(uri_str, limit = 5)
-    raise ArgumentError, 'too many HTTP redirects' if limit == 0
+    raise StandardError, 'too many HTTP redirects' if limit == 0
     response = Net::HTTP.get_response(URI(uri_str))
     
     case response
