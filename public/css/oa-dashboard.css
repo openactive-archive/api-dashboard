@@ -23,6 +23,8 @@ body {
 
 a { color: #69b9ff; }
 
+.center, .centre { text-align:center; }
+
 nav.navbar { background-color: white; border-bottom: 1px solid #EEE; }
 .navbar-collapse { justify-content: flex-end; }
 .navbar-brand { font-size: 1.6em; }
@@ -77,5 +79,5 @@ span.yellow-light { background-color: #fff7b9; }
 span.red-light { background-color: #ff2b2b; }
 
 table.datasets-table td { vertical-align: middle; }
-table img.licence-image { height: 50%; opacity: 0.8; }
+table img.licence-image { max-height: 2.4em; height: 50%; opacity: 0.8; }
 table img.licence-image:hover { opacity: 1; }
