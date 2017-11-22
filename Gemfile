@@ -9,4 +9,5 @@ group :test do
   gem 'rspec', '~> 3.6'
   gem 'rack-test', '~> 0.6.3'
   gem 'coveralls', require: false
+  gem 'webmock', '~> 2.1'
 end

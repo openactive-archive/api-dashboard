@@ -6,6 +6,8 @@ describe DatasetsCache do
     it "stores datasets metadata if there were no issues making the request" do
       Redis.current.del('datasets')
 
+      WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
+
       result = DatasetsCache.update
       not_updated = Redis.current.get('datasets').nil?
 
