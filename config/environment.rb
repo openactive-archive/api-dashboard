@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'openactive'
 require 'redis'
 require_relative '../lib/datasets_cache'
+require_relative '../lib/availability_cache'
 
 ENV["GOOGLE_ANALYTICS_CODE"] ||= "UA-XXXXX-Y"
 
