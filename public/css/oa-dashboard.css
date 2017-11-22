@@ -17,8 +17,7 @@ body {
 #page-wrapper { 
   min-height: 94vh;
   position:relative;
-  /**padding-bottom: 20vh;**/
-  padding-bottom: 20vh;
+  padding-bottom: 200px;
 
 }
 
@@ -36,16 +35,17 @@ nav.navbar { background-color: white; border-bottom: 1px solid #EEE; }
 }
 
 footer {
-  padding-top: 1vh;
-  padding-bottom: 1vh;
+  padding-top: 10px;
+  padding-bottom: 10px;
   position: absolute;
   bottom: 0;
-  width:100%;
+  width: 100%;
   border-top: 1px solid #dbdbdb;
   background-color: #333;
   color: #9e9e9e;
   text-align: center;
   font-family: 'Open Sans',sans-serif;
+  height: 180px;
 }
 
 footer p, footer a { color: #9e9e9e; }
@@ -75,3 +75,7 @@ span.green-light, span.yellow-light, span.red-light {
 span.green-light { background-color: #149d32; }
 span.yellow-light { background-color: #fff7b9; }
 span.red-light { background-color: #ff2b2b; }
+
+table.datasets-table td { vertical-align: middle; }
+table img.licence-image { height: 50%; opacity: 0.8; }
+table img.licence-image:hover { opacity: 1; }

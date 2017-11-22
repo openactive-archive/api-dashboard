@@ -1,4 +1,5 @@
 require_relative 'config/environment'
+require './dashboard_helpers'
 
 class DashboardApp < Sinatra::Base
 
@@ -7,6 +8,10 @@ class DashboardApp < Sinatra::Base
     enable :logging
     set :logging, Logger::INFO
     set :public_folder, './public/'
+  end
+
+  helpers do
+    include DashboardHelpers
   end
 
   get '/' do
