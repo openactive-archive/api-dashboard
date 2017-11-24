@@ -1,6 +1,8 @@
 require 'sinatra/base'
 require 'openactive'
 require 'redis'
+require 'time'
+
 require_relative '../lib/datasets_cache'
 require_relative '../lib/availability_cache'
 
