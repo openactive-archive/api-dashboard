@@ -68,6 +68,25 @@ describe DatasetsCache do
     end
   end
 
+  describe ".needs_update?" do
+    it "returns true if last updated was nil" do
+      Redis.current.del('last_updated')
+      expect(DatasetsCache.needs_update?).to eql(true)
+    end
+
+    it "returns true if last updated was more than 30 minutes ago" do
+      forty_minutes_ago = Time.now - 40*60
+      Redis.current.set("last_updated", forty_minutes_ago.to_i)
+      expect(DatasetsCache.needs_update?).to eql(true)
+    end
+
+    it "returns false if last updated was after 30 minutes ago" do
+      twenty_minutes_ago = Time.now - 20*60
+      Redis.current.set("last_updated", twenty_minutes_ago.to_i)
+      expect(DatasetsCache.needs_update?).to eql(false)
+    end
+  end
+
   describe ".all" do
     it "retrieves a collection of datasets" do
       example = { "mywebsait/opendata" => { "title" => "my dataset title", "data-url" => "http://mywebsait.com/data" } }

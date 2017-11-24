@@ -1,7 +1,6 @@
 require 'openactive'
 require 'json'
 require 'redis'
-require 'time'
 
 class DatasetsCache
 
@@ -29,6 +28,13 @@ class DatasetsCache
     last_updated = Redis.current.get("last_updated")
     return nil if last_updated.nil?
     return Time.at(last_updated.to_i)
+  end
+
+  def self.needs_update?
+    last_updated = self.last_updated
+    return true if last_updated.nil?
+    thirty_minutes_ago = Time.now - 30*60
+    thirty_minutes_ago >= last_updated
   end
 
 end
