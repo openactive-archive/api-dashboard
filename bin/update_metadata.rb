@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
+$:.unshift File.join( File.dirname(__FILE__), "..", "config")
 
-require './../config/environment'
+require 'environment'
 
 puts "Updating datasets cache"
 
