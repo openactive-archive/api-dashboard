@@ -16,7 +16,8 @@ class DashboardApp < Sinatra::Base
 
   get '/' do
     datasets = DatasetsCache.all
-    erb :index, locals: { datasets: datasets }
+    availability = AvailabilityCache.all
+    erb :index, locals: { datasets: datasets, availability: availability }
   end
 
   get '/test' do
