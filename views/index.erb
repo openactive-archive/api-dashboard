@@ -25,7 +25,7 @@
         <a href="<%= dataset["publisher-url"] %>" target="_blank"><%= dataset["publisher-name"] %></a>
       </td>
       <td><a href="<%= dataset["dataset-site-url"] %>" target="_blank">Dataset page</a></td>
-      <td>
+      <td class="endpoint-availability">
         <a href="<%= dataset["data-url"] %>" target="_blank">
           <%= availability_indicator(availability, dataset["data-url"]) %>
         </a>

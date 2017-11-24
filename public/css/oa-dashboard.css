@@ -67,12 +67,16 @@ div.jumbotron h1 { font-family: Montserrat,sans-serif; }
 span.green-light, span.yellow-light, span.red-light {
   border-radius: 1em;
   display: inline-block;
-  margin-right: 0.5em;
+  margin-right: 0.3em;
   top: 0.1em;
   position: relative;
   color: white;
-  padding: 3px 4px;
-  font-size: 1.3em;
+  padding: 0px 0px;
+  font-size: 1.4em;
+  font-weight: bold;
+  width: 1em;
+  text-align: center;
+  height: 1em;
   line-height: 1em;
 } 
 
@@ -87,3 +91,5 @@ span.red-light { background-color: #ff2b2b; }
 table.datasets-table td { vertical-align: middle; }
 table img.licence-image { max-height: 2.4em; height: 50%; opacity: 0.8; }
 table img.licence-image:hover { opacity: 1; }
+
+td.endpoint-availability { min-width:7.9em; }
