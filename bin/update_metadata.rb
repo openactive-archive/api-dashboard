@@ -3,22 +3,32 @@ $:.unshift File.join( File.dirname(__FILE__), "..", "config")
 
 require 'environment'
 
-puts "Updating datasets cache"
+force = ARGV.size > 0 and ARGV[0].eql?('-f') 
 
-result = DatasetsCache.update
+if force or DatasetsCache.needs_update?
 
-if result
-  puts "Datasets cache updated"
+  puts "Upate required, fetching datasets metadata"
+
+  result = DatasetsCache.update
+
+  if result
+    puts "Datasets meta updated"
+  else
+    puts "Datsets meta update failed"
+  end
+
+  puts "Updating endpoint availabilities"
+
+  result = AvailabilityCache.update
+
+  if result
+    puts "Availabilities updated"
+  else
+    puts "Availabilities update failed"
+  end
+
 else
-  puts "Datsets cache update failed"
-end
 
-puts "Updating endpoint availabilities"
+  puts "No update required, last update was #{DatasetsCache.last_updated.httpdate}"
 
-result = AvailabilityCache.update
-
-if result
-  puts "Availabilities updated"
-else
-  puts "Availabilities update failed"
 end
