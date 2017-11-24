@@ -28,4 +28,18 @@ For the application to work you will also need to have a redis server running. T
 
 ## Tests
 
-The API Dashboard use the Rspec test suite. To run the tests install the testset gems with `bundle install`, and then run `bundle exec rspec`.    
+The API Dashboard use the Rspec test suite. To run the tests install the testset gems with `bundle install`, and then run `bundle exec rspec`.
+
+## Command Line Tools
+
+There is a script you can run to update the dashboard metadata. To run: 
+
+`bundle exec ./bin/update_metadata.rb`
+
+Or on Heroku:
+
+`heroku run bundle exec ./bin/update_metadata.rb`
+
+This script checks if the metadata has been updated recently. If you want to force it to update, provide an `-f` flag, e.g.: 
+
+`bundle exec ./bin/update_metadata.rb -f`
