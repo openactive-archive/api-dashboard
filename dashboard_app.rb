@@ -21,6 +21,27 @@ class DashboardApp < Sinatra::Base
     erb :index, locals: { datasets: datasets, availability: availability, last_updated: last_updated }
   end
 
+  get '/datasets.json' do
+    content_type :json
+
+    datasets = DatasetsCache.all
+    availability = AvailabilityCache.all
+
+    datasets.each_pair do |k,d|
+      d.delete('mailchimp')
+      d.delete('keyword-1')
+      d.delete('keyword-2')
+      d.delete('created')
+      d.delete('rpde-version')
+      d.delete('copyright-notice')
+      d.delete('odi-certificate-number')
+      d.delete('publish')
+      d.merge!(available: availability[d["data-url"]])
+     end
+
+    { meta: { Licence: '?', LastUpdated: DatasetsCache.last_updated }, data: datasets }.to_json
+  end
+
   get '/test' do
     erb :test
   end
