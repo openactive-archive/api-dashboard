@@ -61,8 +61,8 @@ img.odi-logo {
 
 td, th { padding-bottom: 0.5em; padding-right:1em; }
 
-div.jumbotron { padding: 3rem 2rem; }
-div.jumbotron h1 { font-family: Montserrat,sans-serif; }
+.jumbotron { padding: 3rem 2rem; }
+.jumbotron h1 { font-family: Montserrat,sans-serif; }
 
 span.green-light, span.yellow-light, span.red-light {
   border-radius: 1em;
