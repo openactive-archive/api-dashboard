@@ -89,7 +89,7 @@ span.yellow-light { background-color: #fff7b9; }
 span.red-light { background-color: #ff2b2b; }
 
 table.datasets-table td { vertical-align: middle; }
-table img.licence-image { max-height: 2.4em; height: 50%; opacity: 0.8; }
+table img.licence-image { max-height: 1.0em; height: 50%; opacity: 0.8; }
 table img.licence-image:hover { opacity: 1; }
 
 td.endpoint-availability { min-width:7.9em; }
