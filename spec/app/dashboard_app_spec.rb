@@ -9,6 +9,9 @@ describe DashboardApp do
 
   before(:each) do
     Redis.current.del('datasets')
+
+    WebMock.stub_request(:get, "https://api.github.com/repos/activenewham/opendata/issues").to_return(:status => 200, :body => "[]")
+    WebMock.stub_request(:get, "https://api.github.com/repos/makesweat/opendata/issues").to_return(:status => 200, :body => "[]")
     WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
     WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
     WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
@@ -39,7 +42,7 @@ describe DashboardApp do
     expect(result["data"]["activenewham/opendata"]).to include("dataset-site-url", "title", "description", "publisher-name", 
       "publisher-url", "data-url", "documentation-url", "license-name", 
       "license-url", "attribution-text", "attribution-url", "available",
-      "uses-paging-spec", "uses-opportunity-model")
+      "uses-paging-spec", "uses-opportunity-model", "github-issues")
     expect(result["data"]["activenewham/opendata"]).not_to include('mailchimp', 'keyword-1', 'keyword-2', 'created', 'rpde-version', 
       'copyright-notice', 'odi-certificate-number', 'publish')
   end

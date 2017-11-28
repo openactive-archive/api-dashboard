@@ -4,6 +4,8 @@ describe DatasetsCache do
 
   before(:each) do
     Redis.current.del('datasets')
+    WebMock.stub_request(:get, "https://api.github.com/repos/activenewham/opendata/issues").to_return(:status => 200, :body => "[]")
+    WebMock.stub_request(:get, "https://api.github.com/repos/makesweat/opendata/issues").to_return(:status => 200, :body => "[]")
   end
 
   after(:each) do
