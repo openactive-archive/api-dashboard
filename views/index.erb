@@ -14,10 +14,10 @@
     <th scope="col">Provider</th>
     <th scope="col">Dataset page</th>
     <th scope="col">Endpoint</th>
-    <th scope="col">Licence</th>
     <th scope="col">Uses paging spec?</th>
     <th scope="col">Uses opportunity model?</th>
     <th scope="col">Github issues</th>
+    <th scope="col">Licence</th>
   </tr>
   </thead>
   <tbody>
@@ -32,13 +32,13 @@
           <%= availability_indicator(availability, dataset["data-url"]) %>
         </a>
       </td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
       <td class="centre">
         <a title="<%= dataset["license-name"] %>" href="<%= dataset["license-url"] %>" target="_blank">
         <%= licence_image(dataset["license-url"]) %></a>
       </td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
     </tr>
   <% end %>
 </tbody>
