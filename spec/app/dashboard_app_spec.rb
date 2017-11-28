@@ -33,7 +33,7 @@ describe DashboardApp do
     get "/datasets.json"
     result = JSON.parse(last_response.body)
     expect(result.keys).to include("meta", "data")
-    expect(result["meta"].keys).to include("LastUpdated", "Licence")
+    expect(result["meta"].keys).to include("last-updated", "licence")
     expect(result["data"].keys.size).to eql(2)
     expect(result["data"]["activenewham/opendata"]).to include("dataset-site-url", "title", "description", "publisher-name", 
       "publisher-url", "data-url", "documentation-url", "license-name", 
