@@ -19,4 +19,14 @@ module DashboardHelpers
     end
   end
 
+  def yesno_indicator(indicator)
+    if indicator.nil?
+      '<span class="yellow-light"></span>?'
+    elsif indicator
+      '<span class="green-light"></span>Yes'
+    else
+      '<span class="red-light"></span>No'
+    end
+  end
+
 end

@@ -38,4 +38,14 @@ describe DashboardHelpers do
 
   end
 
+  describe ".yesno_indicator" do
+
+    it "renders the correct indicator" do
+      expect(dummy_class.yesno_indicator(true)).to eql('<span class="green-light"></span>Yes')
+      expect(dummy_class.yesno_indicator(false)).to eql('<span class="red-light"></span>No')
+      expect(dummy_class.yesno_indicator(nil)).to eql('<span class="yellow-light"></span>?')
+    end
+
+  end
+
 end
