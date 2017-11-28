@@ -17,7 +17,7 @@
       <a target="_blank" title="Read paging specification" href="https://www.openactive.io/realtime-paged-data-exchange/">Uses paging spec?</a></th>
     <th scope="col">
       <a target="_blank" title="Read opportunity data specification" href="https://www.openactive.io/modelling-opportunity-data/">Uses opportunity model?</a></th>
-    <th scope="col">Github issues</th>
+    <th scope="col">Issues</th>
     <th scope="col">Licence</th>
   </tr>
   </thead>
@@ -32,10 +32,10 @@
           <%= availability_indicator(availability, dataset["data-url"]) %>
         </a>
       </td>
-      <td><%= dataset["uses-paging-spec"] ? "Yes" : "No" unless dataset["uses-paging-spec"].nil? %></td>
-      <td><%= dataset["uses-opportunity-model"] ? "Yes" : "No" unless dataset["uses-opportunity-model"].nil? %></td>
+      <td><%= yesno_indicator(dataset["uses-paging-spec"]) %></td>
+      <td><%= yesno_indicator(dataset["uses-opportunity-model"]) %></td>
       <td>
-        <a href="<%= dataset["documentation-url"] %>" target="_blank">
+        <a href="<%= dataset["documentation-url"] %>/issues" target="_blank">
         <% if dataset["github-issues"].nil? %>
           -
         <% else %>
