@@ -7,7 +7,6 @@ class AvailabilityCache
     results = {}
 
     datasets.each do |key, dataset|
-      results[dataset['data-url']] = false
       begin
         results[dataset['data-url']] = fetch(dataset['data-url']).eql?("200")
       rescue
