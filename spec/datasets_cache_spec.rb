@@ -21,8 +21,20 @@ describe DatasetsCache do
       expect(metadata_keys).to include("title", "dataset-site-url", "data-url", 
         "publisher-name", "documentation-url", "license-name", 
         "license-url")
-   
+
       Redis.current.del('datasets')
+    end
+
+    it "returns false if there were issues making the request" do
+      Redis.current.del('datasets')
+
+      WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: "")
+
+      result = DatasetsCache.update
+      not_updated = Redis.current.get('datasets').nil?
+
+      expect(result).to be(false)
+      expect(not_updated).to be(true)
     end
 
     it "stores last updated timestamp when datasets are updated" do
