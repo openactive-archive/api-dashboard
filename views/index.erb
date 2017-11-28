@@ -12,7 +12,6 @@
   <thead>
   <tr>
     <th scope="col">Provider</th>
-    <th scope="col">Dataset page</th>
     <th scope="col">Endpoint</th>
     <th scope="col">Uses paging spec?</th>
     <th scope="col">Uses opportunity model?</th>
@@ -24,9 +23,8 @@
   <% for key in datasets.keys; dataset = datasets[key] %>
     <tr class="dataset-meta">
       <td>
-        <a href="<%= dataset["publisher-url"] %>" target="_blank"><%= dataset["publisher-name"] %></a>
+        <a href="<%= dataset["dataset-site-url"] %>" target="_blank"><%= dataset["publisher-name"] %></a><br/>
       </td>
-      <td><a href="<%= dataset["dataset-site-url"] %>" target="_blank">Dataset page</a></td>
       <td class="endpoint-availability">
         <a href="<%= dataset["data-url"] %>" target="_blank">
           <%= availability_indicator(availability, dataset["data-url"]) %>
