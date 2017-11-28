@@ -2,11 +2,17 @@ require 'spec_helper'
 
 describe DatasetsCache do
 
+  before(:each) do
+    Redis.current.del('datasets')
+  end
+
+  after(:each) do
+    Redis.current.del('datasets')
+  end
+
   describe ".update" do
 
     it "stores datasets metadata if there were no issues making the request" do
-      Redis.current.del('datasets')
-
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
 
       result = DatasetsCache.update
@@ -21,13 +27,9 @@ describe DatasetsCache do
       expect(metadata_keys).to include("title", "dataset-site-url", "data-url", 
         "publisher-name", "documentation-url", "license-name", 
         "license-url")
-
-      Redis.current.del('datasets')
     end
 
     it "returns false if there were issues making the request" do
-      Redis.current.del('datasets')
-
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: "")
 
       result = DatasetsCache.update
@@ -38,7 +40,6 @@ describe DatasetsCache do
     end
 
     it "stores last updated timestamp when datasets are updated" do
-      Redis.current.del('datasets')
       Redis.current.set('last_updated', 1511533639)
 
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
@@ -49,12 +50,9 @@ describe DatasetsCache do
       expect(result).to be(true)
       expect(last_updated.class).to eql(Integer)
       expect(last_updated).to be > 1511533639
-
-      Redis.current.del('datasets')
     end
 
     it "doesn't store last updated timestamp when datasets aren't updated" do
-      Redis.current.del('datasets')
       Redis.current.set('last_updated', 1511533639)
 
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: "")
@@ -65,9 +63,7 @@ describe DatasetsCache do
 
       expect(result).to be(false)
       expect(not_updated).to be(true)
-      expect(last_updated).to eql(1511533639)
-
-      Redis.current.del('datasets')
+      expect(last_updated).to eql(1511533639)     
     end
 
   end
@@ -113,8 +109,6 @@ describe DatasetsCache do
       expect(datasets.keys.size).to be > 0
       expect(datasets["mywebsait/opendata"].class).to eql(Hash)
       expect(datasets["mywebsait/opendata"].keys).to include("title", "data-url")
-
-      Redis.current.del('datasets')
     end
   end
 
