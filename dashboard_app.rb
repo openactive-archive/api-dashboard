@@ -39,7 +39,7 @@ class DashboardApp < Sinatra::Base
       d.merge!(available: availability[d["data-url"]])
      end
 
-    { meta: { Licence: '?', LastUpdated: DatasetsCache.last_updated }, data: datasets }.to_json
+    { meta: { "licence" => "https://creativecommons.org/licenses/by/4.0/", "last-updated" => DatasetsCache.last_updated }, data: datasets }.to_json
   end
 
   get '/test' do
