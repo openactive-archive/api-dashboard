@@ -10,8 +10,9 @@ describe DashboardApp do
   before(:each) do
     Redis.current.del('datasets')
     WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
-    WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com").to_return(:status => 200)
-    WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(:status => 500)
+    WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
+    WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
+
     DatasetsCache.update
     AvailabilityCache.update
   end

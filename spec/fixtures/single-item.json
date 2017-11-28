@@ -1,0 +1,63 @@
+{
+  "next": "http://www.example.com/next",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "items": [
+    {
+      "id": "C5CLBD07000317",
+      "kind": "session",
+      "state": "updated",
+      "data": {
+        "description": "A combination of athletic movements such as running, jumping, and lunging, combined with squats and push-ups. This class involves building your stamina, coordination and agility, making you fitter. You will also build speed with the sports inspired moves, meaning you'll be quicker with everything. This is also a great class for those wishing to increase their cardio. The instructor will challenge your limits, you'll be left with an amazing sense of achievement and you'll quickly burn calories while toning and shaping your whole body. This is a great class if you want to increase your functional fitness and cardio. BODYATTACK is suitable for all ages and abilities. For the best results take a class two to three times a week.\n",
+        "offer": {
+          "type": "Offer",
+          "name": "Adult non-member",
+          "priceCurrency": "GBP",
+          "price": "5.00"
+        },
+        "name": "Bodyattack® Fri 7am",
+        "@context": [
+          "https://www.openactive.io/ns/oa.jsonld",
+          "https://www.openactive.io/ns-beta/oa.jsonld"
+        ],
+        "type": "Event",
+        "activity": [
+          "Body Attack"
+        ],
+        "genderRestriction": "mixed",
+        "identifier": "C5CLBD07000317",
+        "location": {
+          "identifier": "LWC",
+          "type": "Place",
+          "geo": {
+            "type": "GeoCoordinates",
+            "latitude": 51.89696,
+            "longitude": 0.905547
+          },
+          "name": "Leisure World Colchester",
+          "address": "Leisure World Colchester, Cowdray Avenue, Colchester, CO1 1YH",
+          "telephone": "01206 282000",
+          "url": "https://colchesterleisureworld.co.uk"
+        },
+        "subEvent": [
+          {
+            "type": "Event",
+            "startDate": "2017-09-29T06:00:00Z",
+            "endDate": "2017-09-29T06:45:00Z",
+            "duration": "PT45M",
+            "beta:availability": ">4"
+          }
+        ],
+        "organizer": {
+          "type": "Organization",
+          "telephone": "01206 282000",
+          "url": "https://colchesterleisureworld.co.uk/",
+          "email": "contact.leisureworld@colchester.gov.uk",
+          "name": "Leisure World Colchester",
+          "logo": "https://leisureworldcolchester.github.io/images/logo.png",
+          "id": "https://colchesterleisureworld.co.uk/"
+        }
+      },
+      "modified": 1506335264224
+    }
+  ]
+}

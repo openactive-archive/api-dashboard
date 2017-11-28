@@ -14,6 +14,8 @@ describe DatasetsCache do
 
     it "stores datasets metadata if there were no issues making the request" do
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
+      WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
+      WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
 
       result = DatasetsCache.update
       not_updated = Redis.current.get('datasets').nil?
@@ -43,6 +45,8 @@ describe DatasetsCache do
       Redis.current.set('last_updated', 1511533639)
 
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
+      WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
+      WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
 
       result = DatasetsCache.update
       last_updated = Redis.current.get('last_updated').to_i
