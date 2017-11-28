@@ -44,18 +44,28 @@ describe DatasetsCache do
       WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
 
       result = DatasetsCache.update
+      last_updated = Redis.current.get('last_updated').to_i
+
+      expect(result).to be(true)
+      expect(last_updated.class).to eql(Integer)
+      expect(last_updated).to be > 1511533639
+
+      Redis.current.del('datasets')
+    end
+
+    it "doesn't store last updated timestamp when datasets aren't updated" do
+      Redis.current.del('datasets')
+      Redis.current.set('last_updated', 1511533639)
+
+      WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: "")
+
+      result = DatasetsCache.update
       not_updated = Redis.current.get('datasets').nil?
+      last_updated = Redis.current.get('last_updated').to_i
 
-      expect(result).to be(true).or be(false)
-
-      if result
-        last_updated = Redis.current.get('last_updated').to_i
-        expect(last_updated.class).to eql(Integer)
-        expect(last_updated).to be > 1511533639
-      else
-        expect(not_updated).to be(true)
-        expect(last_updated).to eql(1511533639)
-      end
+      expect(result).to be(false)
+      expect(not_updated).to be(true)
+      expect(last_updated).to eql(1511533639)
 
       Redis.current.del('datasets')
     end
