@@ -34,7 +34,15 @@
       </td>
       <td><%= dataset["uses-paging-spec"] ? "Yes" : "No" unless dataset["uses-paging-spec"].nil? %></td>
       <td><%= dataset["uses-opportunity-model"] ? "Yes" : "No" unless dataset["uses-opportunity-model"].nil? %></td>
-      <td><%= dataset["github-issues"] unless dataset["github-issues"].nil? %></td>
+      <td>
+        <a href="<%= dataset["documentation-url"] %>" target="_blank">
+        <% if dataset["github-issues"].nil? %>
+          -
+        <% else %>
+          <%= dataset["github-issues"] %>
+        <% end %>
+        </a>
+      </td>
       <td class="centre">
         <a title="<%= dataset["license-name"] %>" href="<%= dataset["license-url"] %>" target="_blank">
         <%= licence_image(dataset["license-url"]) %></a>
