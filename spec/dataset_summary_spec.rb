@@ -1,12 +1,15 @@
 require 'spec_helper'
 
 describe DatasetSummary do
-  # builds summaries for a given dataset and stores them
 
   let(:summary) {
-    feed = OpenActive::Feed.new("http://www.example.com")
-    DatasetSummary.new(feed)
+    DatasetSummary.new("example/opendata", "http://www.example.com")
   }
+
+  before(:each) do
+    Redis.current.zremrangebyrank("example/opendata", 0, -1)
+    #Redis.current.zrange('example/opendata', 0, -1)
+  end
 
   before(:each) do
     WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
@@ -31,6 +34,31 @@ describe DatasetSummary do
       allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
       page = summary.feed.fetch
       expect(summary.is_page_recent?(page)).to eql(false)
+    end
+  end
+
+  describe "#harvest_activities" do
+    it "increments score for harvested activities" do
+      summary.harvest_activities
+      score = Redis.current.zscore("example/opendata", "Body Attack")
+      expect(score).to eql(1.0)
+    end
+
+    it "doesn't increment score once max samples reached" do
+      summary.harvest_activities(0)
+      score = Redis.current.zscore("example/opendata", "Body Attack")
+      expect(score).to eql(nil)
+    end
+  end
+
+  describe "#zincr_activities" do
+    it "increments sorted set scores for extracted activity names" do
+      item = { "data" => { "activity" => ["Body Attack", "Boxing Fitness"] } }
+      summary.zincr_activities(item)
+      score1 = Redis.current.zscore("example/opendata", "Body Attack")
+      score2 = Redis.current.zscore("example/opendata", "Boxing Fitness")
+      expect(score1).to eql(1.0)
+      expect(score2).to eql(1.0)
     end
   end
 
