@@ -25,6 +25,13 @@ describe DatasetSummary do
       page = summary.feed.fetch
       expect(summary.is_page_recent?(page)).to eql(false)
     end
+
+    it "should not include deleted items as relevant" do
+      WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("deleted-items.json"))
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
+      page = summary.feed.fetch
+      expect(summary.is_page_recent?(page)).to eql(false)
+    end
   end
 
   describe "#extract_activities" do

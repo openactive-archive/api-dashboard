@@ -1,0 +1,17 @@
+{
+  "next": "http://www.example.com/last",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "items": [
+    {
+      "id": "C3CLAQB20000714",
+      "kind": "session",
+      "state": "deleted",
+      "modified": 1506335263039
+    }, {
+      "id": "C3CLAQB20000712",
+      "kind": "session",
+      "state": "deleted",
+      "modified": 1506335263019
+    }
+  ]
+}
