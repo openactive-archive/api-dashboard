@@ -11,21 +11,29 @@ class DatasetSummary
     @feed = OpenActive::Feed.new(@dataset_uri)
   end
 
+  def harvest
+    page, items_sampled = harvest_activities
+    Redis.current.hset(dataset_key, "activity_samples", items_sampled)
+    Redis.current.hset(dataset_key, "last_page", page.uri)
+  end
+
   def harvest_activities(sample_limit=500)
-    sampled_items = 0
+    items_sampled = 0
     feed.harvest(0.5) do |page|
+      return [page, items_sampled] if page.last_page?
       next unless is_page_recent?(page)
       page.items.each do |item|
-        break if (sampled_items += 1) > sample_limit
+        return [page, items_sampled] if items_sampled >= sample_limit
         next if item["state"].eql?("deleted")
         zincr_activities(item)
+        items_sampled += 1
       end
     end
   end
 
   def zincr_activities(item)
     activities = extract_activities(item)
-    activities.each {|a| Redis.current.zincrby(dataset_key, 1, a) }
+    activities.each {|a| Redis.current.zincrby(dataset_key+"/activities", 1, a) }
   end
 
   def is_page_recent?(page)

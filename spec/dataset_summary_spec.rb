@@ -7,7 +7,7 @@ describe DatasetSummary do
   }
 
   before(:each) do
-    Redis.current.zremrangebyrank("example/opendata", 0, -1)
+    Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
     #Redis.current.zrange('example/opendata', 0, -1)
   end
 
@@ -37,16 +37,32 @@ describe DatasetSummary do
     end
   end
 
+  describe "#harvest" do
+    it "harvests activities and stores sample size and last page uri" do
+      summary.harvest
+      samples = Redis.current.hget(summary.dataset_key, "activity_samples")
+      last_page = Redis.current.hget(summary.dataset_key, "last_page")
+      expect(samples.to_i).to eql(1)
+      expect(last_page).to eql("http://www.example.com/last")
+    end
+  end
+
   describe "#harvest_activities" do
     it "increments score for harvested activities" do
       summary.harvest_activities
-      score = Redis.current.zscore("example/opendata", "Body Attack")
+      score = Redis.current.zscore("example/opendata/activities", "Body Attack")
       expect(score).to eql(1.0)
+    end
+
+    it "returns last page and number of items sampled" do
+      page, items_sampled = summary.harvest_activities
+      expect(page.class).to eql(OpenActive::Page)
+      expect(items_sampled).to eql(1)
     end
 
     it "doesn't increment score once max samples reached" do
       summary.harvest_activities(0)
-      score = Redis.current.zscore("example/opendata", "Body Attack")
+      score = Redis.current.zscore("example/opendata/activities", "Body Attack")
       expect(score).to eql(nil)
     end
   end
@@ -55,8 +71,8 @@ describe DatasetSummary do
     it "increments sorted set scores for extracted activity names" do
       item = { "data" => { "activity" => ["Body Attack", "Boxing Fitness"] } }
       summary.zincr_activities(item)
-      score1 = Redis.current.zscore("example/opendata", "Body Attack")
-      score2 = Redis.current.zscore("example/opendata", "Boxing Fitness")
+      score1 = Redis.current.zscore("example/opendata/activities", "Body Attack")
+      score2 = Redis.current.zscore("example/opendata/activities", "Boxing Fitness")
       expect(score1).to eql(1.0)
       expect(score2).to eql(1.0)
     end
