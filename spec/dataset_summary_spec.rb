@@ -5,7 +5,7 @@ describe DatasetSummary do
 
   let(:summary) {
     feed = OpenActive::Feed.new("http://www.example.com")
-    DatasetSummary.new(feed)  
+    DatasetSummary.new(feed)
   }
 
   before(:each) do
@@ -13,9 +13,17 @@ describe DatasetSummary do
     WebMock.stub_request(:get, "http://www.example.com/last").to_return(body: load_fixture("last-page.json"))
   end
 
-  describe "#harvest_activities" do
-    it "extracts activity names" do
-      summary.harvest_activities
+  describe "#is_page_recent?" do
+    it "returns true if content is relevant within a year" do
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
+      page = summary.feed.fetch
+      expect(summary.is_page_recent?(page)).to eql(true)
+    end
+
+    it "returns false if content is not relevant within a year" do
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1577836800)
+      page = summary.feed.fetch
+      expect(summary.is_page_recent?(page)).to eql(false)
     end
   end
 

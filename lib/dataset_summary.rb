@@ -9,6 +9,11 @@ class DatasetSummary
     @feed = feed
   end
 
+  def is_page_recent?(page)
+    one_year_ago = (Time.now.to_i - 31622400) * 1000
+    page.items.any? {|i| i["modified"].to_i >= one_year_ago }
+  end
+
   def extract_activities(item)
     activity = item["data"]["activity"]
     case activity
