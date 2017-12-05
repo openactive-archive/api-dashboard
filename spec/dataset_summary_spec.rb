@@ -68,6 +68,14 @@ describe DatasetSummary do
     end
   end
 
+  describe "#activity_samples" do
+    it "returns redis store for dataset activity samples count" do
+      Redis.current.hdel(summary.dataset_key, "activity_samples")
+      Redis.current.hincrby(summary.dataset_key, "activity_samples", 1)
+      expect(summary.activity_samples).to eql(1)
+    end
+  end
+
   describe "#harvest_activities" do
     it "increments score for harvested activities" do
       summary.harvest_activities
