@@ -17,6 +17,7 @@
       <a target="_blank" title="Read paging specification" href="https://www.openactive.io/realtime-paged-data-exchange/">Uses paging spec?</a></th>
     <th scope="col">
       <a target="_blank" title="Read opportunity data specification" href="https://www.openactive.io/modelling-opportunity-data/">Uses opportunity model?</a></th>
+    <th scope="col">Summary</th>
     <th scope="col">Issues</th>
     <th scope="col">Licence</th>
   </tr>
@@ -34,6 +35,11 @@
       </td>
       <td><%= yesno_indicator(dataset["uses-paging-spec"]) %></td>
       <td><%= yesno_indicator(dataset["uses-opportunity-model"]) %></td>
+      <td>
+        <% if dataset["uses-paging-spec"] and dataset["uses-opportunity-model"] %>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%= key.gsub("/", "-") %>">View</button>
+        <% else %>N/A<% end %>
+        </td>
       <td>
         <a href="<%= dataset["documentation-url"] %>/issues" target="_blank">
         <% if dataset["github-issues"].nil? %>
@@ -56,4 +62,26 @@
 <a class="btn btn-secondary" href="/datasets.json" download="openactive-datasets.json" target="_blank">Download JSON List</a></p>
 
 <small><a href="#page-wrapper">[top]</a></small>
+</div>
+
+<div class="summary-modals">
+  <% for key in datasets.keys; id = key.gsub("/", "-") %>
+    <div class="modal fade" id="<%= id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-dataset-key="<%= key %>" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
 </div>
