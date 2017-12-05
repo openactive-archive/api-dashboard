@@ -24,8 +24,10 @@ class DatasetSummary
       page, items_sampled = harvest_activities
       Redis.current.hincrby(dataset_key, "activity_samples", items_sampled)
       Redis.current.hset(dataset_key, "last_page", page.uri)
+      return true
     rescue => e
       #do nada
+      return false
     end
   end
 
