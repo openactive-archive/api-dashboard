@@ -11,6 +11,10 @@ class DatasetSummary
     @feed = OpenActive::Feed.new(@dataset_uri)
   end
 
+  def rank_activities(limit=10)
+    Redis.current.zrevrange(dataset_key+'/activities', 0, -1).take(limit)
+  end
+
   def harvest
     page, items_sampled = harvest_activities
     Redis.current.hset(dataset_key, "activity_samples", items_sampled)

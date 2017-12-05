@@ -8,7 +8,6 @@ describe DatasetSummary do
 
   before(:each) do
     Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
-    #Redis.current.zrange('example/opendata', 0, -1)
   end
 
   before(:each) do
@@ -64,6 +63,15 @@ describe DatasetSummary do
       summary.harvest_activities(0)
       score = Redis.current.zscore("example/opendata/activities", "Body Attack")
       expect(score).to eql(nil)
+    end
+  end
+
+  describe "#rank_activities" do
+    it "returns an ordered list of activities" do
+      activities = ["C", "A", "B", "A", "B", "A", "A"]
+      activities.each { |a| Redis.current.zincrby("example/opendata/activities", 1, a) }
+      expect(summary.rank_activities).to eql(["A", "B", "C"])
+      expect(summary.rank_activities(2)).to eql(["A", "B"])
     end
   end
 
