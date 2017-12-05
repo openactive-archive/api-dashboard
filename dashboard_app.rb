@@ -42,6 +42,15 @@ class DashboardApp < Sinatra::Base
     { meta: { "licence" => "https://creativecommons.org/licenses/by/4.0/", "last-updated" => DatasetsCache.last_updated }, data: datasets }.to_json
   end
 
+  get '/summary/*' do
+    dataset_key = params[:splat].first
+    summary = DatasetSummary.new(dataset_key)
+    erb :summary, layout: false, locals: { 
+      dataset_key: dataset_key, 
+      activities: summary.ranked_activities 
+    }
+  end
+
   get '/test' do
     erb :test
   end

@@ -15,6 +15,9 @@ describe DashboardApp do
     WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
     WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
     WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
+    WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("single-item.json"))
+    WebMock.stub_request(:get, "http://www.example.com/next").to_return(body: load_fixture("multiple-items.json"))
+    WebMock.stub_request(:get, "http://www.example.com/last").to_return(body: load_fixture("last-page.json"))
 
     DatasetsCache.update
     AvailabilityCache.update
@@ -45,6 +48,12 @@ describe DashboardApp do
       "uses-paging-spec", "uses-opportunity-model", "github-issues")
     expect(result["data"]["activenewham/opendata"]).not_to include('mailchimp', 'keyword-1', 'keyword-2', 'created', 'rpde-version', 
       'copyright-notice', 'odi-certificate-number', 'publish')
+  end
+
+  it "returns a dataset summary" do
+    get "/summary/activenewham/opendata"
+    DatasetSummary.new('activenewham/opendata').harvest
+    expect(last_response.body).to include("<td>body attack</td>")
   end
 
 end
