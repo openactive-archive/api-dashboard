@@ -105,6 +105,14 @@ describe DatasetSummary do
     end
   end
 
+  describe "#parse_modified" do
+    it "parses various date formats" do
+      expect(summary.parse_modified("1496565686")).to eql(1496565686)
+      expect(summary.parse_modified(1512457484704)).to eql(1512457484)
+      expect(summary.parse_modified("2017-09-22T12:35:02")).to eql(1506080102)
+    end
+  end
+
   describe "#normalise_activity" do
     it "strips white space and downcases" do
       expect(summary.normalise_activity(" muh Activity ")).to eql("muh activity")

@@ -1,4 +1,5 @@
 require_relative 'datasets_cache'
+require 'time'
 
 class DatasetSummary
   attr_reader :feed, :dataset_key, :dataset_uri
@@ -19,9 +20,13 @@ class DatasetSummary
   end
 
   def harvest
-    page, items_sampled = harvest_activities
-    Redis.current.hincrby(dataset_key, "activity_samples", items_sampled)
-    Redis.current.hset(dataset_key, "last_page", page.uri)
+    begin
+      page, items_sampled = harvest_activities
+      Redis.current.hincrby(dataset_key, "activity_samples", items_sampled)
+      Redis.current.hset(dataset_key, "last_page", page.uri)
+    rescue => e
+      #do nada
+    end
   end
 
   def last_page
@@ -46,6 +51,16 @@ class DatasetSummary
     end
   end
 
+  def parse_modified(modified)
+    begin
+      parsed = Time.parse(modified)
+    rescue
+      parsed = modified.to_i
+      parsed = parsed / 1000 if parsed.to_s.length > 10
+    end
+    parsed.to_i
+  end
+
   def zincr_activities(item)
     activities = extract_activities(item).map { |a| normalise_activity(a) }
     activities.each {|a| Redis.current.zincrby(dataset_key+"/activities", 1, a) }
@@ -55,8 +70,7 @@ class DatasetSummary
     one_year_ago = (Time.now.to_i - 31622400)
     page.items.any? do |i|
       next if i["state"].eql?("deleted")
-      modified = i["modified"].to_i
-      modified = modified / 1000 if modified.to_s.length > 10
+      modified = parse_modified(i["modified"])
       modified >= one_year_ago
     end
   end
