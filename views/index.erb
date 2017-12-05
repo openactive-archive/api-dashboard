@@ -38,7 +38,9 @@
       <td>
         <% if dataset["uses-paging-spec"] and dataset["uses-opportunity-model"] %>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%= key.gsub("/", "-") %>">View</button>
-        <% else %>N/A<% end %>
+        <% else %>
+          <button type="button" disabled="disabled" class="btn btn-gray" title="Summary not available for this dataset">View</button>
+        <% end %>
         </td>
       <td>
         <a href="<%= dataset["documentation-url"] %>/issues" target="_blank">
