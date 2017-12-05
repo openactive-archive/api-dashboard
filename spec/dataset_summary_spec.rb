@@ -109,7 +109,7 @@ describe DatasetSummary do
     it "parses various date formats" do
       expect(summary.parse_modified("1496565686")).to eql(1496565686)
       expect(summary.parse_modified(1512457484704)).to eql(1512457484)
-      expect(summary.parse_modified("2017-09-22T12:35:02")).to eql(1506080102)
+      expect(summary.parse_modified("2017-09-22T12:35:02.511Z")).to eql(1506083702)
     end
   end
 
