@@ -3,18 +3,30 @@ require 'spec_helper'
 describe DatasetSummary do
 
   let(:summary) {
-    example = { "example/opendata" => { "title" => "my dataset title", "data-url" => "http://www.example.com" } }
+    example = { 
+      "example/opendata" => { "title" => "dataset title", "data-url" => "http://www.example.com" },
+      "newexample/opendata" => { "title" => "other dataset", "data-url" => "http://www.newexample.com" }
+    }
     Redis.current.set('datasets', example.to_json)
     DatasetSummary.new("example/opendata")
   }
 
   before(:each) do
+    Redis.current.hdel("example/opendata", "last_page")
     Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
   end
 
   before(:each) do
     WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
     WebMock.stub_request(:get, "http://www.example.com/last").to_return(body: load_fixture("last-page.json"))
+  end
+
+  describe ".new" do
+    it "should set dataset_uri to last harvested page if available" do
+      Redis.current.hset("newexample/opendata", "last_page", "http://www.newexample.com/last")
+      new_summary = DatasetSummary.new("newexample/opendata")
+      expect(new_summary.dataset_uri).to eql("http://www.newexample.com/last")
+    end
   end
 
   describe "#is_page_recent?" do

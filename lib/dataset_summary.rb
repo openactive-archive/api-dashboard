@@ -6,7 +6,11 @@ class DatasetSummary
   def initialize(dataset_key)
     @dataset_key = dataset_key
     dataset = DatasetsCache.all[@dataset_key]
-    @dataset_uri = dataset['data-url']
+    if last_page.nil?
+      @dataset_uri = dataset['data-url']
+    else
+      @dataset_uri = last_page
+    end
     @feed = OpenActive::Feed.new(@dataset_uri)
   end
 
