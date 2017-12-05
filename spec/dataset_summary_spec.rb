@@ -49,7 +49,7 @@ describe DatasetSummary do
   describe "#harvest_activities" do
     it "increments score for harvested activities" do
       summary.harvest_activities
-      score = Redis.current.zscore("example/opendata/activities", "Body Attack")
+      score = Redis.current.zscore("example/opendata/activities", "body attack")
       expect(score).to eql(1.0)
     end
 
@@ -75,12 +75,18 @@ describe DatasetSummary do
     end
   end
 
+  describe "#normalise_activity" do
+    it "strips white space and downcases" do
+      expect(summary.normalise_activity(" muh Activity ")).to eql("muh activity")
+    end
+  end
+
   describe "#zincr_activities" do
     it "increments sorted set scores for extracted activity names" do
       item = { "data" => { "activity" => ["Body Attack", "Boxing Fitness"] } }
       summary.zincr_activities(item)
-      score1 = Redis.current.zscore("example/opendata/activities", "Body Attack")
-      score2 = Redis.current.zscore("example/opendata/activities", "Boxing Fitness")
+      score1 = Redis.current.zscore("example/opendata/activities", "body attack")
+      score2 = Redis.current.zscore("example/opendata/activities", "boxing fitness")
       expect(score1).to eql(1.0)
       expect(score2).to eql(1.0)
     end

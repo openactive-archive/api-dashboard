@@ -36,7 +36,7 @@ class DatasetSummary
   end
 
   def zincr_activities(item)
-    activities = extract_activities(item)
+    activities = extract_activities(item).map { |a| normalise_activity(a) }
     activities.each {|a| Redis.current.zincrby(dataset_key+"/activities", 1, a) }
   end
 
@@ -60,6 +60,10 @@ class DatasetSummary
     else
       return []
     end
+  end
+
+  def normalise_activity(activity)
+    activity.downcase.strip
   end
 
 end
