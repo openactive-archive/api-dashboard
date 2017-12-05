@@ -1,13 +1,12 @@
-require 'openactive'
-require 'json'
-require 'redis'
+require 'datasets_cache'
 
 class DatasetSummary
   attr_reader :feed, :dataset_key, :dataset_uri
 
-  def initialize(dataset_key, dataset_uri)
+  def initialize(dataset_key)
     @dataset_key = dataset_key
-    @dataset_uri = dataset_uri
+    dataset = DatasetsCache.all[@dataset_key]
+    @dataset_uri = dataset['data-url']
     @feed = OpenActive::Feed.new(@dataset_uri)
   end
 

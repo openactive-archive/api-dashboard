@@ -3,7 +3,9 @@ require 'spec_helper'
 describe DatasetSummary do
 
   let(:summary) {
-    DatasetSummary.new("example/opendata", "http://www.example.com")
+    example = { "example/opendata" => { "title" => "my dataset title", "data-url" => "http://www.example.com" } }
+    Redis.current.set('datasets', example.to_json)
+    DatasetSummary.new("example/opendata")
   }
 
   before(:each) do
