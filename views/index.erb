@@ -37,7 +37,7 @@
       <td><%= yesno_indicator(dataset["uses-opportunity-model"]) %></td>
       <td>
         <% if dataset["uses-paging-spec"] and dataset["uses-opportunity-model"] %>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%= key.gsub("/", "-") %>">View</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%= key.gsub("/", "-") %>"><span style="display:none;">a</span>View</button>
         <% else %>
           <button type="button" disabled="disabled" class="btn btn-gray" title="Summary not available for this dataset">View</button>
         <% end %>
