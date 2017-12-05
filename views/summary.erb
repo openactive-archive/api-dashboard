@@ -1,21 +1,27 @@
 <p><b>Top activities</b></p>
-<% if activities.size == 0 %>
-  <p>No activities found for dataset.</p>
+<% if samples == 0 %>
+  <p>A summary has not been generated for this dataset yet.</p>
 <% else %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Activity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% activities.each_index do |i| %>
-      <tr>
-        <th scope="row"><%= i+1 %></th>
-        <td><%= activities[i] %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% if activities.size == 0 %>
+    <p>No activities found for dataset.</p>
+  <% else %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Activity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% activities.each_index do |i| %>
+        <tr>
+          <th scope="row"><%= i+1 %></th>
+          <td><%= activities[i] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <p>This summary was generated from sampling of <%= samples %> sessions.</p>
 <% end %>
