@@ -93,5 +93,8 @@ table img.licence-image { max-height: 1.0em; height: 50%; opacity: 0.8; }
 table img.licence-image:hover { opacity: 1; }
 
 td.endpoint-availability { min-width:7.9em; }
-
 tr.tablesorter-filter-row { display:none; }
+
+.summary-modals .modal-dialog {
+  max-width: 67vw;
+}
