@@ -29,7 +29,7 @@ class DatasetSummary
   end
 
   def activity_samples
-    Redis.current.hget(dataset_key, "activity_samples")
+    Redis.current.hget(dataset_key, "activity_samples").to_i
   end
 
   def harvest_activities(sample_limit=500)
@@ -52,10 +52,12 @@ class DatasetSummary
   end
 
   def is_page_recent?(page)
-    one_year_ago = (Time.now.to_i - 31622400) * 1000
-    page.items.any? do |i| 
+    one_year_ago = (Time.now.to_i - 31622400)
+    page.items.any? do |i|
       next if i["state"].eql?("deleted")
-      i["modified"].to_i >= one_year_ago
+      modified = i["modified"].to_i
+      modified = modified / 1000 if modified.to_s.length > 10
+      modified >= one_year_ago
     end
   end
 
