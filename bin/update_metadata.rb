@@ -7,14 +7,14 @@ force = ARGV.size > 0 and ARGV[0].eql?('-f')
 
 if force or DatasetsCache.needs_update?
 
-  puts "Upate required, fetching datasets metadata"
+  puts "Update required, fetching datasets metadata"
 
   result = DatasetsCache.update
 
   if result
     puts "Datasets meta updated"
   else
-    puts "Datsets meta update failed"
+    puts "Datasets meta update failed"
   end
 
   puts "Updating endpoint availabilities"
