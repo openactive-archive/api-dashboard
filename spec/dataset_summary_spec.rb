@@ -47,6 +47,13 @@ describe DatasetSummary do
     end
   end
 
+  describe "#last_page" do
+    it "returns last page uri" do
+      summary.harvest
+      expect(summary.last_page).to eql("http://www.example.com/last")
+    end
+  end
+
   describe "#harvest_activities" do
     it "increments score for harvested activities" do
       summary.harvest_activities

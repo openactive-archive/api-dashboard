@@ -21,6 +21,10 @@ class DatasetSummary
     Redis.current.hset(dataset_key, "last_page", page.uri)
   end
 
+  def last_page
+    Redis.current.hget(dataset_key, "last_page")
+  end
+
   def harvest_activities(sample_limit=500)
     items_sampled = 0
     feed.harvest(0.5) do |page|
