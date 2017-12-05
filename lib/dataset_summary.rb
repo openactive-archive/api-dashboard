@@ -1,4 +1,4 @@
-require 'datasets_cache'
+require_relative 'datasets_cache'
 
 class DatasetSummary
   attr_reader :feed, :dataset_key, :dataset_uri
@@ -10,7 +10,7 @@ class DatasetSummary
     @feed = OpenActive::Feed.new(@dataset_uri)
   end
 
-  def rank_activities(limit=10)
+  def ranked_activities(limit=10)
     Redis.current.zrevrange(dataset_key+'/activities', 0, -1).take(limit)
   end
 
