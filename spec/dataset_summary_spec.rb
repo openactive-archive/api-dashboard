@@ -38,10 +38,11 @@ describe DatasetSummary do
 
   describe "#harvest" do
     it "harvests activities and stores sample size and last page uri" do
+      samples = Redis.current.hset(summary.dataset_key, "activity_samples", 1)
       summary.harvest
       samples = Redis.current.hget(summary.dataset_key, "activity_samples")
       last_page = Redis.current.hget(summary.dataset_key, "last_page")
-      expect(samples.to_i).to eql(1)
+      expect(samples.to_i).to eql(2)
       expect(last_page).to eql("http://www.example.com/last")
     end
   end

@@ -17,7 +17,7 @@ class DatasetSummary
 
   def harvest
     page, items_sampled = harvest_activities
-    Redis.current.hset(dataset_key, "activity_samples", items_sampled)
+    Redis.current.hincrby(dataset_key, "activity_samples", items_sampled)
     Redis.current.hset(dataset_key, "last_page", page.uri)
   end
 
