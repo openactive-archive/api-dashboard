@@ -14,9 +14,7 @@ describe DatasetSummary do
   before(:each) do
     Redis.current.hdel("example/opendata", "last_page")
     Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
-  end
-
-  before(:each) do
+    Redis.current.zremrangebyrank("example/opendata/boundary", 0, -1)
     WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
     WebMock.stub_request(:get, "http://www.example.com/last").to_return(body: load_fixture("last-page.json"))
   end
@@ -50,11 +48,11 @@ describe DatasetSummary do
     end
   end
 
-  describe "#harvest" do
+  describe "#update" do
     it "harvests activities and stores sample size and last page uri" do
-      samples = Redis.current.hset(summary.dataset_key, "activity_samples", 1)
-      summary.harvest
-      samples = Redis.current.hget(summary.dataset_key, "activity_samples")
+      samples = Redis.current.hset(summary.dataset_key, "samples", 1)
+      summary.update
+      samples = Redis.current.hget(summary.dataset_key, "samples")
       last_page = Redis.current.hget(summary.dataset_key, "last_page")
       expect(samples.to_i).to eql(2)
       expect(last_page).to eql("http://www.example.com/last")
@@ -63,34 +61,34 @@ describe DatasetSummary do
 
   describe "#last_page" do
     it "returns last page uri" do
-      summary.harvest
+      summary.update
       expect(summary.last_page).to eql("http://www.example.com/last")
     end
   end
 
-  describe "#activity_samples" do
+  describe "#samples" do
     it "returns redis store for dataset activity samples count" do
-      Redis.current.hdel(summary.dataset_key, "activity_samples")
-      Redis.current.hincrby(summary.dataset_key, "activity_samples", 1)
-      expect(summary.activity_samples).to eql(1)
+      Redis.current.hdel(summary.dataset_key, "samples")
+      Redis.current.hincrby(summary.dataset_key, "samples", 1)
+      expect(summary.samples).to eql(1)
     end
   end
 
-  describe "#harvest_activities" do
+  describe "#harvest" do
     it "increments score for harvested activities" do
-      summary.harvest_activities
+      summary.harvest
       score = Redis.current.zscore("example/opendata/activities", "body attack")
       expect(score).to eql(1.0)
     end
 
     it "returns last page and number of items sampled" do
-      page, items_sampled = summary.harvest_activities
+      page, items_sampled = summary.harvest
       expect(page.class).to eql(OpenActive::Page)
       expect(items_sampled).to eql(1)
     end
 
     it "doesn't increment score once max samples reached" do
-      summary.harvest_activities(0)
+      summary.harvest(0)
       score = Redis.current.zscore("example/opendata/activities", "Body Attack")
       expect(score).to eql(nil)
     end
@@ -127,6 +125,19 @@ describe DatasetSummary do
       score2 = Redis.current.zscore("example/opendata/activities", "boxing fitness")
       expect(score1).to eql(1.0)
       expect(score2).to eql(1.0)
+    end
+  end
+
+  describe "#zincr_boundary" do
+    it "increments sorted set scores for reverse geocoded boundary name" do
+      items = [{ 
+          "data" =>{ "location"=> { "geo" => { "latitude" => "51.27262669", "longitude" => "-0.08660358" } } } 
+        }, { 
+          "data" =>{ "location"=> { "geo" => { "latitude" => 51.27262668, "longitude" => -0.08660357 } } } 
+      }]
+      items.each {|i| summary.zincr_boundary(i) }  
+      score = Redis.current.zscore("example/opendata/boundary", "Tandridge")
+      expect(score).to eql(2.0)
     end
   end
 

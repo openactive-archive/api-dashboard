@@ -1,8 +1,9 @@
 require_relative 'datasets_cache'
+require_relative 'local_geocoder/local_authority_geocoder'
 require 'time'
 
 class DatasetSummary
-  attr_reader :feed, :dataset_key, :dataset_uri
+  attr_reader :feed, :dataset_key, :dataset_uri, :geocoder
 
   def initialize(dataset_key)
     @dataset_key = dataset_key
@@ -13,16 +14,17 @@ class DatasetSummary
       @dataset_uri = last_page
     end
     @feed = OpenActive::Feed.new(@dataset_uri)
+    @geocoder = LocalGeocoder::LocalAuthorityGeocoder.new()
   end
 
   def ranked_activities(limit=10)
     Redis.current.zrevrange(dataset_key+'/activities', 0, -1).take(limit)
   end
 
-  def harvest
+  def update
     begin
-      page, items_sampled = harvest_activities
-      Redis.current.hincrby(dataset_key, "activity_samples", items_sampled)
+      page, items_sampled = harvest
+      Redis.current.hincrby(dataset_key, "samples", items_sampled)
       Redis.current.hset(dataset_key, "last_page", page.uri)
       return true
     rescue => e
@@ -35,11 +37,11 @@ class DatasetSummary
     Redis.current.hget(dataset_key, "last_page")
   end
 
-  def activity_samples
-    Redis.current.hget(dataset_key, "activity_samples").to_i
+  def samples
+    Redis.current.hget(dataset_key, "samples").to_i
   end
 
-  def harvest_activities(sample_limit=500)
+  def harvest(sample_limit=500)
     items_sampled = 0
     feed.harvest(0.5) do |page|
       return [page, items_sampled] if page.last_page?
@@ -48,6 +50,7 @@ class DatasetSummary
         return [page, items_sampled] if items_sampled >= sample_limit
         next if item["state"].eql?("deleted")
         zincr_activities(item)
+        zincr_boundary(item)
         items_sampled += 1
       end
     end
@@ -66,6 +69,14 @@ class DatasetSummary
   def zincr_activities(item)
     activities = extract_activities(item).map { |a| normalise_activity(a) }
     activities.each {|a| Redis.current.zincrby(dataset_key+"/activities", 1, a) }
+  end
+
+  def zincr_boundary(item)
+    coordinates = extract_coordinates(item)
+    return false unless coordinates
+    result = geocoder.reverse_geocode(coordinates[0], coordinates[1])
+    return false if result.nil?
+    Redis.current.zincrby(dataset_key+"/boundary", 1, result.short_name)
   end
 
   def is_page_recent?(page)
