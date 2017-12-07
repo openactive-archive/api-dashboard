@@ -105,6 +105,15 @@ describe DatasetSummary do
     end
   end
 
+  describe "#ranked_boundaries" do
+    it "returns an ordered list of boundaries" do
+      activities = ["C", "A", "B", "A", "B", "A", "A"]
+      activities.each { |a| Redis.current.zincrby("example/opendata/boundary", 1, a) }
+      expect(summary.ranked_activities).to eql(["A", "B", "C"])
+      expect(summary.ranked_activities(2)).to eql(["A", "B"])
+    end
+  end
+
   describe "#parse_modified" do
     it "parses various date formats" do
       expect(summary.parse_modified("1496565686")).to eql(1496565686)

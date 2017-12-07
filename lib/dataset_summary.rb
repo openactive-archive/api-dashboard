@@ -21,6 +21,10 @@ class DatasetSummary
     Redis.current.zrevrange(dataset_key+'/activities', 0, -1).take(limit)
   end
 
+  def ranked_boundaries(limit=10)
+    Redis.current.zrevrange(dataset_key+'/boundary', 0, -1).take(limit)
+  end
+
   def update
     begin
       page, items_sampled = harvest
