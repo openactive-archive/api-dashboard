@@ -45,7 +45,6 @@ class DashboardApp < Sinatra::Base
   get '/summary/*' do
     dataset_key = params[:splat].first
     summary = DatasetSummary.new(dataset_key)
-    puts "\n Summary Samples: #{summary.samples}"
     erb :summary, layout: false, locals: {
       dataset_key: dataset_key, 
       activities: summary.ranked_activities,
