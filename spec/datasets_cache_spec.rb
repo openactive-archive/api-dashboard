@@ -4,8 +4,11 @@ describe DatasetsCache do
 
   before(:each) do
     Redis.current.del('datasets')
+    WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
     WebMock.stub_request(:get, "https://api.github.com/repos/activenewham/opendata/issues").to_return(:status => 200, :body => "[]")
     WebMock.stub_request(:get, "https://api.github.com/repos/makesweat/opendata/issues").to_return(:status => 200, :body => "[]")
+    WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
+    WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
   end
 
   after(:each) do
@@ -15,10 +18,6 @@ describe DatasetsCache do
   describe ".update" do
 
     it "stores datasets metadata if there were no issues making the request" do
-      WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
-      WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
-      WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
-
       result = DatasetsCache.update
       not_updated = Redis.current.get('datasets').nil?
 
@@ -46,10 +45,6 @@ describe DatasetsCache do
     it "stores last updated timestamp when datasets are updated" do
       Redis.current.set('last_updated', 1511533639)
 
-      WebMock.stub_request(:get, "https://www.openactive.io/datasets/directory.json").to_return(body: load_fixture("directory.json"))
-      WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(body: load_fixture("single-item.json"))
-      WebMock.stub_request(:get, "https://makesweat.com/service/openactive.php").to_return(body: load_fixture("single-item.json"))
-
       result = DatasetsCache.update
       last_updated = Redis.current.get('last_updated').to_i
 
@@ -70,6 +65,39 @@ describe DatasetsCache do
       expect(result).to be(false)
       expect(not_updated).to be(true)
       expect(last_updated).to eql(1511533639)     
+    end
+
+    it "should extract dataset meta even if it couldn't page the data" do
+      WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(status: 500)
+      
+      result = DatasetsCache.update
+      datasets = DatasetsCache.all
+
+      expect( datasets["activenewham/opendata"] ).to include(
+        "dataset-site-url", "title", "description", "publisher-name", "publisher-url", 
+        "keyword-1", "keyword-2", "data-url", "created", "documentation-url", 
+        "rpde-version", "license-name", "license-url", "attribution-text", 
+        "attribution-url", "mailchimp", "github-issues", "example-url"
+      )
+      expect( datasets["activenewham/opendata"] ).not_to include("uses-opportunity-model", "uses-paging-spec")
+    end
+
+    it "should extract dataset meta even if it couldn't reach github api" do
+      WebMock.stub_request(:get, "https://api.github.com/repos/activenewham/opendata/issues").to_return(status: 500)
+
+      result = DatasetsCache.update
+      datasets = DatasetsCache.all
+
+      #puts "\n #{datasets["activenewham/opendata"].keys} \n"
+
+      expect( datasets["activenewham/opendata"] ).to include(
+        "dataset-site-url", "title", "description", "publisher-name", "publisher-url", 
+        "keyword-1", "keyword-2", "data-url", "created", "documentation-url", 
+        "rpde-version", "license-name", "license-url", "attribution-text", 
+        "attribution-url", "mailchimp", "uses-opportunity-model", "uses-paging-spec", 
+        "example-url")
+
+      expect( datasets["activenewham/opendata"] ).not_to include("github-issues")
     end
 
   end
