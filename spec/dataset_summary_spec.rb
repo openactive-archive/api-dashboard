@@ -161,4 +161,19 @@ describe DatasetSummary do
 
   end
 
+  describe "#extract_coordinates" do
+    it "extracts latitude and longitude" do
+      item = { 
+        "data" =>{ "location"=> { "geo" => { "latitude" => "51.0", "longitude" => "0.23" } } } 
+      }
+      expect(summary.extract_coordinates(item)).to eql([51.0, 0.23])
+    end
+
+    it "returns false when no location available" do
+      item = { 
+        "data" =>{ "location"=> { "address" => "a street" } } 
+      }
+      expect(summary.extract_coordinates(item)).to eql(false)
+    end
+  end
 end

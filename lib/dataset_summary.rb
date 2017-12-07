@@ -91,6 +91,12 @@ class DatasetSummary
     end
   end
 
+  def extract_coordinates(item)
+    return false unless item["data"]["location"] and item["data"]["location"]["geo"]
+    geo = item["data"]["location"]["geo"]
+    return geo["latitude"].to_f, geo["longitude"].to_f
+  end
+
   def normalise_activity(activity)
     activity.downcase.strip
   end
