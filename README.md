@@ -59,3 +59,7 @@ Or on Heroku:
 This script pages through the data and saves the page where it stopped. Subsequent updates will pick up where it left off. If you want to build a summary sampling from the first page you can provide the `--restart` option to restart from the beginning. E.g.
 
 `bundle exec ./bin/update_summaries.rb --restart`
+
+## Attribution
+
+Contains [National Statistics data](http://geoportal.statistics.gov.uk/datasets/local-authority-districts-december-2016-generalised-clipped-boundaries-in-the-uk/) © Crown copyright and database right [2017]
