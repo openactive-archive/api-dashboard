@@ -175,5 +175,12 @@ describe DatasetSummary do
       }
       expect(summary.extract_coordinates(item)).to eql(false)
     end
+
+    it "returns false when coordinates are all 0" do
+      item = { 
+        "data" =>{ "location"=> { "geo" => { "latitude" => "0.0000", "longitude" => "0.0000" } } } 
+      }
+      expect(summary.extract_coordinates(item)).to eql(false)
+    end
   end
 end
