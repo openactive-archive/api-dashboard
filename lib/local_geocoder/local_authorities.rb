@@ -3,10 +3,10 @@ module LocalGeocoder
 
   class LocalAuthorities
 
-    attr_reader :local_authorities
+    attr_reader :data
 
     def initialize(features_path=ENV["LA_GEOJSON_PATH"])
-      @local_authorities = load_data(features_path)
+      @data = load_data(features_path)
     end
 
     private
