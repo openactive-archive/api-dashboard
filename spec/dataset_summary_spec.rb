@@ -75,10 +75,12 @@ describe DatasetSummary do
   end
 
   describe "#harvest" do
-    it "increments score for harvested activities" do
+    it "increments scores for harvested keys" do
       summary.harvest
-      score = Redis.current.zscore("example/opendata/activities", "body attack")
-      expect(score).to eql(1.0)
+      ascore = Redis.current.zscore("example/opendata/activities", "body attack")
+      bscore = Redis.current.zscore("example/opendata/boundary", "Colchester")
+      expect(ascore).to eql(1.0)
+      expect(bscore).to eql(1.0)
     end
 
     it "returns last page and number of items sampled" do
