@@ -109,6 +109,14 @@ describe DatasetSummary do
     it "returns an ordered list of boundaries" do
       activities = ["C", "A", "B", "A", "B", "A", "A"]
       activities.each { |a| Redis.current.zincrby("example/opendata/boundary", 1, a) }
+      expect(summary.boundaries).to eql({ "C" => 1.0, "B" => 2.0, "A" => 4.0 })
+    end
+  end
+
+  describe "#boundaries" do
+    it "returns a hash with zscores for each boundary" do
+      activities = ["C", "A", "B", "A", "B", "A", "A"]
+      activities.each { |a| Redis.current.zincrby("example/opendata/boundary", 1, a) }
       expect(summary.ranked_boundaries).to eql(["A", "B", "C"])
       expect(summary.ranked_boundaries(2)).to eql(["A", "B"])
     end

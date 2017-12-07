@@ -25,6 +25,13 @@ class DatasetSummary
     Redis.current.zrevrange(dataset_key+'/boundary', 0, -1).take(limit)
   end
 
+  def boundaries(limit=10)
+    scores = {}
+    ranked = ranked_boundaries(limit)
+    ranked.each {|b| scores.merge!({ b => Redis.current.zscore(dataset_key+'/boundary', b) }) }
+    scores
+  end
+
   def update
     begin
       page, items_sampled = harvest
