@@ -94,7 +94,7 @@ class DatasetSummary
   def extract_coordinates(item)
     return false unless item["data"]["location"] and item["data"]["location"]["geo"]
     geo = item["data"]["location"]["geo"]
-    return geo["latitude"].to_f, geo["longitude"].to_f
+    return geo["longitude"].to_f, geo["latitude"].to_f
   end
 
   def normalise_activity(activity)

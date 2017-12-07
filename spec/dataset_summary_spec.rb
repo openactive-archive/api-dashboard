@@ -166,7 +166,7 @@ describe DatasetSummary do
       item = { 
         "data" =>{ "location"=> { "geo" => { "latitude" => "51.0", "longitude" => "0.23" } } } 
       }
-      expect(summary.extract_coordinates(item)).to eql([51.0, 0.23])
+      expect(summary.extract_coordinates(item)).to eql([0.23, 51.0])
     end
 
     it "returns false when no location available" do
