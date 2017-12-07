@@ -21,6 +21,13 @@ class DatasetSummary
     Redis.current.zrevrange(dataset_key+'/activities', 0, -1).take(limit)
   end
 
+  def activities(limit=10)
+    scores = {}
+    ranked = ranked_activities(limit)
+    ranked.each {|a| scores.merge!({ a => Redis.current.zscore(dataset_key+'/activities', a) }) }
+    scores
+  end
+
   def ranked_boundaries(limit=10)
     Redis.current.zrevrange(dataset_key+'/boundary', 0, -1).take(limit)
   end
