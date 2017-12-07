@@ -48,6 +48,7 @@ class DashboardApp < Sinatra::Base
     erb :summary, layout: false, locals: {
       dataset_key: dataset_key, 
       activities: summary.ranked_activities,
+      boundaries: summary.ranked_boundaries,
       samples: summary.samples
     }
   end
