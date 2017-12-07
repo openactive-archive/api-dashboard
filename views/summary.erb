@@ -11,13 +11,15 @@
         <tr>
           <th>#</th>
           <th>Activity</th>
+          <th>Opportunities</th>
         </tr>
       </thead>
       <tbody>
-        <% activities.each_index do |i| %>
+        <% activities.keys.each do |activity|; score = activities[activity] %>
         <tr>
-          <th scope="row"><%= i+1 %></th>
-          <td><%= activities[i] %></td>
+          <th scope="row"><%= activities.keys.index(activity)+1 %></th>
+          <td><%= activity %></td>
+          <td><%= score.to_i %></td>
         </tr>
         <% end %>
       </tbody>
@@ -34,13 +36,15 @@
         <tr>
           <th>#</th>
           <th>Authority Area</th>
+          <th>Opportunities</th>
         </tr>
       </thead>
       <tbody>
-        <% boundaries.each_index do |i| %>
+        <% boundaries.keys.each do |boundary|; score = boundaries[boundary] %>
         <tr>
-          <th scope="row"><%= i+1 %></th>
-          <td><%= boundaries[i] %></td>
+          <th scope="row"><%= boundaries.keys.index(boundary)+1 %></th>
+          <td><%= boundary %></td>
+          <td><%= score.to_i %></td>
         </tr>
         <% end %>
       </tbody>

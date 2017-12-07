@@ -47,8 +47,8 @@ class DashboardApp < Sinatra::Base
     summary = DatasetSummary.new(dataset_key)
     erb :summary, layout: false, locals: {
       dataset_key: dataset_key, 
-      activities: summary.ranked_activities,
-      boundaries: summary.ranked_boundaries,
+      activities: summary.activities,
+      boundaries: summary.boundaries,
       samples: summary.samples
     }
   end
