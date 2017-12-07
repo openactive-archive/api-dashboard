@@ -32,6 +32,8 @@ The API Dashboard use the Rspec test suite. To run the tests install the testset
 
 ## Command Line Tools
 
+### Metadata
+
 There is a script you can run to update the dashboard metadata. To run: 
 
 `bundle exec ./bin/update_metadata.rb`
@@ -43,3 +45,17 @@ Or on Heroku:
 This script checks if the metadata has been updated recently. If you want to force it to update, provide an `-f` flag, e.g.: 
 
 `bundle exec ./bin/update_metadata.rb -f`
+
+### Summary
+
+There is a script you can run to update the dataset summaries. To run:
+
+`bundle exec ./bin/update_summaries.rb`
+
+Or on Heroku:
+
+`heroku run bundle exec ./bin/update_summaries.rb`
+
+This script pages through the data and saves the page where it stopped. Subsequent updates will pick up where it left off. If you want to build a summary sampling from the first page you can provide the `--restart` option to restart from the beginning. E.g.
+
+`bundle exec ./bin/update_summaries.rb --restart`
