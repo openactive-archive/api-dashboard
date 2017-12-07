@@ -27,8 +27,8 @@ describe DatasetsCache do
       metadata_keys = datasets[datasets.keys.sample].keys
       expect(datasets.keys.size).to be > 0
       expect(datasets.class).to eql(Hash)
-      expect(metadata_keys).to include("title", "dataset-site-url", "data-url", 
-        "publisher-name", "documentation-url", "license-name", 
+      expect(metadata_keys).to include("title", "dataset-site-url", "data-url",
+        "publisher-name", "documentation-url", "license-name",
         "license-url")
     end
 
@@ -64,19 +64,19 @@ describe DatasetsCache do
 
       expect(result).to be(false)
       expect(not_updated).to be(true)
-      expect(last_updated).to eql(1511533639)     
+      expect(last_updated).to eql(1511533639)
     end
 
     it "should extract dataset meta even if it couldn't page the data" do
       WebMock.stub_request(:get, "https://activenewham-openactive.herokuapp.com/").to_return(status: 500)
-      
+
       result = DatasetsCache.update
       datasets = DatasetsCache.all
 
       expect( datasets["activenewham/opendata"] ).to include(
-        "dataset-site-url", "title", "description", "publisher-name", "publisher-url", 
-        "keyword-1", "keyword-2", "data-url", "created", "documentation-url", 
-        "rpde-version", "license-name", "license-url", "attribution-text", 
+        "dataset-site-url", "title", "description", "publisher-name", "publisher-url",
+        "keyword-1", "keyword-2", "data-url", "created", "documentation-url",
+        "rpde-version", "license-name", "license-url", "attribution-text",
         "attribution-url", "mailchimp", "github-issues", "example-url"
       )
       expect( datasets["activenewham/opendata"] ).not_to include("uses-opportunity-model", "uses-paging-spec")
@@ -88,13 +88,11 @@ describe DatasetsCache do
       result = DatasetsCache.update
       datasets = DatasetsCache.all
 
-      #puts "\n #{datasets["activenewham/opendata"].keys} \n"
-
       expect( datasets["activenewham/opendata"] ).to include(
-        "dataset-site-url", "title", "description", "publisher-name", "publisher-url", 
-        "keyword-1", "keyword-2", "data-url", "created", "documentation-url", 
-        "rpde-version", "license-name", "license-url", "attribution-text", 
-        "attribution-url", "mailchimp", "uses-opportunity-model", "uses-paging-spec", 
+        "dataset-site-url", "title", "description", "publisher-name", "publisher-url",
+        "keyword-1", "keyword-2", "data-url", "created", "documentation-url",
+        "rpde-version", "license-name", "license-url", "attribution-text",
+        "attribution-url", "mailchimp", "uses-opportunity-model", "uses-paging-spec",
         "example-url")
 
       expect( datasets["activenewham/opendata"] ).not_to include("github-issues")
@@ -105,12 +103,12 @@ describe DatasetsCache do
   describe ".last_updated" do
     it "retrieves stored timestamp as a time object" do
       Redis.current.set('last_updated', Time.now.to_i)
-      expect(DatasetsCache.last_updated.class).to eql(Time) 
+      expect(DatasetsCache.last_updated.class).to eql(Time)
     end
 
     it "returns nil if nothing stored for last_updated" do
       Redis.current.del('last_updated')
-      expect(DatasetsCache.last_updated).to eql(nil) 
+      expect(DatasetsCache.last_updated).to eql(nil)
     end
   end
 
