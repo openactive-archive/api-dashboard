@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/openactive/openactive.rb.git
-  revision: ed08bfea648f3c8707dae3b1247738d63efc5257
+  revision: faafce53ac2b9ed92f6c79d1e93591e48bea6e33
   branch: master
   specs:
     openactive (0.0.1)
