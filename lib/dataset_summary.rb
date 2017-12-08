@@ -20,6 +20,16 @@ class DatasetSummary
   def restart
     clear_samples
     clear_last_page
+    clear_boundaries
+    clear_activities
+  end
+
+  def clear_boundaries
+    Redis.current.zremrangebyrank(dataset_key+"/boundary", 0, -1)
+  end
+
+  def clear_activities
+    Redis.current.zremrangebyrank(dataset_key+"/activities", 0, -1)
   end
 
   def clear_samples
