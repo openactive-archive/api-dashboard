@@ -20,11 +20,12 @@ else
   redis = Redis.new(host: oa_redis_host, port: oa_redis_port)
 end
 
-Redis.current = redis
-
 if ENV['RACK_ENV'] == 'test'
   require 'rack/test'
   require 'coveralls'
   require 'webmock/rspec'
   require 'redis-namespace'
+  redis = Redis::Namespace.new(:test, :redis => redis)
 end
+
+Redis.current = redis
