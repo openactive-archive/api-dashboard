@@ -15,7 +15,7 @@ for key in datasets.keys
   summary.restart if restart
   summary.restart_from_last_page if restart_from_last_page
 
-  puts "\nUpdating summary for #{key}, starting from #{summary.dataset_uri}"
+  puts "\nUpdating summary for #{key}, starting from #{summary.last_page}"
   summary.update
   puts "Finished on #{summary.last_page}, #{summary.samples} samples taken"
   puts "Top activities are:\n#{summary.ranked_activities.join(', ')}"
