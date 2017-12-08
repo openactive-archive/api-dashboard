@@ -75,7 +75,7 @@ describe DatasetSummary do
   end
 
   describe "#restart" do
-    it "returns redis store for dataset activity samples count" do
+    it "clears all summary data" do
       Redis.current.hincrby(summary.dataset_key, "samples", 1)
       Redis.current.hset(summary.dataset_key, "last_page", "http://example.com/")
       Redis.current.zincrby("example/opendata/boundary", 1, "My boundary")
@@ -83,6 +83,20 @@ describe DatasetSummary do
       summary.restart
       expect(summary.samples).to eql(0)
       expect(summary.last_page).to eql(nil)
+      expect(summary.ranked_boundaries).to eql([])
+      expect(summary.ranked_activities).to eql([])
+    end
+  end
+
+  describe "#restart_from_last_page" do
+    it "clears all summary data leaving last page so summary can start from last page" do
+      Redis.current.hincrby(summary.dataset_key, "samples", 1)
+      Redis.current.hset(summary.dataset_key, "last_page", "http://example.com/")
+      Redis.current.zincrby("example/opendata/boundary", 1, "My boundary")
+      Redis.current.zincrby("example/opendata/activities", 1, "My activity")
+      summary.restart_from_last_page
+      expect(summary.samples).to eql(0)
+      expect(summary.last_page).to eql("http://example.com/")
       expect(summary.ranked_boundaries).to eql([])
       expect(summary.ranked_activities).to eql([])
     end

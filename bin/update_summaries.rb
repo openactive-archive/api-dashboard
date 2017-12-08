@@ -3,7 +3,8 @@ $:.unshift File.join( File.dirname(__FILE__), "..", "config")
 
 require 'environment'
 
-restart = ARGV.size > 0 and ARGV[0].eql?('--restart') 
+restart = ARGV.size > 0 and ARGV[0].eql?('--restart')
+last_page_restart = ARGV.size > 0 and ARGV[0].eql?('--last-page-restart')
 datasets = DatasetsCache.all
 
 for key in datasets.keys
@@ -12,8 +13,11 @@ for key in datasets.keys
 
   summary = DatasetSummary.new(key)
   summary.restart if restart
+  summary.last_page_restart if last_page_restart
 
-  puts "\nHarvesting summary for #{key}, starting from #{summary.dataset_uri}"
+  puts "\nUpdating summary for #{key}, starting from #{summary.dataset_uri}"
   summary.update
-  puts "Finished on #{summary.last_page}, #{summary.samples} samples taken, top activities are:\n#{summary.ranked_activities.join(', ')}"
+  puts "Finished on #{summary.last_page}, #{summary.samples} samples taken"
+  puts "Top activities are:\n#{summary.ranked_activities.join(', ')}"
+  puts "Top boundaries are:\n#{summary.ranked_boundaries.join(', ')}"
 end
