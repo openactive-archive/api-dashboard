@@ -74,6 +74,16 @@ describe DatasetSummary do
     end
   end
 
+  describe "#restart" do
+    it "returns redis store for dataset activity samples count" do
+      Redis.current.hincrby(summary.dataset_key, "samples", 1)
+      Redis.current.hset(summary.dataset_key, "last_page", "http://example.com/")
+      summary.restart
+      expect(summary.samples).to eql(0)
+      expect(summary.last_page).to eql(nil)
+    end
+  end
+
   describe "#harvest" do
     it "increments scores for harvested keys" do
       summary.harvest

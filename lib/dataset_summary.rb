@@ -17,6 +17,19 @@ class DatasetSummary
     @geocoder = LocalGeocoder::LocalAuthorityGeocoder.new()
   end
 
+  def restart
+    clear_samples
+    clear_last_page
+  end
+
+  def clear_samples
+    Redis.current.hdel(dataset_key, "samples")
+  end
+
+  def clear_last_page
+    Redis.current.hdel(dataset_key, "last_page")
+  end
+
   def ranked_activities(limit=10)
     Redis.current.zrevrange(dataset_key+'/activities', 0, -1).take(limit)
   end
