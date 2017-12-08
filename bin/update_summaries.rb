@@ -4,7 +4,7 @@ $:.unshift File.join( File.dirname(__FILE__), "..", "config")
 require 'environment'
 
 restart = ARGV.size > 0 and ARGV[0].eql?('--restart')
-last_page_restart = ARGV.size > 0 and ARGV[0].eql?('--last-page-restart')
+restart_from_last_page = ARGV.size > 0 and ARGV[0].eql?('--last-page-restart')
 datasets = DatasetsCache.all
 
 for key in datasets.keys
@@ -13,7 +13,7 @@ for key in datasets.keys
 
   summary = DatasetSummary.new(key)
   summary.restart if restart
-  summary.last_page_restart if last_page_restart
+  summary.restart_from_last_page if restart_from_last_page
 
   puts "\nUpdating summary for #{key}, starting from #{summary.dataset_uri}"
   summary.update
