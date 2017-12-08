@@ -7,13 +7,6 @@ class DatasetSummary
 
   def initialize(dataset_key)
     @dataset_key = dataset_key
-    dataset = DatasetsCache.all[@dataset_key]
-    if last_page.nil?
-      @dataset_uri = dataset['data-url']
-    else
-      @dataset_uri = last_page
-    end
-    @feed = OpenActive::Feed.new(@dataset_uri)
     @geocoder = LocalGeocoder::LocalAuthorityGeocoder.new()
   end
 
@@ -68,9 +61,18 @@ class DatasetSummary
     scores
   end
 
-  def update
+  def update(sample_limit=500)
+    if last_page.nil?
+      dataset = DatasetsCache.all[@dataset_key]
+      @dataset_uri = dataset['data-url']
+    else
+      @dataset_uri = last_page
+    end
+
+    @feed = OpenActive::Feed.new(@dataset_uri)
+
     begin
-      page, items_sampled = harvest
+      page, items_sampled = harvest(sample_limit)
       Redis.current.hincrby(dataset_key, "samples", items_sampled)
       Redis.current.hset(dataset_key, "last_page", page.uri)
       return true
@@ -86,21 +88,6 @@ class DatasetSummary
 
   def samples
     Redis.current.hget(dataset_key, "samples").to_i
-  end
-
-  def harvest(sample_limit=500)
-    items_sampled = 0
-    feed.harvest(0.5) do |page|
-      return [page, items_sampled] if page.last_page?
-      next unless is_page_recent?(page)
-      page.items.each do |item|
-        return [page, items_sampled] if items_sampled >= sample_limit
-        next if item["state"].eql?("deleted")
-        zincr_activities(item)
-        zincr_boundary(item)
-        items_sampled += 1
-      end
-    end
   end
 
   def parse_modified(modified)
@@ -159,6 +146,23 @@ class DatasetSummary
 
   def normalise_activity(activity)
     activity.downcase.strip
+  end
+
+  private
+
+  def harvest(sample_limit)
+    items_sampled = 0
+    @feed.harvest(0.5) do |page|
+      return [page, items_sampled] if page.last_page?
+      next unless is_page_recent?(page)
+      page.items.each do |item|
+        return [page, items_sampled] if items_sampled >= sample_limit
+        next if item["state"].eql?("deleted")
+        zincr_activities(item)
+        zincr_boundary(item)
+        items_sampled += 1
+      end
+    end
   end
 
 end

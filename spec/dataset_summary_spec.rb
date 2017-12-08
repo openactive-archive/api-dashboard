@@ -13,49 +13,53 @@ describe DatasetSummary do
 
   before(:each) do
     Redis.current.hdel("example/opendata", "last_page")
+    Redis.current.hdel("example/opendata", "samples")
     Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
     Redis.current.zremrangebyrank("example/opendata/boundary", 0, -1)
     WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
     WebMock.stub_request(:get, "http://www.example.com/last").to_return(body: load_fixture("last-page.json"))
   end
 
-  describe ".new" do
-    it "should set dataset_uri to last harvested page if available" do
-      Redis.current.hset("newexample/opendata", "last_page", "http://www.newexample.com/last")
-      new_summary = DatasetSummary.new("newexample/opendata")
-      expect(new_summary.dataset_uri).to eql("http://www.newexample.com/last")
-    end
-  end
-
   describe "#is_page_recent?" do
     it "returns true if content is relevant within a year" do
       allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
-      page = summary.feed.fetch
+      page = OpenActive::Feed.new("http://www.example.com").fetch
       expect(summary.is_page_recent?(page)).to eql(true)
     end
 
     it "returns false if content is not relevant within a year" do
       allow(Time).to receive_message_chain(:now, :to_i).and_return(1577836800)
-      page = summary.feed.fetch
+      page = OpenActive::Feed.new("http://www.example.com").fetch
       expect(summary.is_page_recent?(page)).to eql(false)
     end
 
     it "should not include deleted items as relevant" do
       WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("deleted-items.json"))
       allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
-      page = summary.feed.fetch
+      page = OpenActive::Feed.new("http://www.example.com").fetch
       expect(summary.is_page_recent?(page)).to eql(false)
     end
   end
 
   describe "#update" do
     it "harvests activities and stores sample size and last page uri" do
-      samples = Redis.current.hset(summary.dataset_key, "samples", 1)
       summary.update
+
       samples = Redis.current.hget(summary.dataset_key, "samples")
       last_page = Redis.current.hget(summary.dataset_key, "last_page")
-      expect(samples.to_i).to eql(2)
+      ascore = Redis.current.zscore("example/opendata/activities", "body attack")
+      bscore = Redis.current.zscore("example/opendata/boundary", "Colchester")
+
+      expect(samples.to_i).to eql(1)
       expect(last_page).to eql("http://www.example.com/last")
+      expect(ascore).to eql(1.0)
+      expect(bscore).to eql(1.0)
+    end
+
+    it "doesn't increment score once max samples reached" do
+      summary.update
+      score = Redis.current.zscore("example/opendata/activities", "Body Attack")
+      expect(score).to eql(nil)
     end
   end
 
@@ -131,28 +135,6 @@ describe DatasetSummary do
       Redis.current.zincrby("example/opendata/activities", 1, "My activity")
       summary.clear_activities
       expect(summary.ranked_activities).to eql([])
-    end
-  end
-
-  describe "#harvest" do
-    it "increments scores for harvested keys" do
-      summary.harvest
-      ascore = Redis.current.zscore("example/opendata/activities", "body attack")
-      bscore = Redis.current.zscore("example/opendata/boundary", "Colchester")
-      expect(ascore).to eql(1.0)
-      expect(bscore).to eql(1.0)
-    end
-
-    it "returns last page and number of items sampled" do
-      page, items_sampled = summary.harvest
-      expect(page.class).to eql(OpenActive::Page)
-      expect(items_sampled).to eql(1)
-    end
-
-    it "doesn't increment score once max samples reached" do
-      summary.harvest(0)
-      score = Redis.current.zscore("example/opendata/activities", "Body Attack")
-      expect(score).to eql(nil)
     end
   end
 
