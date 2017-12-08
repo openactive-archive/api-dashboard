@@ -11,4 +11,5 @@ group :test do
   gem 'rack-test', '~> 0.6.3'
   gem 'coveralls', require: false
   gem 'webmock', '~> 2.1'
+  gem 'redis-namespace'
 end

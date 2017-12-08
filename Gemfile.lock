@@ -42,6 +42,8 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     redis (3.3.5)
+    redis-namespace (1.6.0)
+      redis (>= 3.0.4)
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -93,6 +95,7 @@ DEPENDENCIES
   openactive!
   rack-test (~> 0.6.3)
   redis (~> 3.3, >= 3.3.1)
+  redis-namespace
   rspec (~> 3.6)
   sinatra (~> 2.0)
   webmock (~> 2.1)
