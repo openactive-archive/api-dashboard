@@ -25,7 +25,4 @@ if ENV['RACK_ENV'] == 'test'
   require 'coveralls'
   require 'webmock/rspec'
   require 'redis-namespace'
-  redis = Redis::Namespace.new(:test, :redis => redis)
 end
-
-Redis.current = redis

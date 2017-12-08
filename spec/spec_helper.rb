@@ -8,7 +8,8 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
 
   config.before(:suite) do
-    Redis.current = Redis.new(host: (ENV['OA_REDIS_HOST'] || '127.0.0.1'), port: (ENV['OA_REDIS_PORT'] || '6379'))
+    redis = Redis.new(host: (ENV['OA_REDIS_HOST'] || '127.0.0.1'), port: (ENV['OA_REDIS_PORT'] || '6379'))
+    Redis.current = Redis::Namespace.new(:test, :redis => redis)
     Redis.current.del('datasets')
   end
 
