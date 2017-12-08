@@ -56,9 +56,15 @@ Or on Heroku:
 
 `heroku run bundle exec ./bin/update_summaries.rb`
 
-This script pages through the data and saves the page where it stopped. Subsequent updates will pick up where it left off. If you want to build a summary sampling from the first page you can provide the `--restart` option to restart from the beginning. E.g.
+This script pages through the data and saves the page where it stopped. Subsequent updates will pick up where it left off. 
+
+If you want to build a summary sampling from the first page you can provide the `--restart` option to restart from the beginning. E.g.
 
 `bundle exec ./bin/update_summaries.rb --restart`
+
+If you want to clear the summary, but coninue from the last page, you can provide the `--last-page-restart` option e.g.
+
+`bundle exec ./bin/update_summaries.rb --last-page-restart`
 
 ## Attribution
 
