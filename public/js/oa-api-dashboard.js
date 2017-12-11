@@ -2,7 +2,7 @@ $(function() {
 
   $("table").tablesorter({
     theme : "bootstrap",
-
+    sortList: [[0,0]],
     widthFixed: true,
 
     // widget code contained in the jquery.tablesorter.widgets.js file
