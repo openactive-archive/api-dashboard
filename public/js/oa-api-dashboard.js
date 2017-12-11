@@ -37,10 +37,10 @@ $(function() {
 
   $('.summary-modals div.modal').each(function(){
     $(this).on('show.bs.modal ', function (e) {
-      
       var url = '/summary/' + $(this).attr('data-dataset-key');
       var bodyElement = $(this).find('div.modal-body');
-      var isEmpty = (bodyElement.html() == '');
+      var isEmpty = true;
+      isEmpty = ($(bodyElement).children()[0].className != 'container');
       if (isEmpty){
         $.ajax({ url: url, method: 'GET', 
           success: function(body){ bodyElement.html(body); }

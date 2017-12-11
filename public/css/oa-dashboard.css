@@ -98,3 +98,8 @@ tr.tablesorter-filter-row { display:none; }
 .summary-modals .modal-dialog {
   max-width: 67vw;
 }
+
+.summary-modals .modal-dialog svg.lds-spin {
+  margin:0 auto;
+  display: block;
+}
