@@ -1,17 +1,16 @@
-require_relative 'dataset_parser'
+require_relative 'dataset_summary'
 require 'openactive'
 require 'json'
 require 'redis'
 
 class DatasetsCache
 
-  extend DatasetParser
-
   def self.update
     begin
       datasets = OpenActive::Datasets.list
       datasets = update_conformance(datasets)
       datasets = update_github_issues(datasets)
+      datasets = update_has_coordinates(datasets)
       result = Redis.current.set("datasets", datasets.to_json).eql?("OK")
       Redis.current.set("last_updated", Time.now.to_i) if result
       return result
@@ -51,6 +50,21 @@ class DatasetsCache
         datasets[dataset_key].merge!({
           "uses-opportunity-model" => page.declares_oa_context?.eql?(true),
           "uses-paging-spec" => page.valid_rpde?
+        })
+      rescue
+        #do nothing
+      end
+    end
+    datasets
+  end
+
+  def self.update_has_coordinates(datasets)
+    for dataset_key in datasets.keys
+      dataset = datasets[dataset_key]
+      begin
+        summary = DatasetSummary.new(dataset_key)
+        datasets[dataset_key].merge!({
+          "has-coordinates" => summary.ranked_boundaries.size > 0
         })
       rescue
         #do nothing

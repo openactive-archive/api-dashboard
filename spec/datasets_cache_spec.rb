@@ -29,7 +29,7 @@ describe DatasetsCache do
       expect(datasets.class).to eql(Hash)
       expect(metadata_keys).to include("title", "dataset-site-url", "data-url",
         "publisher-name", "documentation-url", "license-name",
-        "license-url")
+        "license-url", "has-coordinates")
     end
 
     it "returns false if there were issues making the request" do
@@ -141,6 +141,25 @@ describe DatasetsCache do
       expect(datasets.keys.size).to be > 0
       expect(datasets["mywebsait/opendata"].class).to eql(Hash)
       expect(datasets["mywebsait/opendata"].keys).to include("title", "data-url")
+    end
+  end
+
+  describe ".update_has_coordinates" do
+    it "sets whether a dataset has coordinate data or not" do
+      example = {
+        "example/opendata" => { "title" => "my dataset" },
+        "newexample/opendata" => { "title" => "my other dataset" }
+      }
+
+      Redis.current.zincrby("example/opendata/boundary", 1, "My dataset boundary")
+      Redis.current.set('datasets', example.to_json)
+      dataset = DatasetsCache.update_has_coordinates(DatasetsCache.all)
+
+      result = {
+        "example/opendata" => { "title" => "my dataset", "has-coordinates" => true },
+        "newexample/opendata" => { "title" => "my other dataset", "has-coordinates" => false }
+      }
+      expect(dataset).to eql(result)
     end
   end
 
