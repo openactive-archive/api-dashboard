@@ -244,9 +244,17 @@ describe DatasetSummary do
   describe "#extract_coordinates" do
     it "extracts latitude and longitude" do
       item = { 
-        "data" =>{ "location"=> { "geo" => { "latitude" => "51.0", "longitude" => "0.23" } } } 
+        "data" =>{ "location"=> { "geo" => { "latitude" => "51.0", "longitude" => "0.23" } } }
       }
+
+      item2 = {
+        "data" =>{ "location"=> { "containedInPlace" => {
+          "geo" => { "latitude" => "52.0", "longitude" => "0.24" } } }
+        }
+      }
+
       expect(summary.extract_coordinates(item)).to eql([0.23, 51.0])
+      expect(summary.extract_coordinates(item2)).to eql([0.24, 52.0])
     end
 
     it "returns false when no location available" do

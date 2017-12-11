@@ -137,8 +137,13 @@ class DatasetSummary
   end
 
   def extract_coordinates(item)
-    return false unless item["data"]["location"] and item["data"]["location"]["geo"]
-    geo = item["data"]["location"]["geo"]
+    if item["data"]["location"] and item["data"]["location"]["geo"]
+      geo = item["data"]["location"]["geo"] 
+    elsif item["data"]["location"]["containedInPlace"] and item["data"]["location"]["containedInPlace"]["geo"]
+      geo = item["data"]["location"]["containedInPlace"]["geo"]
+    else
+      return false
+    end
     coordinates = [geo["longitude"].to_f, geo["latitude"].to_f]
     return false if coordinates.eql?([0.0, 0.0])
     coordinates
