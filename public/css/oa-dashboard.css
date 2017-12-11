@@ -64,7 +64,8 @@ td, th { padding-bottom: 0.5em; padding-right:1em; }
 .jumbotron { padding: 3rem 2rem; }
 .jumbotron h1 { font-family: Montserrat,sans-serif; }
 
-span.green-light, span.yellow-light, span.red-light {
+span.green-light, span.yellow-light,
+span.red-light, span.gray-light {
   border-radius: 1em;
   display: inline-block;
   margin-right: 0.3em;
@@ -81,11 +82,13 @@ span.green-light, span.yellow-light, span.red-light {
 } 
 
 span.green-light:before { content: "\2713"; }
-span.yellow-light:before { content: "\2713"; color: #fff7b9; }
+span.yellow-light:before { content: "?"; color: white; }
+span.gray-light:before { content: "?"; color: white; }
 span.red-light:before { content: "\00d7"; }
 
 span.green-light { background-color: #149d32; }
-span.yellow-light { background-color: #fff7b9; }
+span.gray-light { background-color: silver; }
+span.yellow-light { background-color: #ffd94f; }
 span.red-light { background-color: #ff2b2b; }
 
 table.datasets-table td { vertical-align: middle; }

@@ -11,7 +11,7 @@ module DashboardHelpers
 
   def availability_indicator(availability,url)
     if availability[url].nil?
-      '<span class="yellow-light"></span>Unknown'
+      '<span title="Unknown" class="gray-light"></span> Unknown'
     elsif availability[url]
       '<span class="green-light"></span>Up'
     else
@@ -21,7 +21,7 @@ module DashboardHelpers
 
   def yesno_indicator(indicator)
     if indicator.nil?
-      '<span class="yellow-light"></span>?'
+      '<span title="Unknown" class="gray-light"></span>'
     elsif indicator
       '<span class="green-light"></span>Yes'
     else
