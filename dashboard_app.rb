@@ -39,7 +39,12 @@ class DashboardApp < Sinatra::Base
       d.merge!(available: availability[d["data-url"]])
      end
 
-    { meta: { "licence" => "https://creativecommons.org/licenses/by/4.0/", "last-updated" => DatasetsCache.last_updated }, data: datasets }.to_json
+    { meta: { 
+      "licence" => "https://creativecommons.org/licenses/by/4.0/", 
+      "last-updated" => DatasetsCache.last_updated,
+      "attribution-text" => "Contains National Statistics data © Crown copyright and database right 2017",
+      "attribution-url" => "http://geoportal.statistics.gov.uk/datasets/local-authority-districts-december-2016-generalised-clipped-boundaries-in-the-uk/"
+      }, data: datasets }.to_json
   end
 
   get '/summary/*' do
