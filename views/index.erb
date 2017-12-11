@@ -17,6 +17,7 @@
       <a target="_blank" title="Read paging specification" href="https://www.openactive.io/realtime-paged-data-exchange/">Uses paging spec?</a></th>
     <th scope="col">
       <a target="_blank" title="Read opportunity data specification" href="https://www.openactive.io/modelling-opportunity-data/">Uses opportunity model?</a></th>
+    <th scope="col">Includes coordinates?</th>
     <th scope="col">Summary</th>
     <th scope="col">Issues</th>
     <th scope="col">Licence</th>
@@ -35,6 +36,7 @@
       </td>
       <td><%= yesno_indicator(dataset["uses-paging-spec"]) %></td>
       <td><%= yesno_indicator(dataset["uses-opportunity-model"]) %></td>
+      <td><%= yesno_indicator(dataset["has-coordinates"]) %></td>
       <td>
         <% if dataset["uses-paging-spec"] and dataset["uses-opportunity-model"] %>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%= key.gsub("/", "-") %>"><span style="display:none;">a</span>View</button>
