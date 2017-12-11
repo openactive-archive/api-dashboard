@@ -53,6 +53,10 @@ class DashboardApp < Sinatra::Base
     }
   end
 
+  get '/about' do
+    erb :about
+  end
+
   get '/test' do
     erb :test
   end
