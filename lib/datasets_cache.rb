@@ -1,8 +1,11 @@
+require_relative 'dataset_parser'
 require 'openactive'
 require 'json'
 require 'redis'
 
 class DatasetsCache
+
+  extend DatasetParser
 
   def self.update
     begin
