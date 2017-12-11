@@ -1,5 +1,5 @@
 <br/><br/>
-<div class="container">
+<section class="container">
 
 <h1>About</h1>
 
@@ -26,19 +26,28 @@
 
 <h4>Summary</h4>
 <p>If the dataset conforms to the two specifications the dashboard will produce a summary. Opening the summary shows: </p>
-
-<div style="padding-left:2em">
-  <h6>Activities</h6>
-  <p>Shows the activities which apply to the dataset.</p>
-  <h6>Areas</h6>
-  <p>Shows the areas which apply to the dataset.</p>
+<div class="row">
+  <div class="col-sm">
+    <div style="padding-left:1.5em; padding-top:0.5em;">
+    <h6>Top Activities</h6>
+    <p>Reports the frequency with which activity names are used to tag opportunities in this feed.</p>
+    <h6>Top Local Authorities</h6>
+    <p>Describes the geographic coverage for this dataset, by identifying the local authorities within which the opportunities take place.</p>
+    </div>
+  </div>
+  
+  <div class="col-sm">
+    <aside style="border: 1px solid silver; background-color: #EEE; padding:0.5em; border-radius:4px;">
+    <h6>Please note</h6>
+    <p>The counts use sampled data so are not a reflection of total number of opportunities.</p>
+    <p>The Top Local Authorities counts use sampled data that has been geo-referenced by the publisher. They are not a reflection of the total number of opportunities.</p>
+    </aside>
+  </div>
 </div>
-
-<p>Please note opportunity counts in the summary are not exact and should only be used as a relative indication of dataset contents.</p>
 
 <h4>Issues</h4>
-<p>Displays a the number of github issues relevant to the dataset.</p>
+<p>Displays the number of Github issues relevant to the dataset. This also links to the datasets github issues page, where you can discuss problems or contribute suggestions about the dataset.</p>
 
 <h4>Licence</h4>
-<p>Shows the name of licence which applies to the dataset.</p>
-</div>
+<p>Shows and links to the licence which applies to the dataset.</p>
+</section>
