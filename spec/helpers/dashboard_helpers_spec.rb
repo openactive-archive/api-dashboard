@@ -33,7 +33,7 @@ describe DashboardHelpers do
       }
       expect(dummy_class.availability_indicator(availability, availability.keys[0])).to eql('<span class="green-light"></span>Up')
       expect(dummy_class.availability_indicator(availability, availability.keys[1])).to eql('<span class="red-light"></span>Down')
-      expect(dummy_class.availability_indicator(availability, "http://unknown.site/endpoint")).to eql('<span class="yellow-light"></span>Unknown')
+      expect(dummy_class.availability_indicator(availability, "http://unknown.site/endpoint")).to eql('<span title="Unknown" class="gray-light"></span> Unknown')
     end
 
   end
@@ -43,7 +43,7 @@ describe DashboardHelpers do
     it "renders the correct indicator" do
       expect(dummy_class.yesno_indicator(true)).to eql('<span class="green-light"></span>Yes')
       expect(dummy_class.yesno_indicator(false)).to eql('<span class="red-light"></span>No')
-      expect(dummy_class.yesno_indicator(nil)).to eql('<span class="yellow-light"></span>?')
+      expect(dummy_class.yesno_indicator(nil)).to eql('<span title="Unknown" class="gray-light"></span>')
     end
 
   end
