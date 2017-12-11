@@ -65,6 +65,12 @@ class DatasetSummary
     scores
   end
 
+  def last_updated
+    result = Redis.current.hget(dataset_key, "summary_last_updated")
+    return nil if result.nil?
+    Time.at(result.to_i)
+  end
+
   def update(sample_limit=500)
     if last_page.nil?
       dataset = DatasetsCache.all[@dataset_key]
@@ -79,6 +85,7 @@ class DatasetSummary
       page, items_sampled = harvest(sample_limit)
       Redis.current.hincrby(dataset_key, "samples", items_sampled)
       Redis.current.hset(dataset_key, "last_page", page.uri)
+      Redis.current.hset(dataset_key, "summary_last_updated", Time.now.to_i)
       return true
     rescue => e
       #do nada

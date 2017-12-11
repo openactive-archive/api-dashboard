@@ -12,6 +12,7 @@ describe DatasetSummary do
   }
 
   before(:each) do
+    Redis.current.hdel("example/opendata", "summary_last_updated")
     Redis.current.hdel("example/opendata", "last_page")
     Redis.current.hdel("example/opendata", "samples")
     Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
@@ -54,6 +55,7 @@ describe DatasetSummary do
       expect(last_page).to eql("http://www.example.com/last")
       expect(ascore).to eql(1.0)
       expect(bscore).to eql(1.0)
+      expect(summary.last_updated.class).to eql(Time)
     end
 
     it "doesn't increment score once max samples reached" do
