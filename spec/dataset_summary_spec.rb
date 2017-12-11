@@ -170,14 +170,6 @@ describe DatasetSummary do
       expect(summary.ranked_boundaries).to eql(["A", "B", "C"])
       expect(summary.ranked_boundaries(2)).to eql(["A", "B"])
     end
-  end 
-
-  describe "#parse_modified" do
-    it "parses various date formats" do
-      expect(summary.parse_modified("1496565686")).to eql(1496565686)
-      expect(summary.parse_modified(1512457484704)).to eql(1512457484)
-      expect(summary.parse_modified("2017-09-22T12:35:02.511Z")).to eql(1506083702)
-    end
   end
 
   describe "#normalise_activity" do
@@ -210,65 +202,4 @@ describe DatasetSummary do
     end
   end
 
-  describe "#extract_activities" do
-
-    it "extracts activity name in a string" do
-      item = { "data" =>{ "activity"=>"Body Attack" } }
-      expect(summary.extract_activities(item)).to eql(["Body Attack"])
-    end
-
-    it "extracts activity name in a hash" do
-      item = { "data" =>{ "activity"=>{ "prefLabel" => "Body Attack" } } }
-      expect(summary.extract_activities(item)).to eql(["Body Attack"])
-    end
-
-    it "extracts activity names in an array of strings" do
-      item = { "data" =>{ "activity"=>["Body Attack", "Boxing Fitness"] } }
-      expect(summary.extract_activities(item)).to eql(["Body Attack", "Boxing Fitness"])
-    end
-
-    it "extracts activity names in an array of hashes" do
-      item = { "data" =>{ "activity"=>[{ "prefLabel" => "Body Attack" },
-        { "prefLabel" => "Boxing Fitness" } ]} 
-      }
-      expect(summary.extract_activities(item)).to eql(["Body Attack", "Boxing Fitness"])
-    end
-
-    it "returns empty if there's no activity key" do
-      item = { "data" =>{ "activity_names"=>["Body Attack", "Boxing Fitness"]} }
-      expect(summary.extract_activities(item)).to eql([])
-    end
-
-  end
-
-  describe "#extract_coordinates" do
-    it "extracts latitude and longitude" do
-      item = { 
-        "data" =>{ "location"=> { "geo" => { "latitude" => "51.0", "longitude" => "0.23" } } }
-      }
-
-      item2 = {
-        "data" =>{ "location"=> { "containedInPlace" => {
-          "geo" => { "latitude" => "52.0", "longitude" => "0.24" } } }
-        }
-      }
-
-      expect(summary.extract_coordinates(item)).to eql([0.23, 51.0])
-      expect(summary.extract_coordinates(item2)).to eql([0.24, 52.0])
-    end
-
-    it "returns false when no location available" do
-      item = { 
-        "data" =>{ "location"=> { "address" => "a street" } } 
-      }
-      expect(summary.extract_coordinates(item)).to eql(false)
-    end
-
-    it "returns false when coordinates are all 0" do
-      item = { 
-        "data" =>{ "location"=> { "geo" => { "latitude" => "0.0000", "longitude" => "0.0000" } } } 
-      }
-      expect(summary.extract_coordinates(item)).to eql(false)
-    end
-  end
 end

@@ -6,6 +6,7 @@ require 'time'
 require_relative '../lib/datasets_cache'
 require_relative '../lib/availability_cache'
 require_relative '../lib/dataset_summary'
+require_relative '../lib/dataset_parser'
 require_relative '../lib/local_geocoder/local_authority_geocoder'
 
 ENV["LA_GEOJSON_PATH"] = "./lib/local_geocoder/uk_local_authorities.geojson"
