@@ -49,7 +49,8 @@ class DashboardApp < Sinatra::Base
       dataset_key: dataset_key, 
       activities: summary.activities,
       boundaries: summary.boundaries,
-      samples: summary.samples
+      samples: summary.samples,
+      last_updated: summary.last_updated
     }
   end
 

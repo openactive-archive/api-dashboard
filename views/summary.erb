@@ -2,6 +2,8 @@
 <% if samples == 0 %>
   <p>A summary has not been generated for this dataset yet.</p>
 <% else %>
+  <p>This summary was last updated: <%= last_updated ? last_updated.httpdate : "Never" %></p>
+
   <div class="row">
   <div class="col-sm">
     <p><b>Top activities</b></p>
