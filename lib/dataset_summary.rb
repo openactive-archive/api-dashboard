@@ -2,6 +2,7 @@ require_relative 'datasets_cache'
 require_relative 'dataset_parser'
 require_relative 'local_geocoder/local_authority_geocoder'
 require 'time'
+require 'rest-client'
 
 class DatasetSummary
 
