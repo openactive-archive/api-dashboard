@@ -55,7 +55,9 @@ class DashboardApp < Sinatra::Base
       activities: summary.activities,
       boundaries: summary.boundaries,
       samples: summary.samples,
-      last_updated: summary.last_updated
+      last_updated: summary.last_updated,
+      last_attempt: summary.last_attempt,
+      error_code: summary.error_code
     }
   end
 

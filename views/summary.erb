@@ -1,6 +1,8 @@
 <div class="container">
 <% if samples == 0 %>
-  <p>A summary has not been generated for this dataset yet.</p>
+  <p>A summary has not been generated for this dataset.</p>
+  <p>Last attempt: <%= last_attempt ? last_attempt.httpdate : "Never" %></p>
+  <p>Last error code: <%= error_code %></p>
 <% else %>
   <p>This summary was last updated: <%= last_updated ? last_updated.httpdate : "Never" %></p>
 
