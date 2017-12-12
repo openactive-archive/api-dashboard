@@ -102,6 +102,7 @@ class DatasetSummary
     rescue RestClient::Exception => e
       Redis.current.hset(dataset_key, "summary_last_attempt", Time.now.to_i)
       Redis.current.hset(dataset_key, "summary_error_code", e.http_code)
+      return false
     rescue e
       return false
     end
