@@ -13,6 +13,8 @@ describe DatasetSummary do
 
   before(:each) do
     Redis.current.hdel("example/opendata", "summary_last_updated")
+    Redis.current.hdel("example/opendata", "summary_last_attempt")
+    Redis.current.hdel("example/opendata", "summary_error_code")
     Redis.current.hdel("example/opendata", "last_page")
     Redis.current.hdel("example/opendata", "samples")
     Redis.current.zremrangebyrank("example/opendata/activities", 0, -1)
@@ -63,11 +65,20 @@ describe DatasetSummary do
       score = Redis.current.zscore("example/opendata/activities", "Body Attack")
       expect(score).to eql(nil)
     end
+
+    it "records last attempt timestamp and error code when endpoint is down" do
+      WebMock.stub_request(:get, "http://www.example.com").to_return(status: 500)
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
+      summary.update
+      expect(summary.last_updated).to eql(nil)
+      expect(summary.last_attempt).to eql(Time.at(1506335263))
+      expect(summary.error_code).to eql("500")
+    end
   end
 
   describe "#last_page" do
     it "returns last page uri" do
-      summary.update
+      Redis.current.hset(summary.dataset_key, "last_page", "http://www.example.com/last")
       expect(summary.last_page).to eql("http://www.example.com/last")
     end
   end

@@ -66,9 +66,21 @@ class DatasetSummary
   end
 
   def last_updated
-    result = Redis.current.hget(dataset_key, "summary_last_updated")
-    return nil if result.nil?
-    Time.at(result.to_i)
+    result = Redis.current.hget(dataset_key, "summary_last_updated").to_i
+    return nil if result.eql?(0)
+    Time.at(result)
+  end
+
+  def last_attempt
+    lu = Redis.current.hget(dataset_key, "summary_last_updated").to_i
+    la = Redis.current.hget(dataset_key, "summary_last_attempt").to_i
+    timestamp = lu > la ? lu : la
+    return nil if timestamp.eql?(0)
+    Time.at(timestamp)
+  end
+
+  def error_code
+    Redis.current.hget(dataset_key, "summary_error_code")
   end
 
   def update(sample_limit=500)
@@ -87,8 +99,10 @@ class DatasetSummary
       Redis.current.hset(dataset_key, "last_page", page.uri)
       Redis.current.hset(dataset_key, "summary_last_updated", Time.now.to_i)
       return true
-    rescue => e
-      #do nada
+    rescue RestClient::Exception => e
+      Redis.current.hset(dataset_key, "summary_last_attempt", Time.now.to_i)
+      Redis.current.hset(dataset_key, "summary_error_code", e.http_code)
+    rescue e
       return false
     end
   end
