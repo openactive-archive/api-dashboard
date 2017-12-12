@@ -1,3 +1,5 @@
+require 'time'
+
 module DatasetParser
 
   def parse_modified(modified)
@@ -8,6 +10,24 @@ module DatasetParser
       parsed = parsed / 1000 if parsed.to_s.length > 10
     end
     parsed.to_i
+  end
+
+  def extract_timestamp(item, date_key="startDate")
+    data = item["data"]
+    result = nil
+
+    if data.has_key? date_key
+      result = data[date_key]
+    elsif data.has_key? "subEvent" and data["subEvent"].class == Array
+      result = data["subEvent"].first[date_key] if data["subEvent"].first.class == Hash
+    elsif data.has_key? "subEvent" and data["subEvent"].class == Hash
+      result = data["subEvent"][date_key]
+    elsif data.has_key? "eventSchedule"
+      result = data["eventSchedule"][date_key]
+    end
+
+    return nil unless result    
+    parse_modified(result)
   end
 
   def is_page_recent?(page)

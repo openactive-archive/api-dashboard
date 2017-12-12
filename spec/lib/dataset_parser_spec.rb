@@ -89,4 +89,30 @@ describe DatasetParser do
     end
   end
 
+  describe "#extract_timestamp" do
+    it "returns date timestamp for various formats" do
+
+      item1 = {
+        "data" =>{ "startDate"=> "2017-09-22T12:35:02.511Z" }
+      }
+
+      item2 = {
+        "data" =>{ "subEvent" => { "startDate"=> "2017-09-22T12:35:02.511Z" } }
+      }
+
+      item3 = {
+        "data" =>{ "subEvent" => [{ "startDate"=> "2017-09-22T12:35:02.511Z" }] }
+      }
+
+      item4 = {
+        "data" =>{ "eventSchedule" => { "startDate"=> "2017-09-22T12:35:02.511Z" } }
+      }
+
+      expect(parser.extract_timestamp(item1, "startDate")).to eql(1506083702)
+      expect(parser.extract_timestamp(item2, "startDate")).to eql(1506083702)
+      expect(parser.extract_timestamp(item3, "startDate")).to eql(1506083702)
+      expect(parser.extract_timestamp(item4, "startDate")).to eql(1506083702)
+    end
+  end
+
 end
