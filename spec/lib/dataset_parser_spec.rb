@@ -31,7 +31,7 @@ describe DatasetParser do
 
     it "extracts activity names in an array of hashes" do
       item = { "data" =>{ "activity"=>[{ "prefLabel" => "Body Attack" },
-        { "prefLabel" => "Boxing Fitness" } ]} 
+        { "prefLabel" => "Boxing Fitness" } ]}
       }
       expect(parser.extract_activities(item)).to eql(["Body Attack", "Boxing Fitness"])
     end
@@ -45,7 +45,7 @@ describe DatasetParser do
 
   describe "#extract_coordinates" do
     it "extracts latitude and longitude" do
-      item = { 
+      item = {
         "data" =>{ "location"=> { "geo" => { "latitude" => "51.0", "longitude" => "0.23" } } }
       }
 
@@ -60,26 +60,30 @@ describe DatasetParser do
     end
 
     it "returns false when no location available" do
-      item = { 
-        "data" =>{ "location"=> { "address" => "a street" } } 
+      item = {
+        "data" =>{ "location" => { "address" => "a street" } }
+      }
+      item2 = {
+        "data" =>{ "other" => "stuff" }
       }
       expect(parser.extract_coordinates(item)).to eql(false)
+      expect(parser.extract_coordinates(item2)).to eql(false)
     end
 
     it "returns false when coordinates are null" do
-      item = { 
-        "data" =>{ "location"=> { "geo" => { "latitude" => nil, "longitude" => nil } } } 
+      item = {
+        "data" =>{ "location"=> { "geo" => { "latitude" => nil, "longitude" => nil } } }
       }
-      item2 = { 
-        "data" =>{ "location"=> { "geo" => nil } } 
+      item2 = {
+        "data" =>{ "location"=> { "geo" => nil } }
       }
       expect(parser.extract_coordinates(item)).to eql(false)
       expect(parser.extract_coordinates(item2)).to eql(false)
     end
 
     it "returns false when coordinates are all 0" do
-      item = { 
-        "data" =>{ "location"=> { "geo" => { "latitude" => "0.0000", "longitude" => "0.0000" } } } 
+      item = {
+        "data" =>{ "location"=> { "geo" => { "latitude" => "0.0000", "longitude" => "0.0000" } } }
       }
       expect(parser.extract_coordinates(item)).to eql(false)
     end

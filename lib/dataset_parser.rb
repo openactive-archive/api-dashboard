@@ -36,7 +36,7 @@ module DatasetParser
   def extract_coordinates(item)
     if item["data"]["location"] and item["data"]["location"]["geo"]
       geo = item["data"]["location"]["geo"] 
-    elsif item["data"]["location"]["containedInPlace"] and item["data"]["location"]["containedInPlace"]["geo"]
+    elsif item["data"]["location"] and item["data"]["location"]["containedInPlace"] and item["data"]["location"]["containedInPlace"]["geo"]
       geo = item["data"]["location"]["containedInPlace"]["geo"]
     else
       return false
