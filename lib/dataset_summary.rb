@@ -8,7 +8,7 @@ class DatasetSummary
 
   include DatasetParser
 
-  attr_reader :feed, :dataset_key, :dataset_uri, :geocoder
+  attr_reader :feed, :dataset_key, :geocoder
 
   def initialize(dataset_key)
     @dataset_key = dataset_key
@@ -87,12 +87,12 @@ class DatasetSummary
   def update(sample_limit=500)
     if last_page.nil?
       dataset = DatasetsCache.all[@dataset_key]
-      @dataset_uri = dataset['data-url']
+      dataset_uri = dataset['data-url']
     else
-      @dataset_uri = last_page
+      dataset_uri = last_page
     end
 
-    @feed = OpenActive::Feed.new(@dataset_uri)
+    @feed = OpenActive::Feed.new(dataset_uri)
 
     begin
       page, items_sampled = harvest(sample_limit)
