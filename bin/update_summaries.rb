@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $:.unshift File.join( File.dirname(__FILE__), "..", "config")
 
-require 'environment'
+puts require_relative '../config/environment'
 
 restart = ARGV.size > 0 and ARGV[0].eql?('--restart')
 restart_from_last_page = ARGV.size > 0 and ARGV[0].eql?('--last-page-restart')
