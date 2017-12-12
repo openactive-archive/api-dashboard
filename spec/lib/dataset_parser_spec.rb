@@ -66,6 +66,17 @@ describe DatasetParser do
       expect(parser.extract_coordinates(item)).to eql(false)
     end
 
+    it "returns false when coordinates are null" do
+      item = { 
+        "data" =>{ "location"=> { "geo" => { "latitude" => nil, "longitude" => nil } } } 
+      }
+      item2 = { 
+        "data" =>{ "location"=> { "geo" => nil } } 
+      }
+      expect(parser.extract_coordinates(item)).to eql(false)
+      expect(parser.extract_coordinates(item2)).to eql(false)
+    end
+
     it "returns false when coordinates are all 0" do
       item = { 
         "data" =>{ "location"=> { "geo" => { "latitude" => "0.0000", "longitude" => "0.0000" } } } 
