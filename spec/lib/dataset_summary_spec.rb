@@ -74,6 +74,15 @@ describe DatasetSummary do
       expect(summary.last_attempt).to eql(Time.at(1506335263))
       expect(summary.error_code).to eql("500")
     end
+
+    it "records last attempt timestamp and error when other problem stops update" do
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
+      allow(summary).to receive(:harvest).and_raise("boom")
+      summary.update
+      expect(summary.last_updated).to eql(nil)
+      expect(summary.last_attempt).to eql(Time.at(1506335263))
+      expect(summary.error_code).to eql("?")
+    end
   end
 
   describe "#last_page" do

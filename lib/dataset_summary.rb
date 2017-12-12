@@ -104,7 +104,9 @@ class DatasetSummary
       Redis.current.hset(dataset_key, "summary_last_attempt", Time.now.to_i)
       Redis.current.hset(dataset_key, "summary_error_code", e.http_code)
       return false
-    rescue e
+    rescue => e
+      Redis.current.hset(dataset_key, "summary_last_attempt", Time.now.to_i)
+      Redis.current.hset(dataset_key, "summary_error_code", "?")
       return false
     end
   end
