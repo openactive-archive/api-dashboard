@@ -36,8 +36,8 @@ module DatasetParser
       next if i["state"].eql?("deleted")
       timestamp = i["modified"]
       unless uses_timestamps
-        timestamp = extract_timestamp(i)
-        return false if timestamp.nil?
+        timestamp = extract_timestamp(i, "endDate")
+        return true if timestamp.nil?
       end
       modified = parse_modified(timestamp)
       return (modified >= one_year_ago)

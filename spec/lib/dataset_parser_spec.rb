@@ -134,9 +134,24 @@ describe DatasetParser do
       expect(parser.is_page_recent?(page)).to eql(true)
     end
 
+    it "returns true if content is relevant within a year (ongoing without endDate)" do
+      allow(Time).to receive_message_chain(:now).and_return(Time.at(1506335263))
+      body=JSON.parse(load_fixture("multiple-items.json"))
+      body["items"][1]["data"]["subEvent"][0].delete("endDate")
+      WebMock.stub_request(:get, "http://www.example.com?afterChangeNumber=1000").to_return(body: body.to_json)
+      page = OpenActive::Feed.new("http://www.example.com?afterChangeNumber=1000").fetch
+      expect(parser.is_page_recent?(page)).to eql(true)
+    end
+
     it "returns false if content is not relevant within a year" do
       allow(Time).to receive_message_chain(:now).and_return(Time.at(1577836800))
       page = OpenActive::Feed.new("http://www.example.com?afterTimestamp=1506335000").fetch
+      expect(parser.is_page_recent?(page)).to eql(false)
+    end
+
+    it "returns false if content is not relevant within a year (from extracted date)" do
+      allow(Time).to receive_message_chain(:now).and_return(Time.at(1577836800))
+      page = OpenActive::Feed.new("http://www.example.com?afterChangeNumber=1000").fetch
       expect(parser.is_page_recent?(page)).to eql(false)
     end
   end
