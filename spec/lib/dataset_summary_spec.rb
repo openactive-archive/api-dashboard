@@ -23,27 +23,6 @@ describe DatasetSummary do
     WebMock.stub_request(:get, "http://www.example.com/last").to_return(body: load_fixture("last-page.json"))
   end
 
-  describe "#is_page_recent?" do
-    it "returns true if content is relevant within a year" do
-      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
-      page = OpenActive::Feed.new("http://www.example.com").fetch
-      expect(summary.is_page_recent?(page)).to eql(true)
-    end
-
-    it "returns false if content is not relevant within a year" do
-      allow(Time).to receive_message_chain(:now, :to_i).and_return(1577836800)
-      page = OpenActive::Feed.new("http://www.example.com").fetch
-      expect(summary.is_page_recent?(page)).to eql(false)
-    end
-
-    it "should not include deleted items as relevant" do
-      WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("deleted-items.json"))
-      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
-      page = OpenActive::Feed.new("http://www.example.com").fetch
-      expect(summary.is_page_recent?(page)).to eql(false)
-    end
-  end
-
   describe "#update" do
     it "harvests activities and stores sample size and last page uri" do
       summary.update

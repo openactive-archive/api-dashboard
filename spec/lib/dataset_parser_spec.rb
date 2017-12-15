@@ -4,6 +4,10 @@ describe DatasetParser do
 
   let(:parser) { Class.new { extend DatasetParser } }
 
+  before(:each) do
+    WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
+  end
+
   describe "#parse_modified" do
     it "parses various date formats" do
       expect(parser.parse_modified("1496565686")).to eql(1496565686)
@@ -112,6 +116,27 @@ describe DatasetParser do
       expect(parser.extract_timestamp(item2, "startDate")).to eql(1506083702)
       expect(parser.extract_timestamp(item3, "startDate")).to eql(1506083702)
       expect(parser.extract_timestamp(item4, "startDate")).to eql(1506083702)
+    end
+  end
+
+  describe "#is_page_recent?" do
+    it "returns true if content is relevant within a year" do
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
+      page = OpenActive::Feed.new("http://www.example.com").fetch
+      expect(parser.is_page_recent?(page)).to eql(true)
+    end
+
+    it "returns false if content is not relevant within a year" do
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1577836800)
+      page = OpenActive::Feed.new("http://www.example.com").fetch
+      expect(parser.is_page_recent?(page)).to eql(false)
+    end
+
+    it "should not include deleted items as relevant" do
+      WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("deleted-items.json"))
+      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
+      page = OpenActive::Feed.new("http://www.example.com").fetch
+      expect(parser.is_page_recent?(page)).to eql(false)
     end
   end
 
