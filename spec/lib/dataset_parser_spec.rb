@@ -6,6 +6,8 @@ describe DatasetParser do
 
   before(:each) do
     WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
+    WebMock.stub_request(:get, "http://www.example.com?afterTimestamp=1506335263").to_return(body: load_fixture("multiple-items.json"))
+    WebMock.stub_request(:get, "http://www.example.com?afterChangeNumber=1000").to_return(body: load_fixture("multiple-items.json"))
   end
 
   describe "#parse_modified" do
@@ -137,6 +139,23 @@ describe DatasetParser do
       allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
       page = OpenActive::Feed.new("http://www.example.com").fetch
       expect(parser.is_page_recent?(page)).to eql(false)
+    end
+  end
+
+  describe "#uses_modified_timestamps?" do
+    it "returns false when no params given" do
+      page = OpenActive::Feed.new("http://www.example.com").fetch
+      expect(parser.uses_modified_timestamps?(page)).to eql(false)
+    end
+
+    it "returns false when no afterTimestamp param is given" do
+      page = OpenActive::Feed.new("http://www.example.com?afterChangeNumber=1000").fetch
+      expect(parser.uses_modified_timestamps?(page)).to eql(false)
+    end
+
+    it "returns true when afterTimestamp is given" do
+      page = OpenActive::Feed.new("http://www.example.com?afterTimestamp=1506335263").fetch
+      expect(parser.uses_modified_timestamps?(page)).to eql(true)
     end
   end
 

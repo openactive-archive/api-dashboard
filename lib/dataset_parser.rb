@@ -39,6 +39,11 @@ module DatasetParser
     end
   end
 
+  def uses_modified_timestamps?(page)
+    return false if page.response.request.uri.query.nil?
+    page.response.request.uri.query.include?("afterTimestamp")
+  end
+
   def extract_activities(item)
     activity = item["data"]["activity"]
     case activity
