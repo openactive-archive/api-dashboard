@@ -12,4 +12,5 @@ group :test do
   gem 'coveralls', require: false
   gem 'webmock', '~> 2.1'
   gem 'redis-namespace'
+  gem 'pry'
 end
