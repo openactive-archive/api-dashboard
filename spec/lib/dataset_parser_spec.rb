@@ -6,7 +6,7 @@ describe DatasetParser do
 
   before(:each) do
     WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("multiple-items.json"))
-    WebMock.stub_request(:get, "http://www.example.com?afterTimestamp=1506335263").to_return(body: load_fixture("multiple-items.json"))
+    WebMock.stub_request(:get, "http://www.example.com?afterTimestamp=1506335000").to_return(body: load_fixture("multiple-items.json"))
     WebMock.stub_request(:get, "http://www.example.com?afterChangeNumber=1000").to_return(body: load_fixture("multiple-items.json"))
   end
 
@@ -111,33 +111,32 @@ describe DatasetParser do
       }
 
       item4 = {
-        "data" =>{ "eventSchedule" => { "startDate"=> "2017-09-22T12:35:02.511Z" } }
+        "data" =>{ "eventSchedule" => { "startDate"=> "2017-10-22T12:35:02.511Z" } }
       }
 
-      expect(parser.extract_timestamp(item1, "startDate")).to eql(1506083702)
-      expect(parser.extract_timestamp(item2, "startDate")).to eql(1506083702)
-      expect(parser.extract_timestamp(item3, "startDate")).to eql(1506083702)
-      expect(parser.extract_timestamp(item4, "startDate")).to eql(1506083702)
+      expect(parser.extract_timestamp(item1, "startDate")).to eql("2017-09-22T12:35:02.511Z")
+      expect(parser.extract_timestamp(item2, "startDate")).to eql("2017-09-22T12:35:02.511Z")
+      expect(parser.extract_timestamp(item3, "startDate")).to eql("2017-09-22T12:35:02.511Z")
+      expect(parser.extract_timestamp(item4, "startDate")).to eql("2017-10-22T12:35:02.511Z")
     end
   end
 
   describe "#is_page_recent?" do
     it "returns true if content is relevant within a year" do
-      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
-      page = OpenActive::Feed.new("http://www.example.com").fetch
+      allow(Time).to receive_message_chain(:now).and_return(Time.at(1506335263))
+      page = OpenActive::Feed.new("http://www.example.com?afterTimestamp=1506335000").fetch
+      expect(parser.is_page_recent?(page)).to eql(true)
+    end
+
+    it "returns true if content is relevant within a year (from extracted date)" do
+      allow(Time).to receive_message_chain(:now).and_return(Time.at(1506335263))
+      page = OpenActive::Feed.new("http://www.example.com?afterChangeNumber=1000").fetch
       expect(parser.is_page_recent?(page)).to eql(true)
     end
 
     it "returns false if content is not relevant within a year" do
-      allow(Time).to receive_message_chain(:now, :to_i).and_return(1577836800)
-      page = OpenActive::Feed.new("http://www.example.com").fetch
-      expect(parser.is_page_recent?(page)).to eql(false)
-    end
-
-    it "should not include deleted items as relevant" do
-      WebMock.stub_request(:get, "http://www.example.com").to_return(body: load_fixture("deleted-items.json"))
-      allow(Time).to receive_message_chain(:now, :to_i).and_return(1506335263)
-      page = OpenActive::Feed.new("http://www.example.com").fetch
+      allow(Time).to receive_message_chain(:now).and_return(Time.at(1577836800))
+      page = OpenActive::Feed.new("http://www.example.com?afterTimestamp=1506335000").fetch
       expect(parser.is_page_recent?(page)).to eql(false)
     end
   end
@@ -154,7 +153,7 @@ describe DatasetParser do
     end
 
     it "returns true when afterTimestamp is given" do
-      page = OpenActive::Feed.new("http://www.example.com?afterTimestamp=1506335263").fetch
+      page = OpenActive::Feed.new("http://www.example.com?afterTimestamp=1506335000").fetch
       expect(parser.uses_modified_timestamps?(page)).to eql(true)
     end
   end

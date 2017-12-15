@@ -26,15 +26,20 @@ module DatasetParser
       result = data["eventSchedule"][date_key]
     end
 
-    return nil unless result    
-    parse_modified(result)
+    return result
   end
 
   def is_page_recent?(page)
     one_year_ago = (Time.now.to_i - 31622400)
+    uses_timestamps = uses_modified_timestamps?(page)
     page.items.any? do |i|
       next if i["state"].eql?("deleted")
-      modified = parse_modified(i["modified"])
+      timestamp = i["modified"]
+      unless uses_timestamps
+        timestamp = extract_timestamp(i)
+        return false if timestamp.nil?
+      end
+      modified = parse_modified(timestamp)
       return (modified >= one_year_ago)
     end
   end
