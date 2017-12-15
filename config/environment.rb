@@ -11,6 +11,7 @@ require_relative '../lib/local_geocoder/local_authority_geocoder'
 
 ENV["LA_GEOJSON_PATH"] = "./lib/local_geocoder/uk_local_authorities.geojson"
 ENV["GOOGLE_ANALYTICS_CODE"] ||= "UA-XXXXX-Y"
+ENV["SUMMARY_SAMPLE_LIMIT"] ||= "500"
 
 if ENV["REDISTOGO_URL"]
   uri = URI.parse(ENV["REDISTOGO_URL"])

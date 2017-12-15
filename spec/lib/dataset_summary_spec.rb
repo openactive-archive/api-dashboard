@@ -40,9 +40,11 @@ describe DatasetSummary do
     end
 
     it "doesn't increment score once max samples reached" do
+      ENV["SUMMARY_SAMPLE_LIMIT"]="0"
       summary.update
-      score = Redis.current.zscore("example/opendata/activities", "Body Attack")
+      score = Redis.current.zscore("example/opendata/activities", "body attack")
       expect(score).to eql(nil)
+      ENV["SUMMARY_SAMPLE_LIMIT"]="500"
     end
 
     it "records last attempt timestamp and error code when endpoint is down" do

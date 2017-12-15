@@ -84,7 +84,9 @@ class DatasetSummary
     Redis.current.hget(dataset_key, "summary_error_code")
   end
 
-  def update(sample_limit=500)
+  def update
+    sample_limit = ENV["SUMMARY_SAMPLE_LIMIT"].to_i
+
     if last_page.nil?
       dataset = DatasetsCache.all[@dataset_key]
       dataset_uri = dataset['data-url']
