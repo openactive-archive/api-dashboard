@@ -28,4 +28,5 @@ if ENV['RACK_ENV'] == 'test'
   require 'coveralls'
   require 'webmock/rspec'
   require 'redis-namespace'
+  require 'pry'
 end
