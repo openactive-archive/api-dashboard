@@ -5,6 +5,7 @@ gem 'sinatra', '~> 2.0'
 gem 'openactive', :git => "https://github.com/openactive/openactive.rb.git", :branch => "master"
 gem 'redis', '~> 3.3', '>= 3.3.1'
 gem 'local-geocoder'
+gem 'bothan'
 
 group :test do
   gem 'rspec', '~> 3.6'
