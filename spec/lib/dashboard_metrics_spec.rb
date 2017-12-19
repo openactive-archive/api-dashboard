@@ -1,6 +1,23 @@
 require 'spec_helper'
 
 describe DashboardMetrics do
+  before(:all) do
+    example = { 
+      "mytraining/opendata" => { 
+        "title" => "mytraining", 
+        "data-url" => "http://mytraining.com/data" 
+      },
+      "example/opendata" => { 
+        "title" => "my example dataset", "data-url" => "http://example.com/data",
+        "uses-opportunity-model" => true, "uses-paging-spec" => true 
+      }, 
+      "otherexample/opendata" => { 
+        "title" => "otherexample.com", "data-url" => "http://otherexample.com/data",
+        "uses-opportunity-model" => false, "uses-paging-spec" => true 
+      }
+    }
+    Redis.current.set('datasets', example.to_json)
+  end
 
   before(:each) do
     WebMock.stub_request(:get, "https://openactive-staging-metrics.herokuapp.com/metrics").
@@ -9,6 +26,9 @@ describe DashboardMetrics do
       to_return(:status => 201, :body => "")
     WebMock.stub_request(:post, "https://openactive-staging-metrics.herokuapp.com/metrics/standard-datasets").
       to_return(:status => 201, :body => "")
+    WebMock.stub_request(:post, "https://openactive-staging-metrics.herokuapp.com/metrics/local-authorities-sample").
+      to_return(:status => 201, :body => "")
+    Redis.current.zremrangebyrank("example/opendata/boundary", 0, -1)
   end
 
   describe ".all" do
@@ -32,18 +52,7 @@ describe DashboardMetrics do
 
   describe ".standard_datasets" do
     it "returns a count of all standard conforming datasets" do
-      example = { 
-        "mywebsait/opendata" => { 
-          "title" => "my dataset title", "data-url" => "http://mywebsait.com/data" 
-        }, "examplesite/opendata" => { 
-          "title" => "my other dataset", "data-url" => "http://example.com/data",
-          "uses-opportunity-model" => true, "uses-paging-spec" => true 
-        }, "moresites/opendata" => { 
-          "title" => "big dataset", "data-url" => "http://anothersite.com/data",
-          "uses-opportunity-model" => false, "uses-paging-spec" => true 
-        }
-      }
-      Redis.current.set('datasets', example.to_json)
+      
       expect(DashboardMetrics.standard_datasets).to eql(1)
     end
   end
@@ -51,6 +60,25 @@ describe DashboardMetrics do
   describe ".report_standard_datasets" do
     it "sends to bothan count of all standard conforming datasets" do
       r = DashboardMetrics.report_standard_datasets
+      expect(r.response.code).to eql("201")
+    end
+  end
+
+  describe ".local_authorities_sample" do
+    it "returns a list of all local authorities that contain any opportunity data" do
+      Redis.current.zincrby("example/opendata/boundary", 1, "Colchester")
+      Redis.current.zincrby("example/opendata/boundary", 1, "Glasgow City")
+      Redis.current.zincrby("otherexample/opendata/boundary", 1, "Colchester")
+
+      result = DashboardMetrics.local_authorities_sample
+      expect(result).to include("Colchester", "Glasgow City")
+      expect(result.size).to eql(2)
+    end
+  end
+
+  describe ".report_local_authorities_sample" do
+    it "sends to bothan count of all standard conforming datasets" do
+      r = DashboardMetrics.report_local_authorities_sample
       expect(r.response.code).to eql("201")
     end
   end

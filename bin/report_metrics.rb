@@ -5,7 +5,7 @@ require 'environment'
 
 puts "Connecting to Bothan (#{DashboardMetrics::CONX.inspect})"
 
-puts "Reporting count of all datasets"
+puts "\nReporting count of all datasets"
 response = DashboardMetrics.report_dataset_count
 begin
   puts "Response: #{response.inspect}"
@@ -19,4 +19,12 @@ begin
   puts "Response: #{response.inspect}"
 rescue => e
   puts "Couldn't report standard datasets:\n#{e}"
+end
+
+puts "\nReporting local authorities"
+response = DashboardMetrics.report_local_authorities_sample
+begin
+  puts "Response: #{response.inspect}"
+rescue => e
+  puts "Couldn't report local authorities:\n#{e}"
 end

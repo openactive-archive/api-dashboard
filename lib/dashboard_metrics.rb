@@ -27,4 +27,18 @@ class DashboardMetrics
     CONX.metrics.create('standard-datasets', self.standard_datasets)
   end
 
+  def self.local_authorities_sample
+    max_local_authorities = 418
+    dataset_keys = DatasetsCache.all.keys
+    local_authorities = dataset_keys.map do |k|
+      summary = DatasetSummary.new(k)
+      summary.ranked_boundaries(max_local_authorities)
+    end
+    local_authorities.flatten.uniq
+  end
+
+  def self.report_local_authorities_sample
+    CONX.metrics.create('local-authorities-sample', self.local_authorities_sample)
+  end
+
 end
