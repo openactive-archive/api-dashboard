@@ -26,8 +26,10 @@ class DashboardApp < Sinatra::Base
 
     datasets = DatasetsCache.all
     availability = AvailabilityCache.all
+    max_local_authorities = 418
 
     datasets.each_pair do |k,d|
+      summary = DatasetSummary.new(k)
       d.delete('mailchimp')
       d.delete('keyword-1')
       d.delete('keyword-2')
@@ -37,6 +39,8 @@ class DashboardApp < Sinatra::Base
       d.delete('odi-certificate-number')
       d.delete('publish')
       d.merge!(available: availability[d["data-url"]])
+      d.merge!(activities: summary.activities(max_local_authorities))
+      d.merge!(boundaries: summary.boundaries(max_local_authorities))
      end
 
     { meta: { 

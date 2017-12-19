@@ -49,7 +49,7 @@ describe DashboardApp do
     expect(result["data"]["activenewham/opendata"]).to include("dataset-site-url", "title", "description", "publisher-name", 
       "publisher-url", "data-url", "documentation-url", "license-name", 
       "license-url", "attribution-text", "attribution-url", "available",
-      "uses-paging-spec", "uses-opportunity-model", "github-issues")
+      "uses-paging-spec", "uses-opportunity-model", "github-issues", "boundaries", "activities")
     expect(result["data"]["activenewham/opendata"]).not_to include('mailchimp', 'keyword-1', 'keyword-2', 'created', 'rpde-version', 
       'copyright-notice', 'odi-certificate-number', 'publish')
   end
