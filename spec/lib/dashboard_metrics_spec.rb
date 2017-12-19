@@ -29,6 +29,7 @@ describe DashboardMetrics do
     WebMock.stub_request(:post, "https://openactive-staging-metrics.herokuapp.com/metrics/local-authorities-sample").
       to_return(:status => 201, :body => "")
     Redis.current.zremrangebyrank("example/opendata/boundary", 0, -1)
+    Redis.current.zremrangebyrank("otherexample/opendata/boundary", 0, -1)
   end
 
   describe ".all" do
@@ -71,8 +72,7 @@ describe DashboardMetrics do
       Redis.current.zincrby("otherexample/opendata/boundary", 1, "Colchester")
 
       result = DashboardMetrics.local_authorities_sample
-      expect(result).to include("Colchester", "Glasgow City")
-      expect(result.size).to eql(2)
+      expect(result).to eql({ "Colchester" => 2.0, "Glasgow City" => 1.0 })
     end
   end
 

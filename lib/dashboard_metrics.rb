@@ -30,15 +30,23 @@ class DashboardMetrics
   def self.local_authorities_sample
     max_local_authorities = 418
     dataset_keys = DatasetsCache.all.keys
-    local_authorities = dataset_keys.map do |k|
+    result = {}
+    dataset_keys.map do |k|
       summary = DatasetSummary.new(k)
-      summary.ranked_boundaries(max_local_authorities)
+      boundaries = summary.boundaries(max_local_authorities)
+      boundaries.keys.each do |b|
+        if result[b]
+          result[b] += boundaries[b]
+        else
+          result[b] = boundaries[b]
+        end
+      end
     end
-    local_authorities.flatten.uniq
+    result
   end
 
   def self.report_local_authorities_sample
-    CONX.metrics.create('local-authorities-sample', self.local_authorities_sample)
+    CONX.metrics.create_multiple('local-authorities-sample', self.local_authorities_sample)
   end
 
 end
