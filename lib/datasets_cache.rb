@@ -1,8 +1,3 @@
-require_relative 'dataset_summary'
-require 'openactive'
-require 'json'
-require 'redis'
-
 class DatasetsCache
 
   def self.update

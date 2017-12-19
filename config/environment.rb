@@ -3,6 +3,7 @@ require 'openactive'
 require 'redis'
 require 'time'
 require 'bothan'
+require 'rest-client'
 
 ENV["LA_GEOJSON_PATH"] = "./lib/local_geocoder/uk_local_authorities.geojson"
 ENV["GOOGLE_ANALYTICS_CODE"] ||= "UA-XXXXX-Y"
