@@ -33,12 +33,12 @@ class DashboardMetrics
     result = {}
     dataset_keys.map do |k|
       summary = DatasetSummary.new(k)
-      boundaries = summary.boundaries(max_local_authorities)
-      boundaries.keys.each do |b|
+      boundaries = summary.ranked_boundaries(max_local_authorities)
+      boundaries.each do |b|
         if result[b]
-          result[b] += boundaries[b]
+          result[b] += 1
         else
-          result[b] = boundaries[b]
+          result[b] = 1
         end
       end
     end

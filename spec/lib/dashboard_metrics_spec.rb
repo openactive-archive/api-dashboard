@@ -68,11 +68,11 @@ describe DashboardMetrics do
   describe ".local_authorities_sample" do
     it "returns a list of all local authorities that contain any opportunity data" do
       Redis.current.zincrby("example/opendata/boundary", 1, "Colchester")
-      Redis.current.zincrby("example/opendata/boundary", 1, "Glasgow City")
+      Redis.current.zincrby("example/opendata/boundary", 5, "Glasgow City")
       Redis.current.zincrby("otherexample/opendata/boundary", 1, "Colchester")
 
       result = DashboardMetrics.local_authorities_sample
-      expect(result).to eql({ "Colchester" => 2.0, "Glasgow City" => 1.0 })
+      expect(result).to eql({ "Colchester" => 2, "Glasgow City" => 1 })
     end
   end
 
