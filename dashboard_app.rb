@@ -27,6 +27,7 @@ class DashboardApp < Sinatra::Base
     datasets = DatasetsCache.all
     availability = AvailabilityCache.all
     max_local_authorities = 418
+    la_ids = LocalGeocoder::LocalAuthorities.new().dictionary
 
     datasets.each_pair do |k,d|
       summary = DatasetSummary.new(k)
@@ -40,7 +41,13 @@ class DashboardApp < Sinatra::Base
       d.delete('publish')
       d.merge!(available: availability[d["data-url"]])
       d.merge!(activities: summary.activities(max_local_authorities))
-      d.merge!(boundaries: summary.boundaries(max_local_authorities))
+
+      boundaries = []
+      summary.boundaries(max_local_authorities).each_pair do |key, value|
+        boundaries.push({ name: key, score: value, id: la_ids[key] })
+      end
+
+      d.merge!(boundaries: boundaries)
      end
 
     { meta: { 

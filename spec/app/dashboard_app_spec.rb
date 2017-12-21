@@ -11,6 +11,7 @@ describe DashboardApp do
     Redis.current.del('datasets')
     Redis.current.hdel("activenewham/opendata", "last_page")
     Redis.current.hdel("activenewham/opendata", "samples")
+    Redis.current.zremrangebyrank("activenewham/opendata/boundary", 0, -1)
     Redis.current.zremrangebyrank("activenewham/opendata/activities", 0, -1)
 
     WebMock.stub_request(:get, "https://api.github.com/repos/activenewham/opendata/issues").to_return(:status => 200, :body => "[]")
@@ -41,6 +42,7 @@ describe DashboardApp do
   end
 
   it "returns a json file with appropriate metadata" do
+    DatasetSummary.new('activenewham/opendata').update
     get "/datasets.json"
     result = JSON.parse(last_response.body)
     expect(result.keys).to include("meta", "data")
@@ -52,6 +54,7 @@ describe DashboardApp do
       "uses-paging-spec", "uses-opportunity-model", "github-issues", "boundaries", "activities")
     expect(result["data"]["activenewham/opendata"]).not_to include('mailchimp', 'keyword-1', 'keyword-2', 'created', 'rpde-version', 
       'copyright-notice', 'odi-certificate-number', 'publish')
+    expect(result["data"]["activenewham/opendata"]["boundaries"]).to eql([{"name"=>"Colchester", "score"=>2.0, "id"=>"E07000071"}])
   end
 
   it "returns a dataset summary" do

@@ -8,7 +8,7 @@ module LocalGeocoder
 
   class LocalAuthorities
 
-    attr_reader :data
+    attr_reader :data, :dictionary
 
     def initialize(features_path=ENV["LA_GEOJSON_PATH"])
       @data, @dictionary = load_data(features_path)

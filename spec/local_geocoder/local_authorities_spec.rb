@@ -9,6 +9,7 @@ describe LocalGeocoder::LocalAuthorities do
     it "should parse geojson and init structs with geometries" do
       result = LocalGeocoder::LocalAuthorities.new()
       expect(result.data.size).to be > 0
+      expect(result.dictionary.keys.size).to be > 0
       la = result.data.sample
       expect(la.class).to eql(LocalGeocoder::LAEntity)
       expect(la.name.empty?).to eql(false)
