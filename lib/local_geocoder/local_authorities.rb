@@ -1,5 +1,10 @@
-require 'local_geocoder'
 module LocalGeocoder
+
+  LAEntity = Struct.new(:id, :name, :geometries) do
+    def inspect
+      "#{self.id} #{self.name}"
+    end
+  end
 
   class LocalAuthorities
 
@@ -14,7 +19,8 @@ module LocalGeocoder
     def load_data(features_path)
       features = JSON.load(File.open(features_path))['features']
       features.map do |f|
-        id = f['properties']['lad16nm']
+        la_name = f['properties']['lad16nm']
+        la_id = f['properties']['lad16cd']
 
         # Note: Perimeter is always first element in GeoJSON.
         geometries = case f['geometry']['type']
@@ -25,7 +31,7 @@ module LocalGeocoder
         else
           raise "Don't know how to handle geometry type: #{f['geometry']['type']}"
         end
-        LocalGeocoder::Entity.new(id, f['properties']['name'], geometries)
+        LocalGeocoder::LAEntity.new(la_id, la_name, geometries)
       end
     end
 

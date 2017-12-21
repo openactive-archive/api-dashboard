@@ -127,7 +127,7 @@ class DatasetSummary
     return false unless coordinates
     result = geocoder.reverse_geocode(coordinates[0], coordinates[1])
     return false if result.nil?
-    Redis.current.zincrby(dataset_key+"/boundary", 1, result.short_name)
+    Redis.current.zincrby(dataset_key+"/boundary", 1, result.name)
   end
 
   def normalise_activity(activity)
