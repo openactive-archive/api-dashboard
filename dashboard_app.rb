@@ -44,7 +44,7 @@ class DashboardApp < Sinatra::Base
 
       boundaries = []
       summary.boundaries(max_local_authorities).each_pair do |key, value|
-        boundaries.push({ name: key, score: value, id: la_ids[key] })
+        boundaries.push({ id: la_ids[key], name: key, occurrences: value })
       end
 
       d.merge!(boundaries: boundaries)

@@ -54,7 +54,7 @@ describe DashboardApp do
       "uses-paging-spec", "uses-opportunity-model", "github-issues", "boundaries", "activities")
     expect(result["data"]["activenewham/opendata"]).not_to include('mailchimp', 'keyword-1', 'keyword-2', 'created', 'rpde-version', 
       'copyright-notice', 'odi-certificate-number', 'publish')
-    expect(result["data"]["activenewham/opendata"]["boundaries"]).to eql([{"name"=>"Colchester", "score"=>2.0, "id"=>"E07000071"}])
+    expect(result["data"]["activenewham/opendata"]["boundaries"]).to eql([{"id"=>"E07000071", "name"=>"Colchester", "occurrences"=>2.0}])
   end
 
   it "returns a dataset summary" do
