@@ -11,14 +11,15 @@ module LocalGeocoder
     attr_reader :data
 
     def initialize(features_path=ENV["LA_GEOJSON_PATH"])
-      @data = load_data(features_path)
+      @data, @dictionary = load_data(features_path)
     end
 
     private
 
     def load_data(features_path)
       features = JSON.load(File.open(features_path))['features']
-      features.map do |f|
+      dictionary = {}
+      data = features.map do |f|
         la_name = f['properties']['lad16nm']
         la_id = f['properties']['lad16cd']
 
@@ -31,8 +32,11 @@ module LocalGeocoder
         else
           raise "Don't know how to handle geometry type: #{f['geometry']['type']}"
         end
+
+        dictionary[la_name] = la_id
         LocalGeocoder::LAEntity.new(la_id, la_name, geometries)
       end
+      return [data, dictionary]
     end
 
   end
