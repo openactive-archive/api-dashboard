@@ -1,6 +1,6 @@
 $(function() {
 
-  $("table").tablesorter({
+  $("#datasets-table").tablesorter({
     theme : "bootstrap",
     sortList: [[0,0]],
     widthFixed: true,
