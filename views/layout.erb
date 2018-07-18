@@ -23,38 +23,27 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md fixed-top">
-<div class="container">
-  <a class="navbar-brand brand-text" href="/">OpenActive</a>
+<nav class="navbar navbar-expand-md navbar-light container">
+  <%= erb :logo %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
+    <ul class="navbar-nav mr-auto">
+
+
+      <li class="nav-item first-item">
         <a class="nav-link" href="/about">About</a>
       </li>
-      <li class="nav-item dropdown">
-        
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Standards</a>
 
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" target="_blank" href="https://www.openactive.io/modelling-opportunity-data/">Modelling opportunity data</a>
-          <a class="dropdown-item" target="_blank" href="https://www.openactive.io/realtime-paged-data-exchange/
-">Realtime paged data exchange</a>
-          <a class="dropdown-item" target="_blank" href="https://www.openactive.io/opportunity-data-primer/
-">Opportunity data primer</a>
-        </div>
-      </li>
       <li class="nav-item">
-        <a class="nav-link" target="_blank" href="https://www.openactive.io">Open your data</a>
+        <a class="nav-link" href="https://www.openactive.io/">Open your data</a>
       </li>
-      
+
+
     </ul>
-    
   </div>
-</div>
 </nav>
 
 <div id="page-wrapper">
@@ -63,10 +52,10 @@
 </main>
 
 <footer>
-  <p>Supported by the <a href="http://theodi.org/" class="footer-link-2">Open Data Institute</a> and <a href="https://www.sportengland.org/" class="footer-link-2">Sport England</a></p>
+  <p>Stewarded by the <a href="http://theodi.org/" class="footer-link-2">Open Data Institute</a> and <a href="https://www.sportengland.org/" class="footer-link-2">Sport England</a></p>
   <p>
-  <img src="images/odi-logo-white.png" class="odi-logo">
-  <img src="images/sport-england-logo-white.png" class="odi-logo">
+  <img src="images/odi-logo-80px.svg" class="odi-logo">
+  <img src="images/sport_england.svg" class="odi-logo">
   </p>
   <p><a href="https://www.openactive.io/privacy-policy.html" class="">Privacy and Cookie Policy</a></p>
 </footer>
