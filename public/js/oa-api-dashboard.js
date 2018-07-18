@@ -1,8 +1,9 @@
 $(function() {
 
-  $("#datasets-table").tablesorter({
+  $(".datasets-table").tablesorter({
     theme : "bootstrap",
     sortList: [[0,0]],
+    headers: { 5: {sorter: false}, 7: {sorter: false}},
     widthFixed: true,
 
     // widget code contained in the jquery.tablesorter.widgets.js file
