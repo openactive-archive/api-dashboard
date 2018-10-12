@@ -42,8 +42,24 @@
           <%= availability_indicator(availability, dataset["data-url"]) %>
         </a>
       </td>
-      <td><%= yesno_indicator(dataset["uses-paging-spec"]) %></td>
-      <td><%= yesno_indicator(dataset["uses-opportunity-model"]) %></td>
+      <td>
+        <% if dataset["uses-paging-spec"] %>
+          <a href="https://validator.openactive.io/rpde?url=<%= ERB::Util.u(dataset["data-url"]) %>" target="_blank">
+            <%= yesno_indicator(dataset["uses-paging-spec"]) %>
+          </a>  
+        <% else %>
+          <%= yesno_indicator(dataset["uses-paging-spec"]) %>
+        <% end %>
+      </td>
+      <td>
+        <% if dataset["uses-opportunity-model"] %>
+          <a href="https://validator.openactive.io/?url=<%= ERB::Util.u(dataset["data-url"]) %>" target="_blank">
+            <%= yesno_indicator(dataset["uses-opportunity-model"]) %>
+          </a>  
+        <% else %>
+          <%= yesno_indicator(dataset["uses-opportunity-model"]) %>
+        <% end %>
+      </td>
       <td><%= yesno_indicator(dataset["has-coordinates"]) %></td>
       <td>
         <% if dataset["uses-paging-spec"] and dataset["uses-opportunity-model"] %>
