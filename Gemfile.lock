@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/openactive/openactive.rb.git
-  revision: bbb1474896965688a32a614ee127c004288e3b55
+  revision: 2e1c138cefe3a2b0a5fe5975887fe157de61873f
   branch: master
   specs:
-    openactive (0.0.2)
+    openactive (0.0.3)
       json
       rest-client
 
