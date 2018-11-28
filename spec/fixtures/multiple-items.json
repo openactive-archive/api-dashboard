@@ -6,7 +6,7 @@
       "id": "C3CLAQB20000714",
       "kind": "session",
       "state": "deleted",
-      "modified": 1506335263039
+      "modified": 1514764800
     },
     {
       "id": "C5CLBD07000317",
@@ -22,7 +22,7 @@
         },
         "name": "Bodyattack® Fri 7am",
         "@context": [
-          "https://www.openactive.io/ns/oa.jsonld",
+          "https://openactive.io/",
           "https://www.openactive.io/ns-beta/oa.jsonld"
         ],
         "type": "Event",
@@ -47,8 +47,8 @@
         "subEvent": [
           {
             "type": "Event",
-            "startDate": "2017-09-29T06:00:00Z",
-            "endDate": "2017-09-29T06:45:00Z",
+            "startDate": "2018-09-29T06:00:00Z",
+            "endDate": "2018-09-29T06:45:00Z",
             "duration": "PT45M",
             "beta:availability": ">4"
           }
@@ -63,7 +63,7 @@
           "id": "https://colchesterleisureworld.co.uk/"
         }
       },
-      "modified": 1506335264224
+      "modified": 1543411050
     }    
   ]
 }
