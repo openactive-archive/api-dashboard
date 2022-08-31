@@ -1,0 +1,112 @@
+<br/><br/>
+<section class="container">
+
+<h1>OpenActive Insights</h1>
+
+  <p>This page showcases facts, stats and interesting findings emerging from the OpenActive data feeds.</p>
+
+<br/>
+</section>
+<section class="container">
+<p>How many of the OpenActive activities have you tried?</p>
+</section>
+
+<div id="word_container">
+    <span id="text1"></span>
+    <span id="text2"></span>
+</div>
+
+<svg id="filters">
+    <defs>
+        <filter id="threshold">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+									0 1 0 0 0
+									0 0 1 0 0
+									0 0 0 255 -140" />
+        </filter>
+    </defs>
+</svg>
+
+
+
+<script type="text/javascript">
+
+const elts = {
+    text1: document.getElementById("text1"),
+    text2: document.getElementById("text2")
+};
+
+const texts = [
+  'Voguing', 'Wheelchair Fencing', 'Kayaking', 'Popdance Kids', 'Tag Rugby', 'Lindy Hop', 'Schooling', 'Synchronised Swimming', 'Hydro Therapy', 'Metafit', 'Roller Hockey', 'Show Jumping', 'Field Hockey', 'Camogie', 'Pickleball', 'Inclusive Zone Basketball', 'Karate', 'Squash', 'Kendo', 'Ice Hockey', 'Waacking', 'Forrest Yoga', 'Hacking', 'Cheer Dance', 'Mambo', 'Kfa Moves', 'Ropes Courses', 'VIPR', 'Personal Training', 'Kettlercise', 'Popdance Adults', 'Biathlon', 'Eventing', 'PWR-Beatz', 'Aqua Jogging', 'Classic Nia', 'Badminton', 'Clay Pigeon', 'Wushu', 'Popping', 'Cheerobics®', 'Handball', 'Nia', 'Karting', 'Systema', 'Full Course Golf', '20-20-20', 'Racing', 'Open Water Swimming', 'Ten-Pin Bowling', 'Dog Walking', 'Party Fitness', 'Pilates', 'Tap', 'Stretch Class', 'Bhangra Fitness', 'Mixed Martial Arts', 'Iyengar Yoga', 'Texas Scramble Golf', 'Martial Arts', 'Barreconcept', 'Gymnastics', 'Deck Bowls', 'KFA Seated/Chair', 'Hip Hop', 'Wheelchair Basketball', 'DDmix', 'Bobsleigh', 'Street Step', 'Combi Dance Sport', 'Resistance weights machines', 'Padel Tennis', 'Modern', 'Adventure Golf', 'Bowls', 'Melbourne Shuffle', 'Top Rope Climbing', 'Flexaware', 'Step machine', 'Alpine Skiing', 'Bounce', 'Cheer Fitness', 'Chasamba®', 'Bokwa', 'Zumba® Gold Toning', 'Driving Range', 'Cross training machine', '6-a-side', 'Capoeira', 'Legs Bums And Tums', 'Hooptone', 'Wild Water Rafting', 'Rock and Roll', 'Javelin Throw', 'Cx Worx™', 'Wheelchair Ballroom Dancing', 'Water-Based Classes', 'Rockbox Fitness', 'Greek Dancing', 'Cross Country Skiing', 'Tchoukball', 'Fencing', 'Cycling', 'Funk', 'Rugby Sevens', 'Land Sailing', 'Cross Fit', 'Target Shooting', 'Sheaf toss', 'Stoolball', 'Snowboard Racing', 'Hoop Dance', 'Multisports', 'Blast Fx', 'Water Skiing', 'Aerial', 'Salsa Fitness', 'Basketball', 'Athletics', 'Tug Of War', 'Piloxing Knockout', 'Fell Walking', 'Les Mills Tone™', 'Zumba Glow', 'Shooting', 'Piloxing Barre', 'Polybat', 'Freestyle', 'Deaf Tennis', 'Aqua Dance', 'Ballroom and Latin Fitness', 'Gardening', 'Stone put', 'Gaelic Football', 'BODY VIVE®', 'CIZE', 'P90X', 'World Jumping®', 'Freestyle Snowboarding', 'Air Fit', 'Motor Cycling', 'Equestrian', 'Abseiling', 'Crossfit', 'Dance Fitness', 'Kung Fu', 'Armageddon Fitness', 'Sh1ft', 'Dressage', 'Popdance Teens', 'Body Combat™', 'Fitness Yoga', 'Ballestics', 'Shinty', 'House', 'Konga®', 'Powerboating', 'Irish Dancing', 'Golf', 'Bikram Yoga', 'Jagua®', 'Walking Rugby', 'High Ropes', 'Tai Chi', 'Jiggy Jump', 'AzontoBeats', 'Volleyball', 'Boxing', 'Callanetics', 'Snooker', 'Kobudo', 'KpopX', 'Track Cycling', 'Flamenco', 'Golf Xtreme', 'Meditation', 'Chinese Movement & Dance Fitness', 'Bodyattack™', 'Step Aerobics', 'Sailing', 'Obstacle Course Racing', 'Ballet Fitness', 'Street Dance Fitness', 'Snorkelling', 'Caber toss', 'TRE', 'Hill Walking', 'Hurling', 'Hockey', 'Yogalates™', 'Kwik Cricket', 'Insanity', 'Ju-Jitsu', 'Airgun', 'Carnival', 'Hiking', 'Kundalini Yoga', 'Snatch', 'Visually Impaired Tennis', 'Cricket nets', 'Zumba Strong®', 'Jukari Fit To Flex', 'Hula Fitness', 'Water Polo', 'Caving', 'Hammer Throw', 'Gym Workout', 'Core Stability', 'Bosu®', 'Latin', 'Strutology', 'Belrobics', 'Kfa Creative Moves', 'Foxtrot', 'Body Conditioning', 'Barre', 'Flexibility/Stretching', 'Rowing', 'Clean and Jerk', 'Viennese Waltz', 'Kickboxing', 'Crown Green Bowls', 'Ballroom And Latin', 'Bouldering', 'Billiards', 'Bounce Dancefit', 'New Body', 'Beam Fit', 'Table Tennis', 'Dancercise', 'Weight over the bar', 'Rebound', 'Vinyasa Yoga', 'Muzzle loading', 'Aqua Fit', 'Muay Thai', 'Power Walking', 'Sit N B Fit', 'Windsurfing', 'Country And Western Fitness', 'Medau', 'Scuba Diving', 'Stability Ball', 'Rugby League', 'Jive', 'Line Dancing', 'Highland Hustle', 'Roller Skating', 'Power Pilates', 'Wheelchair Rugby', 'Powerhoop', 'Snowboarding', 'Boxfit', 'Polo', 'Contemporary', 'Waltz', 'Burlexercise', 'American Football', 'Sprint®', 'Flexibar', 'Fight Fx', 'Yoga Nidra', 'Hour of Power', 'CORE DE FORCE', 'Boxercise', 'Scaravelli Inspired Yoga', 'Practice nets', 'Stand Up Paddleboarding', 'Sweaty Mama', 'Jivamukti Yoga', 'Boxing Fitness', 'Walking Football', 'Bhangra', 'Aquathon', 'Sand Yachting', 'Aerobics', 'Argentine Tango', 'Mash It Up', 'Jet Skiing', 'Walking Tennis', 'Suspension', 'Softball', 'Jump Fx', 'Powerbags', 'Dragon Boat Racing', 'Low Ropes', 'Boules', 'Long Jump', 'Waterworks', 'Octopush', 'Globe Fit Hoola', 'Clubbercise', 'Table Cricket', 'Born To Move', 'Speed Climbing', 'Veraflow', 'Tango', 'Ravercise', 'Street Dance', 'Parkour', 'Para Gliding', 'Boogie Bounce', 'Highland Games', 'Zumba® Toning', 'MetaPWR', 'Azonto', '11-a-side', 'Rollerskiing', 'Squash 57', 'Polka', 'Punch And Strike', 'Mountaineering', 'Archery', 'Skipping', 'Pistol', 'Zumba Sentao™', 'Divacise', 'Tennis', 'Indoor Volleyball', 'Otago', 'Deep HAU2', 'Stretch And Tone', 'Gaelic Games', 'Mountain Walking', 'Commuter Cycling', 'Swiss Ball', 'Hulacise', 'Dharma Yoga', 'Rhythmic Gymnastics', 'Sitting Volleyball', 'Pole Vault', 'Sequence Dancing', 'Tobagganing', 'Baby Yoga', 'Pound™', 'Kelta Fit', 'Buggy Fitness', 'Roller Sports', 'Climbing', 'Aqua Aerobics', 'Dancehall', 'Groove Fx', 'PowerWave™', 'Aikido', 'Azonto Fitness', 'Small Sided Football', 'Walking Basketball', 'Krump', 'Speedway', 'Scottish Dance Fitness', 'Power Plate', 'Burlesque Chair Dance', 'Martial Arts Fitness', 'Kathak', 'African Dance', 'Locking', 'Nordic Walking', 'Commercial', 'Footgolf', 'Broga', 'Polocrosse', 'Road Cycling', 'Jazz', 'Kfa Youth Moves', 'Wheelchair Dance Sport', 'Group Exercise', 'Pole Fitness', 'Angling', 'Be-Bop', 'Pitch And Putt', 'Fuse Fit', 'Dance', 'Surfing', 'Popdance Active & Able', 'Lishi', 'Burn', 'Piyo®', 'Wrestling', 'Diving', 'Fell Running', 'Shot Put', 'Touch Rugby League', 'Hot Hula Fitness', 'Cubatone', 'Interval Training', 'Extend', 'Australian Rules Football', 'Alpine Ski Racing', 'Pool', 'Fit-Beatz', 'Freez', 'Triathlon', 'Netball', 'Kfa Body Moves', 'Chiball', 'Voga', 'Multi Dance', 'Booiaka®', 'Urban', 'Burlesque', 'Taekwondo', 'Zumba® Gold', 'Short Mat Bowls', 'Rowing machine', 'Synergy®', 'Track and Field', 'Walking Netball', 'Handcycling', 'Body Jam™', 'Buggy Boot Camp', 'Booty Barre', 'Luge', 'Self Defence', 'Fierce', 'Ballooning', 'Air', 'Ashtanga Yoga', 'Country And Western', 'Long Form Cricket', 'Shbam™', 'Skeleton Racing', 'Boccia', 'Wheelchair Tennis', 'Pole Dancing', 'Beach Volleyball', 'Goalball', 'Block Fit', 'Futsal', 'Running', 'Treadmill', 'Les Mills Grit™', 'Lead Climbing', 'Weight Training', 'Korfball', 'Salsa', 'Dru Yoga', 'Bollywood Bhangra', 'Tabata', 'Speedgolf', 'Qigong', 'Body Attack', 'Bicycle Polo', 'Yoga Rave', 'Geocaching', 'Exercise machine', 'Resistance Bands', 'Paintball', 'Roller Derby', 'Roller Blading', 'Aerial Discipline', 'Street Fit', 'Chakra Dance', 'Board Surfing', 'Buggy Bounce', 'Motor Sport', 'Scottish Dance', 'Hovering', 'Crossbow', '7-a-side', 'Samba', 'Hydro Spin', 'Zumba® Kids', 'Weightlifting', 'Powerchair Football', 'Exercise Ball', 'Skateboarding', 'Fives', 'Warm Yoga', 'Sombo', 'Swimming', 'Mysore Style Ashtanga Yoga', 'Morris Dancing', 'Curling', 'Hotpod Yoga', 'Weight throw', 'Trampoline Fitness', 'drumnbounce', 'Bodypump™', 'Sailability', 'Vypa®', 'Zumba® Step', 'Bootcamp', 'Modern Pentathlon', 'Pony Trekking', 'Eton', 'Blind Football', 'Acroyoga', 'Kangoo Jumps™', 'Functional Fitness', 'Dance Moves', 'Swimming Lessons', 'Fabs', 'Outdoor Badminton', 'Bhangracise', 'Aqua HIIT', 'Para-Badminton', 'Kfa Mature Moves', 'Canoe Polo', 'Bodybalance™', 'Krav Maga', 'Para Dance', 'Exercise bike', 'Bachata', 'Body Surfing', 'Short Tennis', 'Quoits', 'Ice Skating', '8-a-side', 'Animal Flow®', 'Trx®', 'Trigger Point', 'Lacrosse', 'Rabble', 'Platform Diving', 'Folk Dance', 'Horton Technique', 'Aquabike', 'Fitball', 'Cross Training', 'Judo', 'Aqua Zumba®', 'Jogging', 'Kurling', 'Duathlon', 'Brazilian jiu-jitsu', 'Deaf Basketball', 'Yin Yoga', 'Jazz Fitness', 'Sosa™', 'Moves FItness', 'Wakeboarding', 'Jumpstyle', 'Rafting', 'Carpet Bowls', 'Kettlebells', 'Ninjutsu', 'Flat Green Bowls', 'Tang Soo Do', 'Fitsteps®', 'Baton Twirling', 'Country Heat', 'Run/Bike', 'Nova', 'Skiptrix®', 'Rave Fitness', 'Hang Gliding', 'Popdance Fit', 'Wallball', 'Ceroc', 'Swing', 'Mountain Biking', 'Majorettes', 'Parachuting', 'FREESTYLER', 'British Military Fitness', 'Aerial Hoop', 'Chess-Boxing', 'White Water Rafting', 'Flowetic®', 'Square Dancing', 'MovNat', 'Bellydance Fitness', 'Turbo KICK', 'Walking Cricket', 'Wheelchair Football', 'Aquacise', 'Spinning', 'Just Jhoom!', 'HIIT', 'Multi Fitness', 'Harness Racing', 'Trampolining', 'Chi Kung', 'Speed Skating', 'Cyclo-Cross', 'Funky HAU2', 'American Smooth', 'FLexercise', 'Dodgeball', 'Tap Fitness', 'Cricket', 'Salsa Aerobics', 'Swimfit', 'Orienteering', 'Abs/Core', 'Football', 'Circuit Training', 'Barrecore', 'Nordic Skiing', 'Walking Hockey', 'Lyrical', 'Natural Movement', 'Powerkiting', 'Scottish Hammer throw', 'Methodology X', 'Globe Fit', 'Body Boarding', 'Soft Play', 'Yoga', 'Short Course Golf', 'Horseball', 'Swing Train', 'Artistic Gymnastics', 'Knee Boarding', 'Running machine', 'Pachanga', 'Petanque', 'Gaelic Handball', 'Disco', 'Rounders', 'Restorative Yoga', 'Flag Football', 'Cheerleading', 'Pump Fx', 'Hulafit', 'diddi dance', 'High Jump', 'Zumba® Kids Jr.', 'Bolero', 'Indoor Cycling', 'Croquet', 'Burlesque Dance Fitness', 'Chair Based Exercise', 'Zumba®', 'Tri-Golf', 'Dance Aerobics', 'Aquathlon', 'Bag-Fit', 'Figure Skating', 'Horse Racing', 'This Girl Can Classes', 'Lifesaving Sport', 'Walking', 'Cha-Cha-Cha', 'Recreational Cycling', 'Zumbini®', 'Rugby Union', 'Powerlifting', 'Clubbercise Kids', 'Floorball', 'Belly Dance', 'Barrys Bootcamp', 'Popdance Tots', 'FloatFit', 'Charleston', 'Street Cheer', 'Bollywood', 'Darts', 'Hatha Yoga', 'Rugby', 'Touch Rugby Union', 'Medau Movement', 'Rifle', 'Clay Target', 'Bmx Racing', 'Club Cardio', 'Merengue', 'Tyga®', 'Hot Yoga', 'Rpm™', 'Short Form Cricket', 'Baseball', 'Kite Surfing', 'Canoeing', 'Ballet', 'Breathwork', 'Chinese Movement & Dance', 'Gliding', 'Piloxing', 'Shotgun', 'Aqua Fit (Deep Water)', 'Bollywood Fitness', 'Rumba', 'Medicine Ball', 'Arm Wrestling', 'SkipFit', 'Kabaddi', 'KFA', 'Bodystep™', 'Indoor Rowing', 'Real Tennis', 'Circus Skills', 'Break Dance', 'Quick Step', 'Mini-Beatz', 'Rock Climbing', 'Jazzercise', 'Skiing', 'Kfa Fit Moves', 'Aqua Fit (Shallow Water)', 'Discus Throw', '9-a-side', 'Pasa Doble', 'Ultimate Frisbee', '5-a-side'
+];
+
+const morphTime = 1;
+const cooldownTime = 0.25;
+
+let textIndex = texts.length - 1;
+let time = new Date();
+let morph = 0;
+let cooldown = cooldownTime;
+
+elts.text1.textContent = texts[textIndex % texts.length];
+elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+
+function doMorph() {
+    morph -= cooldown;
+    cooldown = 0;
+
+    let fraction = morph / morphTime;
+
+    if (fraction > 1) {
+        cooldown = cooldownTime;
+        fraction = 1;
+    }
+
+    setMorph(fraction);
+}
+
+function setMorph(fraction) {
+    elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+    elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+    fraction = 1 - fraction;
+    elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+    elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+    elts.text1.textContent = texts[textIndex % texts.length];
+    elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+}
+
+function doCooldown() {
+    morph = 0;
+
+    elts.text2.style.filter = "";
+    elts.text2.style.opacity = "100%";
+
+    elts.text1.style.filter = "";
+    elts.text1.style.opacity = "0%";
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    let newTime = new Date();
+    let shouldIncrementIndex = cooldown > 0;
+    let dt = (newTime - time) / 1000;
+    time = newTime;
+
+    cooldown -= dt;
+
+    if (cooldown <= 0) {
+        if (shouldIncrementIndex) {
+            textIndex++;
+        }
+
+        doMorph();
+    } else {
+        doCooldown();
+    }
+}
+
+animate();
+</script>

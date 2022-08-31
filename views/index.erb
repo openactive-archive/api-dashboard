@@ -1,18 +1,9 @@
-b<header class="jumbotron">
+<header class="jumbotron">
   <div class="container">
     <h1 class="">OpenActive Opportunity Data Dashboard</h1>
-    <p>
-    <!--  This dashboard lists all of the datasets and APIs published as part of the OpenActive initiative.
-      From these feeds, you can harvest data about sporting and physical activities from across the UK.
-      <a href="/about">Read more about opportunity data</a>. -->
-      This dashboard is intended to list all datasets and APIs published as part of the OpenActive initiative. <b>However, owing to our recent significant increase in scale, not all OpenActive implementer feeds are listed below</b>. A further list of available datasets can be found in our <a href="https://docs.google.com/document/d/e/2PACX-1vShUnBhlPXyPPjSlaaMbVQClp3Pev28CCI5G8lWYwKLFd0-qyqyOLBb9kW_NX96-vH-WI5kfN6jlqiN/pub">OpenActive Supplemental Status Page</a>.
-    </p>
-  The technical work needed to integrate these datasets into the main status page is intended to commence September 2021.
-    </p>
-    <p>
-      Using this dashboard you can see which data publishers support <a href="https://www.w3.org/community/openactive/">the OpenActive
-      standards</a> and explore summaries of the standardised data.
-    </p>
+    <p>This dashboard lists all of the datasets and APIs published as part of the OpenActive initiative.</p>
+    <p>From these feeds, you can harvest data about sporting and physical activities from across the UK.</p>
+    <p><a href="/about">Read more about opportunity data.</a></p>
   </div>
 </header>
 
@@ -24,11 +15,6 @@ b<header class="jumbotron">
   <tr>
     <th scope="col">Provider</th>
     <th scope="col">Endpoint</th>
-    <th scope="col">
-      <a target="_blank" title="Read paging specification" href="https://www.openactive.io/realtime-paged-data-exchange/">Uses paging spec?</a></th>
-    <th scope="col">
-      <a target="_blank" title="Read opportunity data specification" href="https://www.openactive.io/modelling-opportunity-data/">Uses opportunity model?</a></th>
-    <th scope="col">Includes coordinates?</th>
     <th scope="col">Summary</th>
     <th scope="col">Issues</th>
     <th scope="col">Licence</th>
@@ -45,25 +31,6 @@ b<header class="jumbotron">
           <%= availability_indicator(availability, dataset["data-url"]) %>
         </a>
       </td>
-      <td>
-        <% if dataset["uses-paging-spec"] %>
-          <a href="https://validator.openactive.io/rpde?url=<%= ERB::Util.u(dataset["data-url"]) %>" target="_blank">
-            <%= yesno_indicator(dataset["uses-paging-spec"]) %>
-          </a>  
-        <% else %>
-          <%= yesno_indicator(dataset["uses-paging-spec"]) %>
-        <% end %>
-      </td>
-      <td>
-        <% if dataset["uses-opportunity-model"] %>
-          <a href="https://validator.openactive.io/?url=<%= ERB::Util.u(dataset["data-url"]) %>" target="_blank">
-            <%= yesno_indicator(dataset["uses-opportunity-model"]) %>
-          </a>  
-        <% else %>
-          <%= yesno_indicator(dataset["uses-opportunity-model"]) %>
-        <% end %>
-      </td>
-      <td><%= yesno_indicator(dataset["has-coordinates"]) %></td>
       <td>
         <% if dataset["uses-paging-spec"] and dataset["uses-opportunity-model"] %>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<%= key.gsub("/", "-") %>"><span style="display:none;">a</span>View</button>

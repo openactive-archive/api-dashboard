@@ -11,7 +11,6 @@ body {
   min-height: 94vh;
   position:relative;
   padding-bottom: 200px;
-
 }
 
 .center, .centre { text-align:center; }
@@ -127,3 +126,22 @@ a {
 .btn-primary:hover {
   background-color: #fc9b9b;
 }
+
+#word_container {
+  position: absolute;
+  margin: auto;
+  width: 100vw;
+  height: 40pt;
+  filter: url(#threshold) blur(0.6px);
+}
+
+#text1, #text2 {
+  position: absolute;
+  width: 100%;
+  display: inline-block;
+  font-size: 40pt;
+  text-align: center;
+  user-select: none;
+}
+
+

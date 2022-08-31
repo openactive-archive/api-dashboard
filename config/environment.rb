@@ -19,8 +19,8 @@ require_relative '../lib/dataset_parser'
 require_relative '../lib/dashboard_metrics'
 require_relative '../lib/local_geocoder/local_authority_geocoder'
 
-if ENV["REDISTOGO_URL"]
-  uri = URI.parse(ENV["REDISTOGO_URL"])
+if ENV["REDIS_URL"]
+  uri = URI.parse(ENV["REDIS_URL"])
   redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 else
   oa_redis_host = ENV['OA_REDIS_HOST'] || '127.0.0.1'

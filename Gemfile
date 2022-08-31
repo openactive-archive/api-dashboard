@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.4.2"
+ruby "2.6.10"
 
 gem 'sinatra', '~> 2.0.1'
 gem 'openactive', :git => "https://github.com/openactive/openactive.rb.git", :branch => "master"
