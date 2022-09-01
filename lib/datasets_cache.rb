@@ -1,16 +1,15 @@
 class Datasets
 
-  DIRECTORY="https://www.openactive.io/datasets/directory.json"
+  DIRECTORY="./directory.json"
 
   #Returns a hash of datasets keyed on a unique id.
   def self.list
-    resp = RestClient.get( DIRECTORY )
-    results = JSON.parse(resp.body)
+    results = JSON.load(File.open(DIRECTORY))
     datasets = {}
     results.each do |result|
       begin
-        next unless result["publish"] && result["publish"] == true
-        dataset_key = result["documentation-url"].gsub("https://github.com/", "")
+        next unless result["publish"] && result["publish"] == "true" && result["publisher-name"]
+        dataset_key = result["data-url"]
         dataset_key.chomp!("/")
         datasets.merge!({ dataset_key => result })
       rescue => e
@@ -19,7 +18,6 @@ class Datasets
     end
     datasets
   end
-end
 end
 
 class DatasetsCache
@@ -94,8 +92,9 @@ class DatasetsCache
 
   def self.update_github_issues(datasets)
     for dataset_key in datasets.keys
+      dataset = datasets[dataset_key]
       begin
-        git_resp = RestClient.get('https://api.github.com/repos/'+ dataset_key +'/issues')
+        git_resp = RestClient.get(dataset["discussion-url"].gsub('https://github.com/','https://api.github.com/repos/'))
         issues = JSON.parse(git_resp.body)
         datasets[dataset_key].merge!({ "github-issues" => issues.size })
       rescue
