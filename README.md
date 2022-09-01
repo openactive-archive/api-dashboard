@@ -12,7 +12,7 @@ A dashboard to support Openactive API users/publishers.
 If you have docker installed you can build and launch the API Dashboard with the `dockerize.sh` script. All you need to do is clone the repository and from the project directory run the following scripts:
 
 1. [Install docker](https://docs.docker.com/engine/installation/)
-2. `git clone https://github.com/howaskew/api-dashboard.git` Note - not the openactive repo
+2. `git clone https://github.com/openactive/api-dashboard.git` 
 3. `cd api-dashboard`
 4. `bundle install`
 5. `docker build -t openactive/dashboard .`
