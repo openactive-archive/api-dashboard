@@ -9,18 +9,22 @@ A dashboard to support Openactive API users/publishers.
 
 ## Quick Run
 
-If you have docker installed you can build and launch the API Dashboard with the `dockerize.sh` script. All you need to do is clone the repository and from the project directory run the script:
+If you have docker installed you can build and launch the API Dashboard with the `dockerize.sh` script. All you need to do is clone the repository and from the project directory run the following scripts:
 
 1. [Install docker](https://docs.docker.com/engine/installation/)
-2. `git clone https://github.com/openactive/api-dashboard.git`
+2. `git clone https://github.com/openactive/api-dashboard.git` 
 3. `cd api-dashboard`
-4. `./dockerize.sh`
+4. `bundle install`
+5. `docker build -t openactive/dashboard .`
+6. `./dockerize.sh`
+
+You can now see the dashboard at http://localhost:3000
 
 ## Getting started with development
 
 The API Dashboard is built with [Sinatra](https://sinatrarb.com), a Ruby web application framework. The dashboard uses [Redis](https://redis.io) to store API calls. 
 
-To manage versions of Ruby we recommend installing rbenv or rvm. 
+To manage versions of Ruby, use a utility like rbenv, rvm or chruby. 
 
 Once you have the requisite ruby version, install gems using `bundle install`. Once installed you should be able to launch the application with the command `bundle exec rackup`. The application should be available at: `http://localhost:9292`.
 

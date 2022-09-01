@@ -1,4 +1,4 @@
-FROM ruby:2.4.2
+FROM ruby:2.6.10
 
 RUN apt-get update && \
   apt-get install -y net-tools
