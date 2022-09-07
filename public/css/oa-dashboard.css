@@ -21,7 +21,7 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  color: #9e9e9e;
+  color: #5A5A5A;
   text-align: center;
   font-family: 'Open Sans',sans-serif;
   height: 180px;
@@ -29,7 +29,8 @@ footer {
 
 }
 
-footer p, footer a { color: #9e9e9e; }
+footer p, footer a { color:#5A5A5A;
+  ; }
 footer a { text-decoration: underline; }
 
 td, th { padding-bottom: 0.5em; padding-right:1em; }

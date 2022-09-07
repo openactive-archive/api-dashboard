@@ -3,8 +3,13 @@
     <h1 class="">OpenActive Opportunity Data Dashboard</h1>
     <p>This dashboard lists all of the datasets and APIs published as part of the OpenActive initiative.</p>
     <p>From these feeds, you can harvest data about sporting and physical activities from across the UK.</p>
-    <p>The feeds listed here are those included in the <a href="https://openactive.io/data-catalogs/data-catalog-collection.jsonld">OpenActive data catalog</a>.</p>
+    <h4>Notes:</h4>
+    <ul><li>The feeds listed here are those included in the <a href="https://openactive.io/data-catalogs/data-catalog-collection.jsonld">OpenActive data catalog</a>.</li> 
+    <li>This page is currently being reviewed and the format may change over coming months.</li>
+    <li>Feeds with known issues and missing metadata are listed at the bottom of the page.</li>
+    <li>There is a known issue in some of the 'Issues' counts, based on variations in the provision of 'discussion-url's.</li></ul>
     <p><a href="/about">Read more about opportunity data.</a></p>
+    <p><a href="https://join.slack.com/t/openactive/shared_invite/zt-o4j191r8-JFg2jDTelJ74meWoO4~qGg" target="_blank">Join us on Slack if you have any queries or feedback about this page.</a></p>
   </div>
 </header>
 
@@ -23,6 +28,7 @@
   </thead>
   <tbody>
   <% for key in datasets.keys; dataset = datasets[key] %>
+   <% if dataset["publisher-name"] %>
     <tr class="dataset-meta">
       <td>
         <a href="<%= dataset["dataset-site-url"] %>" target="_blank"><%= dataset["publisher-name"] %></a><br/>
@@ -36,7 +42,7 @@
         </a>
       </td>
       <td>
-        <% if dataset["discussion-url"].empty? %>
+        <% if dataset["discussion-url"].nil? %>
         -
         <% else %> 
         <a href="<%= dataset["discussion-url"] %>" target="_blank">
@@ -54,11 +60,61 @@
       </td>
     </tr>
   <% end %>
+  <% end %>
 </tbody>
 </table>
 
-<p>
-<a class="btn btn-secondary" href="/datasets.json" download="openactive-datasets.json" target="_blank">Download JSON List</a></p>
+<p><a class="btn btn-primary" href="/datasets.json" download="openactive-datasets.json" target="_blank">Download JSON List</a></p>
+
+<p>The following table shows APIs that have missing metadata or other issues:</p>
+<table class="table table-hover datasets-table">
+  <thead>
+  <tr>
+    <th scope="col">Dataset Site or API Endpoint</th>
+    <th scope="col">Type of feed</th>
+    <th scope="col">API Endpoint</th>
+    <th scope="col">Issues</th>
+    <th scope="col">Licence</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% for key in datasets.keys; dataset = datasets[key] %>
+   <% if dataset["publisher-name"].nil? %>
+    <tr class="dataset-meta">
+      <td>
+        <a href="<%= dataset["data-url"] %>" target="_blank"><%= dataset["data-url"] %></a>
+      </td>
+            <td>
+        <%= dataset["feed-type"] %> <br/>
+      </td>
+      <td class="endpoint-availability">
+        <a href="<%= dataset["data-url"] %>" target="_blank">
+          <%= availability_indicator(availability, dataset["data-url"]) %>
+        </a>
+      </td>
+      <td>
+        <% if dataset["discussion-url"].nil? %>
+        -
+        <% else %> 
+        <a href="<%= dataset["discussion-url"] %>" target="_blank">
+        <% if dataset["github-issues"].nil? %>
+          -
+        <% else %>
+          <%= dataset["github-issues"] %>
+        <% end %>
+        <% end %>
+        </a>
+      </td>
+      <td>
+        <a title="<%= dataset["license-name"] %>" href="<%= dataset["license-url"] %>" target="_blank">
+        <%= licence_image(dataset["license-url"]) %></a>
+      </td>
+    </tr>
+    </tr>
+   <% end %>
+  <% end %>
+</tbody>
+</table>
 
 <small><a href="#page-wrapper">[top]</a></small>
 </div>
