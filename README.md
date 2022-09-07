@@ -24,7 +24,7 @@ You can now see the dashboard at http://localhost:3000
 
 The API Dashboard is built with [Sinatra](https://sinatrarb.com), a Ruby web application framework. The dashboard uses [Redis](https://redis.io) to store API calls. 
 
-To manage versions of Ruby, use a utility like rbenv, rvm or chruby. 
+To manage versions of Ruby, use a utility like rbenv, rvm or chruby. This code uses version 3.1.2.
 
 Once you have the requisite ruby version, install gems using `bundle install`. Once installed you should be able to launch the application with the command `bundle exec rackup`. The application should be available at: `http://localhost:9292`.
 
