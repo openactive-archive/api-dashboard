@@ -8,7 +8,7 @@ class Datasets
     datasets = {}
     results.each do |result|
       begin
-        next unless result["publish"] && result["publish"] == "true" && result["publisher-name"]
+        next unless result["publish"] && result["publish"] == true
         dataset_key = result["data-url"]
         dataset_key.chomp!("/")
         datasets.merge!({ dataset_key => result })

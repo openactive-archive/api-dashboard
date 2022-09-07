@@ -6,7 +6,7 @@ module DashboardHelpers
     else
       image_name = 'licence'
     end
-    return '<img class="licence-image" src="/images/'+ image_name +'.png">'
+    return '<img class="licence-image" alt="'+ image_name +'" src="/images/'+ image_name +'.png">'
   end
 
   def availability_indicator(availability,url)
