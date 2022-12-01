@@ -42,7 +42,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2022.0105)
     multi_xml (0.6.0)
-    mustermann (1.1.2)
+    mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
     nio4r (2.5.8)
@@ -53,7 +53,7 @@ GEM
     puma (5.6.5)
       nio4r (~> 2.0)
     rack (2.2.4)
-    rack-protection (2.1.0)
+    rack-protection (2.2.3)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -86,10 +86,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sinatra (2.1.0)
-      mustermann (~> 1.0)
+    sinatra (2.2.3)
+      mustermann (~> 2.0)
       rack (~> 2.2)
-      rack-protection (= 2.1.0)
+      rack-protection (= 2.2.3)
       tilt (~> 2.0)
     sync (0.5.0)
     term-ansicolor (1.7.1)
@@ -121,7 +121,7 @@ DEPENDENCIES
   redis (~> 3.3, >= 3.3.1)
   redis-namespace
   rspec (~> 3.6)
-  sinatra (~> 2.1.0)
+  sinatra (~> 2.2.3)
   webmock (~> 2.1)
 
 RUBY VERSION
