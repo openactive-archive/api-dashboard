@@ -7,7 +7,7 @@
     <ul><li>The feeds listed here are those included in the <a href="https://openactive.io/data-catalogs/">OpenActive data catalog</a>.</li> 
     <li>This page is currently being reviewed and the format may change over coming months.</li>
     <li>Feeds with known issues and missing metadata are listed at the bottom of the page.</li>
-    <li>There is a known issue in some of the 'Issues' counts, based on variations in the provision of 'discussion-url's.</li></ul>
+    <li>There is a known issue in some of the 'Issues' counts, based on variations in the provision of 'discussionurl's.</li></ul>
     <p><a href="/about">Read more about opportunity data.</a></p>
     <p><a href="https://slack.openactive.io/" target="_blank">Join us on Slack if you have any queries or feedback about this page.</a></p>
   </div>
@@ -28,24 +28,24 @@
   </thead>
   <tbody>
   <% for key in datasets.keys; dataset = datasets[key] %>
-   <% if dataset["publisher-name"] %>
+   <% if dataset["publishername"] && dataset["publishername"] != '' %>
     <tr class="dataset-meta">
       <td>
-        <a href="<%= dataset["dataset-site-url"] %>" target="_blank"><%= dataset["publisher-name"] %></a><br/>
+        <a href="<%= dataset["datasetsiteurl"] %>" target="_blank"><%= dataset["publishername"] %></a><br/>
       </td>
       <td>
-        <%= dataset["feed-type"] %> <br/>
+        <%= dataset["feedtype"] %> <br/>
       </td>
       <td class="endpoint-availability">
-        <a href="<%= dataset["data-url"] %>" target="_blank">
-          <%= availability_indicator(availability, dataset["data-url"]) %>
+        <a href="<%= dataset["dataurl"] %>" target="_blank">
+          <%= availability_indicator(availability, dataset["dataurl"]) %>
         </a>
       </td>
       <td>
-        <% if dataset["discussion-url"].nil? %>
+        <% if dataset["discussionurl"].nil? %>
         -
         <% else %> 
-        <a href="<%= dataset["discussion-url"] %>" target="_blank">
+        <a href="<%= dataset["discussionurl"] %>" target="_blank">
         <% if dataset["github-issues"].nil? %>
           -
         <% else %>
@@ -55,8 +55,12 @@
         </a>
       </td>
       <td>
-        <a title="<%= dataset["license-name"] %>" href="<%= dataset["license-url"] %>" target="_blank">
-        <%= licence_image(dataset["license-url"]) %></a>
+        <% if dataset["licenseurl"].nil? %>
+        -
+        <% else %> 
+        <a title="<%= dataset["license-name"] %>" href="<%= dataset["licenseurl"] %>" target="_blank">
+        <%= licence_image(dataset["licenseurl"]) %></a>
+        <% end %>
       </td>
     </tr>
   <% end %>
@@ -77,24 +81,24 @@
   </thead>
   <tbody>
   <% for key in datasets.keys; dataset = datasets[key] %>
-   <% if dataset["publisher-name"].nil? %>
+   <% if dataset["publishername"].nil? || dataset["publishername"] == "" %>
     <tr class="dataset-meta">
       <td>
-        <a href="<%= dataset["data-url"] %>" target="_blank"><%= dataset["data-url"] %></a>
+        <a href="<%= dataset["dataurl"] %>" target="_blank"><%= dataset["dataurl"] %></a>
       </td>
             <td>
-        <%= dataset["feed-type"] %> <br/>
+        <%= dataset["feedtype"] %> <br/>
       </td>
       <td class="endpoint-availability">
-        <a href="<%= dataset["data-url"] %>" target="_blank">
-          <%= availability_indicator(availability, dataset["data-url"]) %>
+        <a href="<%= dataset["dataurl"] %>" target="_blank">
+          <%= availability_indicator(availability, dataset["dataurl"]) %>
         </a>
       </td>
       <td>
-        <% if dataset["discussion-url"].nil? %>
+        <% if dataset["discussionurl"].nil? %>
         -
         <% else %> 
-        <a href="<%= dataset["discussion-url"] %>" target="_blank">
+        <a href="<%= dataset["discussionurl"] %>" target="_blank">
         <% if dataset["github-issues"].nil? %>
           -
         <% else %>
@@ -104,8 +108,12 @@
         </a>
       </td>
       <td>
-        <a title="<%= dataset["license-name"] %>" href="<%= dataset["license-url"] %>" target="_blank">
-        <%= licence_image(dataset["license-url"]) %></a>
+      <% if dataset["licenseurl"].nil? %>
+        -
+        <% else %> 
+        <a title="<%= dataset["license-name"] %>" href="<%= dataset["licenseurl"] %>" target="_blank">
+        <%= licence_image(dataset["licenseurl"]) %></a>
+        <% end %>
       </td>
     </tr>
     </tr>

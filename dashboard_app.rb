@@ -39,7 +39,7 @@ class DashboardApp < Sinatra::Base
       d.delete('copyright-notice')
       d.delete('odi-certificate-number')
       d.delete('publish')
-      d.merge!(available: availability[d["data-url"]])
+      d.merge!(available: availability[d["dataurl"]])
       d.merge!(activities: summary.activities(max_local_authorities))
 
       boundaries = []

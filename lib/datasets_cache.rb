@@ -1,15 +1,15 @@
 class Datasets
 
-  DIRECTORY="./directory.json"
+  DIRECTORY="http://dataset-directory.herokuapp.com/datasets"
 
   #Returns a hash of datasets keyed on a unique id.
   def self.list
-    results = JSON.load(File.open(DIRECTORY))
+    results = JSON.parse(RestClient.get(DIRECTORY))
     datasets = {}
     results.each do |result|
       begin
         next unless result["publish"] && result["publish"] == true
-        dataset_key = result["data-url"]
+        dataset_key = result["dataurl"]
         dataset_key.chomp!("/")
         datasets.merge!({ dataset_key => result })
       rescue => e
@@ -62,7 +62,7 @@ class DatasetsCache
     for dataset_key in datasets.keys
       dataset = datasets[dataset_key]
       begin
-        feed = OpenActive::Feed.new(dataset["data-url"])
+        feed = OpenActive::Feed.new(dataset["dataurl"])
         page = feed.fetch
         datasets[dataset_key].merge!({
           "uses-opportunity-model" => page.declares_oa_context?.eql?(true),
@@ -94,7 +94,7 @@ class DatasetsCache
     for dataset_key in datasets.keys
       dataset = datasets[dataset_key]
       begin
-        git_resp = RestClient.get(dataset["discussion-url"].gsub('https://github.com/','https://api.github.com/repos/'))
+        git_resp = RestClient.get(dataset["discussionurl"].gsub('https://github.com/','https://api.github.com/repos/'))
         issues = JSON.parse(git_resp.body)
         datasets[dataset_key].merge!({ "github-issues" => issues.size })
       rescue

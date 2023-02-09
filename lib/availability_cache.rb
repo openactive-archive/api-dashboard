@@ -8,7 +8,7 @@ class AvailabilityCache
 
     datasets.each do |key, dataset|
       begin
-        results[dataset['data-url']] = fetch(dataset['data-url']).eql?("200")
+        results[dataset['dataurl']] = fetch(dataset['dataurl']).eql?("200")
       rescue
         next
       end

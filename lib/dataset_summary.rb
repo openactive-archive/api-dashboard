@@ -85,7 +85,7 @@ class DatasetSummary
 
     if last_page.nil?
       dataset = DatasetsCache.all[@dataset_key]
-      dataset_uri = dataset['data-url']
+      dataset_uri = dataset['dataurl']
     else
       dataset_uri = last_page
     end
